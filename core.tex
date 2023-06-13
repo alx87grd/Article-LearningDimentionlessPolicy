@@ -1,0 +1,306 @@
+
+
+\title{\LARGE \bf
+Dimentionless Policies based on the Buckingham $\pi$ Theorem: \\ 
+Is it a good way to Generalize Numerical Results?
+}
+
+
+%\author{Alexandre~Girard,~\IEEEmembership{Member,~IEEE,}
+%        and~H.~Harry~Asada,~\IEEEmembership{Member,~IEEE}% <-this % stops a space
+\author{Alexandre Girard$^{1}$% <-this % stops a space
+\thanks{$^{1}$Alexandre Girard is with the Department of Mechanical Engineering, Universite de Sherbrooke, Qc, Canada {\tt\small  alex.girard@usherbrooke.ca }}% <-this % stops a space
+}%
+
+
+% make the title area
+\maketitle
+\thispagestyle{empty}
+\pagestyle{empty}
+
+
+\begin{abstract}
+Maybe. Here we show that by modifying the problem formulation of the pendulum swing-up task using dimentionless variables, we can re-use the optimal policy generated numerically for any pendulum that are dimentionnaly similar. We also demonstrate that by leveraging this scheme when using reinforcement learning, multiple systems of various dimentions can share a data-base during the learning phase, which can be a big advantage for data efficiency. It remains to be seen if this approach can also help generalizing policies for more complex high-dimentional problems.
+\end{abstract}
+
+%%%%%%%%%%%%%%%%%%%%%%
+\section{Introduction}
+
+Many numerical algorithms = black box mapping
+
+System and problem parameters are not explicitly in the function
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{What define a policy?}
+
+- steady states \\
+- fully observable
+
+%%%%%%%%%%%%%%%%%%%%%%
+\begin{equation}
+u
+=
+\pi \left(
+x
+\right)
+\end{equation}
+%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%
+\begin{equation}
+u
+=
+\pi \left(
+x,
+\theta_s,
+\theta_p
+\right)
+\end{equation}
+%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%
+\begin{equation}
+\pi \left(
+x,
+\theta_s,
+\theta_p
+\right)
+\quad \Rightarrow \quad
+\pi \left(
+x,
+\theta_s',
+\theta_p'
+\right)
+\end{equation}
+%%%%%%%%%%%%%%%%%%%%%%
+
+
+% %%%%%%%%%%%%%%%%%%%%%%
+% \begin{equation}
+% \underbrace{u}_{\text{inputs}}
+% =
+% \pi \left(
+% \underbrace{x}_{\text{states}},
+% \underbrace{\theta_s}_{\text{system parameters}},
+% \underbrace{\theta_p}_{\text{policy parameters}}
+% \right)
+% \end{equation}
+% %%%%%%%%%%%%%%%%%%%%%%
+
+\newpage
+%%%%%%%%%%%%%%%%%%%%%%
+\section{Pendulum swing-up task}
+In this paper, we will focus on solving a specific case study of the pendulum swing-up task. 
+
+%%%%%%%%%%%%%%%%%%%%%%
+\begin{equation}
+\underbrace{\tau}_{\text{inputs}}
+=
+\pi \left(
+\underbrace{ \theta, \dot{\theta} }_{\text{states}},
+\underbrace{ m , g , l }_{\text{system parameters}},
+\underbrace{ q , \tau_{max} }_{\text{policy parameters}}
+\right)
+\end{equation}
+%%%%%%%%%%%%%%%%%%%%%%
+
+The dynamic of the system is described by:
+%%%%%%%%%%%%%%%%%%%%%%
+\begin{equation}
+ml^2 \ddot{\theta} + mgl \sin \theta = \tau
+\end{equation}
+%%%%%%%%%%%%%%%%%%%%%%
+
+The cost function to minimize is given by:
+%%%%%%%%%%%%%%%%%%%%%%
+\begin{equation}
+J = \int{( q^2 \theta^2 + 0 \, \dot{\theta}^2 + 1 \, \tau^2 ) dt }
+\end{equation}
+%%%%%%%%%%%%%%%%%%%%%%
+
+Constraints on control inputs are given by:
+%%%%%%%%%%%%%%%%%%%%%%
+\begin{equation}
+- \tau_{max} \leq \tau \leq \tau_{max}
+\end{equation}
+%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{table}[htb]
+   \centering % center the table
+   \caption{Pendulum swing-up optimal policy variables} 
+   \label{expVari}
+   \begin{tabular}{p{0.8cm} p{2.5cm} p{0.8cm} p{1.5cm} }
+   \hline \hline \noalign{\smallskip} \noalign{\smallskip} \noalign{\smallskip} \noalign{\smallskip}
+   %%%%%%%%%%%%%%%%%%%%%%
+   \textbf{Variable} & \textbf{Description} & \textbf{Units} & \textbf{Dimensions} \\ 
+   %%%%%%%%%%%%%%%%%%%%%%
+   \hline \hline \noalign{\smallskip} 
+   \multicolumn{4}{c}{\textbf{Control inputs}}\\ \noalign{\smallskip}  \hline \hline
+   \noalign{\smallskip} 
+   %%%%%%%%%%%%%%%%%%%%%%
+   $\tau$ & Actuator torque & $Nm$ & [$ML^2T^{-2}$]\\ 
+   %%%%%%%%%%%%%%%%%%%%%%
+   \hline \hline \noalign{\smallskip} 
+   \multicolumn{4}{c}{\textbf{State variables}}\\ \noalign{\smallskip}  \hline \hline \noalign{\smallskip} 
+   %%%%%%%%%%%%%%%%%%%%%%
+   $\theta$ & Joint angle & $rad$ & []\\ \noalign{\smallskip} \hline \noalign{\smallskip}
+   $\dot{\theta}$ & Joint angular velocity & $rad/sec$ & [$T^{-1}$] \\
+   %%%%%%%%%%%%%%%%%%%%%%
+   \hline \hline \noalign{\smallskip} 
+   \multicolumn{4}{c}{\textbf{System parameters}}\\ \noalign{\smallskip}  \hline\hline  \noalign{\smallskip} 
+   %%%%%%%%%%%%%%%%%%%%%%
+   $m$ & Pendulum mass & $kg$ & [$M$]  \\ \noalign{\smallskip} \hline \noalign{\smallskip}
+   $g$ & Gravity       & $m/s^2$ & [$LT^{-2}$]  \\ \noalign{\smallskip} \hline \noalign{\smallskip}
+   $l$ & Pendulum lenght & $m$ & [$L$]  \\ \noalign{\smallskip} \hline \noalign{\smallskip}
+%%%%%%%%%%%%%%%%%%%%%%
+   \hline \hline \noalign{\smallskip} 
+   \multicolumn{4}{c}{\textbf{Problem parameters}}\\ \noalign{\smallskip}  \hline\hline  \noalign{\smallskip} 
+   %%%%%%%%%%%%%%%%%%%%%%
+   $q$ & Weight parameter  & $Nm$ & [$ML^2T^{-2}$]   \\ \noalign{\smallskip} \hline \noalign{\smallskip}
+   $\tau_{max}$ & Maximum torque & $Nm$ & [$ML^2T^{-2}$] \\ \noalign{\smallskip} \hline \noalign{\smallskip}
+   \hline \noalign{\smallskip}
+   %\bottomrule[\heavyrulewidth] 
+   \end{tabular}
+\end{table}
+
+
+
+
+\newpage
+%%%%%%%%%%%%%%%%%%%%%%
+\section{Closed-form parametric policies}
+
+To better understand the concept of a dimentionless policy, here we first apply the buckingham pi theorem on well-known closed form solution.
+
+\subsection{Computed torque}
+
+%%%%%%%%%%%%%%%%%%%%%%
+\begin{equation}
+\underbrace{\tau}_{\text{inputs}}
+=
+\pi \left(
+\underbrace{ \theta, \dot{\theta} }_{\text{states}},
+\underbrace{ m , g , l }_{\text{system parameters}},
+\underbrace{ \omega_n , \zeta }_{\text{policy parameters}}
+\right)
+\end{equation}
+%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Linear Quatratic Reglator (LQR) solution}
+
+
+%%%%%%%%%%%%%%%%%%%%%%
+\begin{equation}
+\underbrace{\tau}_{\text{inputs}}
+=
+\pi \left(
+\underbrace{ \theta, \dot{\theta} }_{\text{states}},
+\underbrace{ m , g , l }_{\text{system parameters}},
+\underbrace{ q }_{\text{policy parameters}}
+\right)
+\end{equation}
+%%%%%%%%%%%%%%%%%%%%%%
+
+
+\newpage
+%%%%%%%%%%%%%%%%%%%%%%
+\section{Numerical optimal policies}
+
+
+
+%  \begin{figure}[ht]
+%     \centering
+%     \vspace{-10pt}
+%     \subfloat[Small vehicle \label{fig:a}]{\includegraphics[width=0.12\textwidth]{fig/a.jpg}}
+%     \subfloat[Long vehicle \label{fig:b}]{\includegraphics[width=0.18\textwidth]{fig/b.jpg}}   
+%     \subfloat[Large vehicle \label{fig:c}]{\includegraphics[width=0.16\textwidth]{fig/c.PNG}}
+%     \caption{subfigures}
+%     \label{fig:subfigures}
+% \end{figure}
+
+
+
+% \section{Background}
+% \label{sec:rel}
+% Blablabl
+
+
+% \begin{table}[htb]
+%    \centering % center the table
+%    \caption{This is a nice table} 
+%    \label{expVari}
+%    \begin{tabular}{c p{4.2cm} p{2.0cm} }
+%    \hline
+%    \hline \noalign{\smallskip} \noalign{\smallskip} \noalign{\smallskip}
+%    \textbf{Variables} & \textbf{Descriptions} & \textbf{Units [Dimensions]} \\ \noalign{\smallskip} \noalign{\smallskip} \hline \hline \noalign{\smallskip} 
+%    \multicolumn{3}{c}{\textbf{State variables}}\\ \noalign{\smallskip}  \hline \hline \noalign{\smallskip} 
+%    $X$ & Position of the vehicle in X-axis of world frame & m [L]\\ \noalign{\smallskip} \hline \noalign{\smallskip}
+%    $Y$ & Position of the vehicle in Y-axis of world frame & m [L]\\  \noalign{\smallskip} \hline \noalign{\smallskip}
+%    $\theta$ & Yaw of the vehicle in world frame & rad  \\ \noalign{\smallskip} \hline\hline \noalign{\smallskip}
+%    \multicolumn{3}{c}{\textbf{Environment related variables}}\\ \noalign{\smallskip}  \hline\hline  \noalign{\smallskip} 
+%    $\mu$ & Friction coefficient wheels/road & -  \\ \noalign{\smallskip} \hline \noalign{\smallskip}
+%    $v$ & Longitudinal velocity of the vehicle & m/s [LT$^{-1}$] \\ \noalign{\smallskip} \hline \noalign{\smallskip}
+%    $g$ & Gravitational acceleration & m/s$^2$ [LT$^{-2}$]  \\ \noalign{\smallskip} \hline \hline \noalign{\smallskip}
+%    \multicolumn{3}{c}{\textbf{maneuvers related variables}}\\ \noalign{\smallskip}  \hline \hline \noalign{\smallskip} 
+%    $a$ & Deceleration of the wheel & m/s$^2$ [LT$^{-2}$] \\ \noalign{\smallskip} \hline \noalign{\smallskip}
+%    $\delta$ & Steering angle of front wheels & rad  \\ \noalign{\smallskip} \hline \hline \noalign{\smallskip}
+%    \multicolumn{3}{c}{\textbf{Vehicles related variables}}\\ \noalign{\smallskip}  \hline \hline \noalign{\smallskip} 
+%    $N_f$ & Normal force on front wheels & N [MLT$^{-2}$] \\ \noalign{\smallskip} \hline \noalign{\smallskip}
+%    $N_r$ & Normal force on rear wheels & N [MLT$^{-2}$] \\ \noalign{\smallskip} \hline \noalign{\smallskip}
+   
+%    $l$ & Length between vehicle's axles & m [L]  \\  \noalign{\smallskip} \hline \hline \noalign{\smallskip}
+%    %\bottomrule[\heavyrulewidth] 
+%    \end{tabular}
+% \end{table}
+
+
+% A nice equation:
+% \begin{equation}\label{kin}
+% \begin{bmatrix}
+% \Dot{X}\\
+% \Dot{Y}\\
+% \Dot{\theta}\\
+% \Dot{v}\\
+% \end{bmatrix}
+% =
+% \begin{bmatrix}
+% vcos(\theta)\\
+% vsin(\theta)\\
+% \frac{vtan(\delta)}{l}\\
+% a\\
+% \end{bmatrix}
+% \end{equation}
+
+
+
+% \begin{figure}[H]
+% \begin{center}
+% \includegraphics[width=0.5\linewidth]{fig/fig.JPG}
+% \caption{a fig}\label{fig:fig}
+% \end{center}
+% \end{figure}
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Conclusion}
+
+This conclusion
+
+
+
+
+
+
+
+
