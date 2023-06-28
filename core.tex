@@ -39,6 +39,8 @@ System and problem parameters are not explicitly in the function
 - steady states \\
 - fully observable
 
+
+For a specific system, a control policy 
 %%%%%%%%%%%%%%%%%%%%%%
 \begin{equation}
 u
@@ -80,6 +82,12 @@ x,
 \right)
 \end{equation}
 %%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Direct vs. indirect policy parameters}
+
+Direct = policy parametrization
+
+Indirect = policy is the results of an optimation, and the parameter are parametrizing a cost function with define the objective.
 
 
 % %%%%%%%%%%%%%%%%%%%%%%
@@ -170,24 +178,140 @@ Constraints on control inputs are given by:
    \end{tabular}
 \end{table}
 
+But here the 3 system paramters $m$, $g$ and $l$ are only present in two groups in the dynamic equation. 
 
-\subsection{Applying the buckingham $\pi$ theorem}
+\begin{table}[htb]
+   \centering % center the table
+   \caption{Pendulum swing-up optimal policy variables} 
+   \label{expVari}
+   \begin{tabular}{p{1.5cm} p{2.2cm} p{0.8cm} p{1.5cm} }
+   \hline \hline \noalign{\smallskip} \noalign{\smallskip} \noalign{\smallskip} \noalign{\smallskip}
+   %%%%%%%%%%%%%%%%%%%%%%
+   \textbf{Variable} & \textbf{Description} & \textbf{Units} & \textbf{Dimensions} \\ 
+   %%%%%%%%%%%%%%%%%%%%%%
+   \hline \hline \noalign{\smallskip} 
+   \multicolumn{4}{c}{\textbf{Control inputs}}\\ \noalign{\smallskip}  \hline \hline
+   \noalign{\smallskip} 
+   %%%%%%%%%%%%%%%%%%%%%%
+   $\tau$ & Actuator torque & $Nm$ & [$ML^2T^{-2}$]\\ 
+   %%%%%%%%%%%%%%%%%%%%%%
+   \hline \hline \noalign{\smallskip} 
+   \multicolumn{4}{c}{\textbf{State variables}}\\ \noalign{\smallskip}  \hline \hline \noalign{\smallskip} 
+   %%%%%%%%%%%%%%%%%%%%%%
+   $\theta$ & Joint angle & $rad$ & []\\ \noalign{\smallskip} \hline \noalign{\smallskip}
+   $\dot{\theta}$ & Joint angular velocity & $rad/sec$ & [$T^{-1}$] \\
+   %%%%%%%%%%%%%%%%%%%%%%
+   \hline \hline \noalign{\smallskip} 
+   \multicolumn{4}{c}{\textbf{System parameters}}\\ \noalign{\smallskip}  \hline\hline  \noalign{\smallskip} 
+   %%%%%%%%%%%%%%%%%%%%%%
+   $mgl$ & Maximum gravitational torque  & $Nm$ & [$ML^2T^{-2}$]  \\ \noalign{\smallskip} \hline \noalign{\smallskip}
+   $\omega = {(\frac{g}{l})}^{1/2}$ & Natural frequency & $sec^{-1}$ & [$T^{-1}$]  \\ \noalign{\smallskip} \hline \noalign{\smallskip}
+%%%%%%%%%%%%%%%%%%%%%%
+   \hline \hline \noalign{\smallskip} 
+   \multicolumn{4}{c}{\textbf{Problem parameters}}\\ \noalign{\smallskip}  \hline\hline  \noalign{\smallskip} 
+   %%%%%%%%%%%%%%%%%%%%%%
+   $q$ & Weight parameter  & $Nm$ & [$ML^2T^{-2}$]   \\ \noalign{\smallskip} \hline \noalign{\smallskip}
+   $\tau_{max}$ & Maximum torque & $Nm$ & [$ML^2T^{-2}$] \\ \noalign{\smallskip} \hline \noalign{\smallskip}
+   \hline \noalign{\smallskip}
+   %\bottomrule[\heavyrulewidth] 
+   \end{tabular}
+\end{table}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Dimentionless dynamics}
+
+
+% %%%%%%%%%%%%%%%%%%%%%%
+% \begin{align}
+% \ddot{\theta} &= \frac{\tau}{ml^2} - \frac{mgl}{ml^2} \sin \theta \\
+% \ddot{\theta} &= \omega^2 \left( \frac{\tau}{mgl} - \sin \theta \right)
+% \end{align}
+% %%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%
+\begin{align}
+%ml^2 \ddot{\theta} + mgl \sin \theta &= \tau  \\
+\frac{\ddot{\theta}}{\omega^2} + \sin \theta &= \frac{\tau}{mgl}
+\end{align}
+%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%
 \begin{equation}
-m = (n = 8 ) - ( p = 3 ) = 5
+m = (n = 5 ) - ( p = 2 ) = 3
 \end{equation}
 %%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%
 \begin{align}
-\pi_1 &= \frac{\tau}{mgl} \quad \quad \frac{[ML^2T^{-2}]}{[M][LT^{-2}][L]} \\
-\pi_2 &= \theta \quad \quad \\
-\pi_3 &= \frac{ \dot{\theta} \lvert \dot{\theta} \rvert }{g/l} \quad \quad \frac{[T^{-1}][T^{-1}]}{[LT^{-2}][L^{-1}]} \\
-\pi_4 &= \frac{\tau_{max}}{mgl} \quad \quad \frac{[ML^2T^{-2}]}{[M][LT^{-2}][L]} \\
-\pi_5 &= \frac{q}{mgl} \quad \quad \frac{[Ml^2T^{-2}]}{[M][LT^{-2}][L]} 
+\Pi_1 &= \tau^* = \frac{\tau}{mgl} \quad \quad \frac{[ML^2T^{-2}]}{[M][LT^{-2}][L]} \\
+\Pi_2 &= \theta^* = \theta \quad \quad [-]\\
+\Pi_3 &= \ddot{\theta}^* = \frac{ \ddot{\theta}  }{ \omega^2 } \quad \quad \frac{[T^{-2}]}{[T^{-1}][T^{-1}]} 
 \end{align}
 %%%%%%%%%%%%%%%%%%%%%%
+
+% %%%%%%%%%%%%%%%%%%%%%%
+% \begin{equation}
+% \ddot{\theta}^*
+% =
+% f\left(
+% \theta^*, \tau^* 
+% \right) = \tau^* - \sin \theta
+% \end{equation}
+% %%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%
+\begin{equation}
+\tau^*
+=
+f\left(
+\theta^*,\ddot{\theta}^*
+\right) = \ddot{\theta}^* + \sin \theta^*
+\end{equation}
+%%%%%%%%%%%%%%%%%%%%%%
+
+\newpage 
+\subsection{Applying the buckingham $\pi$ theorem to the policy function}
+
+Here $n=7$ variables are involved and only $p=2$ independants dimensions ( $ML^2T^{-2}$ and $T^{-1}$ )
+
+%%%%%%%%%%%%%%%%%%%%%%
+\begin{equation}
+m = (n = 7 ) - ( p = 2 ) = 5
+\end{equation}
+%%%%%%%%%%%%%%%%%%%%%%
+Using $mgl$ and $\omega$, the system parameters, as the repeating variables lead to the following dimentionless groups:
+%%%%%%%%%%%%%%%%%%%%%%
+\begin{align}
+\Pi_1 &= \tau^* = \frac{\tau}{mgl} \quad \quad \frac{[ML^2T^{-2}]}{[M][LT^{-2}][L]} \\
+\Pi_2 &= \theta^* = \theta \quad \quad [-]\\
+\Pi_3 &= \dot{\theta}^* = \frac{ \dot{\theta}  }{ \omega } \quad \quad \frac{[T^{-1}]}{[T^{-1}]} \\
+\Pi_4 &= \tau_{max}^* = \frac{\tau_{max}}{mgl} \quad \quad \frac{[ML^2T^{-2}]}{[M][LT^{-2}][L]} \\
+\Pi_5 &= q^* = \frac{q}{mgl} \quad \quad \frac{[Ml^2T^{-2}]}{[M][LT^{-2}][L]} 
+\end{align}
+%%%%%%%%%%%%%%%%%%%%%%
+Here, all 3 torque variables (the system inputs, the system maximum and cost function parameter) are scaled by the maximum gravitationnal torque, and the pendulum velocity variable is scaled by the pendulum natural frequency.
+
+%that corespond to torque required to balance the gravity when the pendulum is
+
+According to the theorem, any policy that is only based on the variable included in our analysis can be expressed as a relationship between the 5 dimentionless pi groups in the form:
+
+%%%%%%%%%%%%%%%%%%%%%%
+\begin{equation}
+\tau^*
+=
+\pi^* \left(
+\theta, \dot{\theta}^*,
+q^* , \tau_{max}^* 
+\right)
+\end{equation}
+%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Interpretation}
+
+In this context, the results means that for dimentionnally similar swing-up problem (which means here equal ratios $q^*$ and $\tau_{max}^*$), the optimal policy in dimentionnal form should be equivalent. In other words, if we have an optimal policy $\pi_1$ found in a specific context $\{m_1,l_1,g_1,q_1,\tau_{max,1}\}$, then the dimentionless control law of a second context $\{m_1,l_1,g_1,q_1,\tau_{max,1}\}$, should be the same if $q^*_1 = q^*_2$ and $\tau_{max,1}^* = \tau_{max,2}^*$, what we call \textit{dimentionnally similar}. However, if $q^*_1 \neq q^*_2$ or $\tau_{max,2}^* \neq \tau_{max,2}^*$ then $\pi_1$ doesn't give us more information on $\pi_2$.
+
+
+
 
 
 \newpage
