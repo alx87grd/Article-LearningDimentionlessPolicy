@@ -306,7 +306,9 @@ q^* , \tau_{max}^*
 \end{equation}
 %%%%%%%%%%%%%%%%%%%%%%
 
-\subsection{Interpretation}
+\subsubsection{Interpretation}
+
+\subsubsection{Impact on possible generalization}
 
 In this context, the results means that for dimentionnally similar swing-up problem (which means here equal ratios $q^*$ and $\tau_{max}^*$), the optimal policy in dimentionnal form should be equivalent. In other words, if we have an optimal policy $\pi_1$ found in a specific context $\{m_1,l_1,g_1,q_1,\tau_{max,1}\}$, then the dimentionless control law of a second context $\{m_1,l_1,g_1,q_1,\tau_{max,1}\}$, should be the same if $q^*_1 = q^*_2$ and $\tau_{max,1}^* = \tau_{max,2}^*$, what we call \textit{dimentionnally similar}. However, if $q^*_1 \neq q^*_2$ or $\tau_{max,2}^* \neq \tau_{max,2}^*$ then $\pi_1$ doesn't give us more information on $\pi_2$.
 
@@ -322,17 +324,116 @@ To better understand the concept of a dimentionless policy, here we first apply 
 
 \subsection{Computed torque}
 
+The computed torque control law provide is a model-based policy that force the system (assuming no torque limits here) on a 2nd order exponential convergence on the desired trajectory:
+%%%%%%%%%%%%%%%%%%%%%%
+\begin{equation}
+0 = (\ddot{\theta}_d - \ddot{\theta})+ 2 \omega_d \zeta (\dot{\theta}_d - \dot{\theta}) + \omega_d^2 (\theta - \theta)
+\end{equation}
+%%%%%%%%%%%%%%%%%%%%%%
+For the specific case of the pendulum-swing up, the desired trajectory is simply the up-right position ($\ddot{\theta}_d = \dot{\theta}_d = \theta_d = 0$), and the control law takes this form:
+%%%%%%%%%%%%%%%%%%%%%%
+\begin{equation}
+\tau = mgl \sin \theta - 2 m l^2 \omega_d \zeta \dot{\theta} - m l^2 \omega_d^2 \theta
+\label{eq:ct}
+
+
+%%%%%%%%%%%%%%%%%%%%%%
+where the only parameters are the system parameters and two variables caracterizing the convergence speed. Hence, the torque policy is a function of those variables:
 %%%%%%%%%%%%%%%%%%%%%%
 \begin{equation}
 \underbrace{\tau}_{\text{inputs}}
 =
-\pi \left(
+\pi_{ct} \left(
 \underbrace{ \theta, \dot{\theta} }_{\text{states}},
 \underbrace{ m , g , l }_{\text{system parameters}},
-\underbrace{ \omega_n , \zeta }_{\text{policy parameters}}
+\underbrace{ \omega_d , \zeta }_{\text{policy parameters}}
 \right)
 \end{equation}
 %%%%%%%%%%%%%%%%%%%%%%
+having the dimension presented at table XXX.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{table}[htb]
+   \centering % center the table
+   \caption{Computed torque variables} 
+   \label{expVari}
+   \begin{tabular}{p{1.5cm} p{2.2cm} p{0.8cm} p{1.5cm} }
+   \hline \hline \noalign{\smallskip} \noalign{\smallskip} \noalign{\smallskip} \noalign{\smallskip}
+   %%%%%%%%%%%%%%%%%%%%%%
+   \textbf{Variable} & \textbf{Description} & \textbf{Units} & \textbf{Dimensions} \\ 
+   %%%%%%%%%%%%%%%%%%%%%%
+   \hline \hline \noalign{\smallskip} 
+   \multicolumn{4}{c}{\textbf{Control inputs}}\\ \noalign{\smallskip}  \hline \hline
+   \noalign{\smallskip} 
+   %%%%%%%%%%%%%%%%%%%%%%
+   $\tau$ & Actuator torque & $Nm$ & [$ML^2T^{-2}$]\\ 
+   %%%%%%%%%%%%%%%%%%%%%%
+   \hline \hline \noalign{\smallskip} 
+   \multicolumn{4}{c}{\textbf{State variables}}\\ \noalign{\smallskip}  \hline \hline \noalign{\smallskip} 
+   %%%%%%%%%%%%%%%%%%%%%%
+   $\theta$ & Joint angle & $rad$ & []\\ \noalign{\smallskip} \hline \noalign{\smallskip}
+   $\dot{\theta}$ & Joint angular velocity & $rad/sec$ & [$T^{-1}$] \\
+   %%%%%%%%%%%%%%%%%%%%%%
+   \hline \hline \noalign{\smallskip} 
+   \multicolumn{4}{c}{\textbf{System parameters}}\\ \noalign{\smallskip}  \hline\hline  \noalign{\smallskip} 
+   %%%%%%%%%%%%%%%%%%%%%%
+   $mgl$ & Maximum gravitational torque  & $Nm$ & [$ML^2T^{-2}$]  \\ \noalign{\smallskip} \hline \noalign{\smallskip}
+   $\omega = {(\frac{g}{l})}^{1/2}$ & Natural frequency & $sec^{-1}$ & [$T^{-1}$]  \\ \noalign{\smallskip} \hline \noalign{\smallskip}
+%%%%%%%%%%%%%%%%%%%%%%
+   \hline \hline \noalign{\smallskip} 
+   \multicolumn{4}{c}{\textbf{Policy parameters}}\\ \noalign{\smallskip}  \hline\hline  \noalign{\smallskip} 
+   %%%%%%%%%%%%%%%%%%%%%%
+   $\omega_d$ & Desired closed-loop frequency & $sec^{-1}$ & [$T^{-1}$]  \\ \noalign{\smallskip} \hline \noalign{\smallskip}
+   $\zeta$ &  Desired closed-loop damping & $-$ & [ ]  \\ \noalign{\smallskip} \hline \noalign{\smallskip}
+   \end{tabular}
+\end{table}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Here $n=7$ variables are involved and only $p=2$ independants dimensions ( $ML^2T^{-2}$ and $T^{-1}$ )
+%%%%%%%%%%%%%%%%%%%%%%
+\begin{equation}
+m = (n = 7 ) - ( p = 2 ) = 5
+\end{equation}
+%%%%%%%%%%%%%%%%%%%%%%
+Using $mgl$ and $\omega$, the system parameters, as the repeating variables lead to the following dimentionless groups:
+%%%%%%%%%%%%%%%%%%%%%%
+\begin{align}
+\Pi_1 &= \tau^* = \frac{\tau}{mgl} \quad \quad \frac{[ML^2T^{-2}]}{[M][LT^{-2}][L]} \\
+\Pi_2 &= \theta^* = \theta \quad \quad [-]\\
+\Pi_3 &= \dot{\theta}^* = \frac{ \dot{\theta}  }{ \omega } \quad \quad \frac{[T^{-1}]}{[T^{-1}]} \\
+\Pi_4 &= \omega_d^* = \frac{\omega_d}{\omega} \quad \quad \frac{[T^{-1}]}{[T^{-1}]} \\
+\Pi_5 &= \zeta^* = \zeta \quad \quad []
+\end{align}
+%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%
+\begin{equation}
+\tau^*
+=
+\pi^*_{ct} \left(
+\theta, \dot{\theta}^*,
+\omega_d^* , \zeta^* 
+\right)
+\end{equation}
+%%%%%%%%%%%%%%%%%%%%%%
+
+Here we can confirme directly, dividing eq \eqref{eq:ct} by $mgl$ leads to :
+%%%%%%%%%%%%%%%%%%%%%%
+\begin{equation}
+\tau^*
+=
+\sin \theta
+- 2 \omega_d^* \zeta \dot{\theta}^* 
+- (\omega_d^*)^2 \theta
+\end{equation}
+
+%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+
 
 \subsection{Linear Quatratic Reglator (LQR) solution}
 
