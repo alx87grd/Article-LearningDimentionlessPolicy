@@ -335,7 +335,8 @@ For the specific case of the pendulum-swing up, the desired trajectory is simply
 \begin{equation}
 \tau = mgl \sin \theta - 2 m l^2 \omega_d \zeta \dot{\theta} - m l^2 \omega_d^2 \theta
 \label{eq:ct}
-
+\end{equation}
+%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%
 where the only parameters are the system parameters and two variables caracterizing the convergence speed. Hence, the torque policy is a function of those variables:
@@ -427,14 +428,21 @@ Here we can confirme directly, dividing eq \eqref{eq:ct} by $mgl$ leads to :
 - 2 \omega_d^* \zeta \dot{\theta}^* 
 - (\omega_d^*)^2 \theta
 \end{equation}
+%%%%%%%%%%%%%%%%%%%%%%
 
+%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}[H]
+\begin{center}
+\includegraphics[width=0.99\linewidth]{fig/ct.JPG}
+\caption{Dimentionless computed torque}\label{fig:ct}
+\end{center}
+\end{figure}
 %%%%%%%%%%%%%%%%%%%%%%
 
 
 
 
-
-
+\newpage
 \subsection{Linear Quatratic Reglator (LQR) solution}
 
 
@@ -455,6 +463,81 @@ Here we can confirme directly, dividing eq \eqref{eq:ct} by $mgl$ leads to :
 %%%%%%%%%%%%%%%%%%%%%%
 \section{Numerical optimal policies}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{table}[htb]
+   \centering % center the table
+   \caption{Pendulum swing-up problems parameters} 
+   \begin{tabular}{ p{2.0cm} p{0.8cm} p{0.8cm} p{0.8cm} p{0.8cm} p{0.8cm} }
+   \hline \hline \noalign{\smallskip} \noalign{\smallskip} 
+   %%%%%%%%%%%%%%%%%%%%%%
+      & $m$ & $g$ & $l$ & $q$ & $\tau_{max}$ \\ \hline
+   %%%%%%%%%%%%%%%%%%%%%
+   Pendulum no 1 : & 1.0 & 10.0 & 1.0 & 1.0 & 5.0 \\
+   Pendulum no 2 : & 1.0 & 10.0 & 2.0 & 2.0 & 10.0 \\
+   Pendulum no 2 : & 2.0 & 10.0 & 1.0 & 2.0 & 10.0 \\
+   %%%%%%%%%%%%%%%%%%%%%
+   \hline \hline
+   \end{tabular}
+\end{table}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}[p]
+\begin{center}
+\includegraphics[width=0.99\linewidth]{fig/p1_policy.png}
+\caption{Pendulum no1 optimal policy}\label{fig:p1_policy}
+\end{center}
+\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}[p]
+\begin{center}
+\includegraphics[width=0.99\linewidth]{fig/p2_policy.png}
+\caption{Pendulum no2 optimal policy}\label{fig:p2_policy}
+\end{center}
+\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}[p]
+\begin{center}
+\includegraphics[width=0.99\linewidth]{fig/p3_policy.png}
+\caption{Pendulum no3 optimal policy}\label{fig:p3_policy}
+\end{center}
+\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%
+
+\newpage
+%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}[p]
+\begin{center}
+\includegraphics[width=0.99\linewidth]{fig/p1_traj.png}
+\caption{Pendulum no1 optimal traj}\label{fig:p1_traj}
+\end{center}
+\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}[p]
+\begin{center}
+\includegraphics[width=0.99\linewidth]{fig/p2_traj.png}
+\caption{Pendulum no2 optimal traj}\label{fig:p2_traj}
+\end{center}
+\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}[p]
+\begin{center}
+\includegraphics[width=0.99\linewidth]{fig/p3_traj.png}
+\caption{Pendulum no3 optimal traj}\label{fig:p3_traj}
+\end{center}
+\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%
 
 
 %  \begin{figure}[ht]
