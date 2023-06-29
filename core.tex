@@ -481,11 +481,11 @@ Here we can confirme directly, dividing eq \eqref{eq:ct} by $mgl$ leads to :
    Context no 3 : & 2.0 & 10.0 & 1.0 & 2.0 & 10.0 \\
    %%%%%%%%%%%%%%%%%%%%%
    \hline \hline \noalign{\smallskip} 
-   \multicolumn{6}{c}{\textbf{Problems with $\tau_{max}^* = 0.2$ and $q^* = 0.05$} }\\ \noalign{\smallskip}  \hline\hline  \noalign{\smallskip} 
+   \multicolumn{6}{c}{\textbf{Problems with $\tau_{max}^* = 0.35$ and $q^* = 0.1$} }\\ \noalign{\smallskip}  \hline\hline  \noalign{\smallskip} 
    %%%%%%%%%%%%%%%%%%%%%%
-   Context no 4 : & 1.0 & 10.0 & 1.0 & 0.5 & 2.0 \\
-   Context no 5 : & 1.0 & 10.0 & 2.0 & 1.0 & 4.0 \\
-   Context no 6 : & 2.0 & 10.0 & 1.0 & 1.0 & 4.0 \\
+   Context no 4 : & 1.0 & 10.0 & 1.0 & ? & ? \\
+   Context no 5 : & 1.0 & 10.0 & 2.0 & ? & ? \\
+   Context no 6 : & 2.0 & 10.0 & 1.0 & ? & ? \\
    %%%%%%%%%%%%%%%%%%%%%
    \hline \hline \noalign{\smallskip} 
    \multicolumn{6}{c}{\textbf{Problems with $\tau_{max}^* = 1.0$ and $q^* = 10$} }\\ \noalign{\smallskip}  \hline\hline  \noalign{\smallskip} 
@@ -498,6 +498,20 @@ Here we can confirme directly, dividing eq \eqref{eq:ct} by $mgl$ leads to :
    \end{tabular}
 \end{table}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\subsection{Additionnal dimentionless parameters for the solver}
+
+Using dynamic programming for solving the optimal policy numerically require setting additionnal parameter that define the domain. Altough those parameter should not affect the optimal policy far away from the boundaries, here a dimensionless version of those parameters was kept fixed in all the experiments:
+%%%%%%%%%%%%%%%%%%%%%%
+\begin{align}
+\theta^*_{max} &= \theta_{max} = 2 \pi \\
+\dot{\theta}^*_{max} &= \frac{ \dot{\theta}_{max} }{\omega} = 2 \\
+t^*_{f} &= t_{f} \; \omega = 10 \times 2 \pi 
+\end{align}
+%%%%%%%%%%%%%%%%%%%%%%
+$\theta_{max}$ is the range of angle for witch the optimal policy is solved, here set at one full revolution. $\dot{\theta}_{max}$ is the range of angular velocity for witch the optimal policy is solved, here the dimentionless ratio scaled with the natural frequency is set at 2. $t_{f}$ is the time horizon, here its associated dimentionless ratio is fixed to always corespond to 10 periods of the pendulum using the natural frequency.
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%
