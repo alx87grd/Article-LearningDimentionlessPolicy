@@ -481,11 +481,11 @@ Here we can confirme directly, dividing eq \eqref{eq:ct} by $mgl$ leads to :
    Context no 3 : & 2.0 & 10.0 & 1.0 & 2.0 & 10.0 \\
    %%%%%%%%%%%%%%%%%%%%%
    \hline \hline \noalign{\smallskip} 
-   \multicolumn{6}{c}{\textbf{Problems with $\tau_{max}^* = 0.35$ and $q^* = 0.1$} }\\ \noalign{\smallskip}  \hline\hline  \noalign{\smallskip} 
+   \multicolumn{6}{c}{\textbf{Problems with $\tau_{max}^* = 1.0$ and $q^* = 0.05$} }\\ \noalign{\smallskip}  \hline\hline  \noalign{\smallskip} 
    %%%%%%%%%%%%%%%%%%%%%%
-   Context no 4 : & 1.0 & 10.0 & 1.0 & ? & ? \\
-   Context no 5 : & 1.0 & 10.0 & 2.0 & ? & ? \\
-   Context no 6 : & 2.0 & 10.0 & 1.0 & ? & ? \\
+   Context no 4 : & 1.0 & 10.0 & 1.0 & 0.5 & 10.0 \\
+   Context no 5 : & 1.0 & 10.0 & 2.0 & 1.0 & 20.0 \\
+   Context no 6 : & 2.0 & 10.0 & 1.0 & 1.0 & 20.0 \\
    %%%%%%%%%%%%%%%%%%%%%
    \hline \hline \noalign{\smallskip} 
    \multicolumn{6}{c}{\textbf{Problems with $\tau_{max}^* = 1.0$ and $q^* = 10$} }\\ \noalign{\smallskip}  \hline\hline  \noalign{\smallskip} 
@@ -498,7 +498,6 @@ Here we can confirme directly, dividing eq \eqref{eq:ct} by $mgl$ leads to :
    \end{tabular}
 \end{table}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 
 \subsection{Additionnal dimentionless parameters for the solver}
 
@@ -514,11 +513,13 @@ $\theta_{max}$ is the range of angle for witch the optimal policy is solved, her
 
 
 
+
+
 %%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}[p]
 \begin{center}
-\includegraphics[width=0.99\linewidth]{fig/p1_policy.png}
-\caption{Pendulum no1 optimal policy}\label{fig:p1_policy}
+\includegraphics[width=0.99\linewidth]{fig/c1_policy.pdf}
+\caption{Context no 1 optimal policy}\label{fig:c1_policy}
 \end{center}
 \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%
@@ -527,8 +528,8 @@ $\theta_{max}$ is the range of angle for witch the optimal policy is solved, her
 %%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}[p]
 \begin{center}
-\includegraphics[width=0.99\linewidth]{fig/p2_policy.png}
-\caption{Pendulum no2 optimal policy}\label{fig:p2_policy}
+\includegraphics[width=0.99\linewidth]{fig/c2_policy.pdf}
+\caption{Context no2 optimal policy}\label{fig:c1_policy}
 \end{center}
 \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%
@@ -536,8 +537,8 @@ $\theta_{max}$ is the range of angle for witch the optimal policy is solved, her
 %%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}[p]
 \begin{center}
-\includegraphics[width=0.99\linewidth]{fig/p3_policy.png}
-\caption{Pendulum no3 optimal policy}\label{fig:p3_policy}
+\includegraphics[width=0.99\linewidth]{fig/c3_policy.pdf}
+\caption{Context no3 optimal policy}\label{fig:c1_policy}
 \end{center}
 \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%
@@ -546,8 +547,8 @@ $\theta_{max}$ is the range of angle for witch the optimal policy is solved, her
 %%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}[p]
 \begin{center}
-\includegraphics[width=0.99\linewidth]{fig/p1_traj.png}
-\caption{Pendulum no1 optimal traj}\label{fig:p1_traj}
+\includegraphics[width=0.99\linewidth]{fig/c1_traj.pdf}
+\caption{Context no1 optimal trajectory from up-down position}\label{fig:c1_traj}
 \end{center}
 \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%
@@ -556,8 +557,8 @@ $\theta_{max}$ is the range of angle for witch the optimal policy is solved, her
 %%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}[p]
 \begin{center}
-\includegraphics[width=0.99\linewidth]{fig/p2_traj.png}
-\caption{Pendulum no2 optimal traj}\label{fig:p2_traj}
+\includegraphics[width=0.99\linewidth]{fig/c2_traj.pdf}
+\caption{Context no2 optimal trajectory from up-down position}\label{fig:c2_traj}
 \end{center}
 \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%
@@ -565,11 +566,166 @@ $\theta_{max}$ is the range of angle for witch the optimal policy is solved, her
 %%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}[p]
 \begin{center}
-\includegraphics[width=0.99\linewidth]{fig/p3_traj.png}
-\caption{Pendulum no3 optimal traj}\label{fig:p3_traj}
+\includegraphics[width=0.99\linewidth]{fig/c3_traj.pdf}
+\caption{Context no3 optimal trajectory from up-down position}\label{fig:c3_traj}
 \end{center}
 \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}[p]
+\begin{center}
+\includegraphics[width=0.99\linewidth]{fig/c4_policy.pdf}
+\caption{Context no 4 optimal policy}\label{fig:c4_policy}
+\end{center}
+\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}[p]
+\begin{center}
+\includegraphics[width=0.99\linewidth]{fig/c5_policy.pdf}
+\caption{Context no5 optimal policy}\label{fig:c5_policy}
+\end{center}
+\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}[p]
+\begin{center}
+\includegraphics[width=0.99\linewidth]{fig/c6_policy.pdf}
+\caption{Context no6 optimal policy}\label{fig:c6_policy}
+\end{center}
+\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%
+
+\newpage
+%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}[p]
+\begin{center}
+\includegraphics[width=0.99\linewidth]{fig/c4_traj.pdf}
+\caption{Context no4 optimal trajectory from up-down position}\label{fig:c4_traj}
+\end{center}
+\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}[p]
+\begin{center}
+\includegraphics[width=0.99\linewidth]{fig/c5_traj.pdf}
+\caption{Context no5 optimal trajectory from up-down position}\label{fig:c5_traj}
+\end{center}
+\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}[p]
+\begin{center}
+\includegraphics[width=0.99\linewidth]{fig/c6_traj.pdf}
+\caption{Context no6 optimal trajectory from up-down position}\label{fig:c6_traj}
+\end{center}
+\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}[p]
+\begin{center}
+\includegraphics[width=0.99\linewidth]{fig/c7_policy.pdf}
+\caption{Context no 7 optimal policy}\label{fig:c7_policy}
+\end{center}
+\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}[p]
+\begin{center}
+\includegraphics[width=0.99\linewidth]{fig/c8_policy.pdf}
+\caption{Context no8 optimal policy}\label{fig:c8_policy}
+\end{center}
+\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}[p]
+\begin{center}
+\includegraphics[width=0.99\linewidth]{fig/c9_policy.pdf}
+\caption{Context no9 optimal policy}\label{fig:c9_policy}
+\end{center}
+\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%
+
+\newpage
+%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}[p]
+\begin{center}
+\includegraphics[width=0.99\linewidth]{fig/c7_traj.pdf}
+\caption{Context no7 optimal trajectory from up-down position}\label{fig:c7_traj}
+\end{center}
+\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}[p]
+\begin{center}
+\includegraphics[width=0.99\linewidth]{fig/c8_traj.pdf}
+\caption{Context no8 optimal trajectory from up-down position}\label{fig:c8_traj}
+\end{center}
+\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}[p]
+\begin{center}
+\includegraphics[width=0.99\linewidth]{fig/c9_traj.pdf}
+\caption{Context no9 optimal trajectory from up-down position}\label{fig:c9_traj}
+\end{center}
+\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}[p]
+\begin{center}
+\includegraphics[width=0.99\linewidth]{fig/c1_dimpolicy.pdf}
+\caption{Context no 1, 2 and 4 dimentionless optimal policy}\label{fig:c1_policy}
+\end{center}
+\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}[p]
+\begin{center}
+\includegraphics[width=0.99\linewidth]{fig/c4_dimpolicy.pdf}
+\caption{Context no 4, 5 and 6 dimentionless optimal policy}\label{fig:c1_policy}
+\end{center}
+\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}[p]
+\begin{center}
+\includegraphics[width=0.99\linewidth]{fig/c7_dimpolicy.pdf}
+\caption{Context no 7, 8 and 9 dimentionless optimal policy}\label{fig:c1_policy}
+\end{center}
+\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+
+
+
+
+
+
 
 
 %  \begin{figure}[ht]
@@ -584,75 +740,8 @@ $\theta_{max}$ is the range of angle for witch the optimal policy is solved, her
 
 
 
-% \section{Background}
-% \label{sec:rel}
-% Blablabl
 
 
-% \begin{table}[htb]
-%    \centering % center the table
-%    \caption{This is a nice table} 
-%    \label{expVari}
-%    \begin{tabular}{c p{4.2cm} p{2.0cm} }
-%    \hline
-%    \hline \noalign{\smallskip} \noalign{\smallskip} \noalign{\smallskip}
-%    \textbf{Variables} & \textbf{Descriptions} & \textbf{Units [Dimensions]} \\ \noalign{\smallskip} \noalign{\smallskip} \hline \hline \noalign{\smallskip} 
-%    \multicolumn{3}{c}{\textbf{State variables}}\\ \noalign{\smallskip}  \hline \hline \noalign{\smallskip} 
-%    $X$ & Position of the vehicle in X-axis of world frame & m [L]\\ \noalign{\smallskip} \hline \noalign{\smallskip}
-%    $Y$ & Position of the vehicle in Y-axis of world frame & m [L]\\  \noalign{\smallskip} \hline \noalign{\smallskip}
-%    $\theta$ & Yaw of the vehicle in world frame & rad  \\ \noalign{\smallskip} \hline\hline \noalign{\smallskip}
-%    \multicolumn{3}{c}{\textbf{Environment related variables}}\\ \noalign{\smallskip}  \hline\hline  \noalign{\smallskip} 
-%    $\mu$ & Friction coefficient wheels/road & -  \\ \noalign{\smallskip} \hline \noalign{\smallskip}
-%    $v$ & Longitudinal velocity of the vehicle & m/s [LT$^{-1}$] \\ \noalign{\smallskip} \hline \noalign{\smallskip}
-%    $g$ & Gravitational acceleration & m/s$^2$ [LT$^{-2}$]  \\ \noalign{\smallskip} \hline \hline \noalign{\smallskip}
-%    \multicolumn{3}{c}{\textbf{maneuvers related variables}}\\ \noalign{\smallskip}  \hline \hline \noalign{\smallskip} 
-%    $a$ & Deceleration of the wheel & m/s$^2$ [LT$^{-2}$] \\ \noalign{\smallskip} \hline \noalign{\smallskip}
-%    $\delta$ & Steering angle of front wheels & rad  \\ \noalign{\smallskip} \hline \hline \noalign{\smallskip}
-%    \multicolumn{3}{c}{\textbf{Vehicles related variables}}\\ \noalign{\smallskip}  \hline \hline \noalign{\smallskip} 
-%    $N_f$ & Normal force on front wheels & N [MLT$^{-2}$] \\ \noalign{\smallskip} \hline \noalign{\smallskip}
-%    $N_r$ & Normal force on rear wheels & N [MLT$^{-2}$] \\ \noalign{\smallskip} \hline \noalign{\smallskip}
-   
-%    $l$ & Length between vehicle's axles & m [L]  \\  \noalign{\smallskip} \hline \hline \noalign{\smallskip}
-%    %\bottomrule[\heavyrulewidth] 
-%    \end{tabular}
-% \end{table}
-
-
-% A nice equation:
-% \begin{equation}\label{kin}
-% \begin{bmatrix}
-% \Dot{X}\\
-% \Dot{Y}\\
-% \Dot{\theta}\\
-% \Dot{v}\\
-% \end{bmatrix}
-% =
-% \begin{bmatrix}
-% vcos(\theta)\\
-% vsin(\theta)\\
-% \frac{vtan(\delta)}{l}\\
-% a\\
-% \end{bmatrix}
-% \end{equation}
-
-
-
-% \begin{figure}[H]
-% \begin{center}
-% \includegraphics[width=0.5\linewidth]{fig/fig.JPG}
-% \caption{a fig}\label{fig:fig}
-% \end{center}
-% \end{figure}
-
-
-
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\section{Conclusion}
-
-This conclusion
 
 
 
