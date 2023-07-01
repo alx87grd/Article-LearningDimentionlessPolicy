@@ -36,49 +36,27 @@ System and problem parameters are not explicitly in the function
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{What define a policy?}
 
-- steady states \\
-- fully observable
-
-
 For a specific system, a control policy 
 %%%%%%%%%%%%%%%%%%%%%%
 \begin{equation}
 u
 =
-\pi \left(
+f \left(
 x
 \right)
 \end{equation}
 %%%%%%%%%%%%%%%%%%%%%%
+Note that here we will only consider fully observable systems and time-invariant policies. 
 
 
+To consider the question of how can this policy or knowledge can be transfer in a different context, it is usefull to think about a higher dimension policy function $\pi$ also having arguments a vector of variables describing the context:
 %%%%%%%%%%%%%%%%%%%%%%
 \begin{equation}
 u
 =
 \pi \left(
 x,
-\theta_s,
-\theta_p
-\right)
-\end{equation}
-%%%%%%%%%%%%%%%%%%%%%%
-
-
-
-
-%%%%%%%%%%%%%%%%%%%%%%
-\begin{equation}
-\pi \left(
-x,
-\theta_s,
-\theta_p
-\right)
-\quad \Rightarrow \quad
-\pi \left(
-x,
-\theta_s',
-\theta_p'
+c
 \right)
 \end{equation}
 %%%%%%%%%%%%%%%%%%%%%%
@@ -86,27 +64,134 @@ x,
 %%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}[H]
 \begin{center}
-\includegraphics[width=0.99\linewidth]{fig/policy_context2.jpg}
+\includegraphics[width=0.99\linewidth]{fig/policy_context.jpg}
 \caption{Big picture}\label{fig:policy_context}
 \end{center}
 \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%
 
+The context variables includes the system parameters and also parameters describing the task (which will often means parameters of a cost function that describe a good behavior of the task). Then we can formalize the goal of generalizing a policy to a different context as : if a good feedback policy $f_1$ is found for a system in a context described by variables $c_1$, can this knowledge help finding a equivalent good feedback policy in a different context $c_2$
+%%%%%%%%%%%%%%%%%%%%%%
+\begin{equation}
+\pi \left(
+x,
+c = c_1
+\right) = 
+f_1 \left(
+x 
+\right) 
+\quad \Rightarrow \quad
+\pi \left(
+x,
+c = c_2
+\right) = ?
+\end{equation}
+%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}[t]
+\begin{center}
+\includegraphics[width=0.99\linewidth]{fig/big_picture.jpg}
+\caption{Big picture}\label{fig:big_picture}
+\end{center}
+\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%
+
+
+
 % %%%%%%%%%%%%%%%%%%%%%%
 % \begin{figure}[H]
 % \begin{center}
-% \includegraphics[width=0.99\linewidth]{fig/dim_policy_context.jpg}
-% \caption{Goal = isolating the commun knowledge to facilitate reusing it}\label{fig:dim_policy_context}
+% \includegraphics[width=0.99\linewidth]{fig/policy_context2.jpg}
+% \caption{Big picture}\label{fig:policy_context}
 % \end{center}
 % \end{figure}
 % %%%%%%%%%%%%%%%%%%%%%%
 
-\subsection{Direct vs. indirect policy parameters}
+\subsection{Dimentional analysis and the buckingham pi theorem}
 
-Direct = policy parametrization
+If the policy involve $k$ control input variables, a $n$ states system fully defined by $m$ parameters, and a task fully defined by $l$ paramters:
+%%%%%%%%%%%%%%%%%%%%%%
+\begin{equation}
+\begin{bmatrix}
+u_1 \\
+\vdots \\
+u_k
+\end{bmatrix}
+=
+\pi \left(
+\begin{bmatrix}
+x_1 \\
+\vdots \\
+x_n
+\end{bmatrix}
+,
+\begin{bmatrix}
+a_1 \\
+\vdots \\
+\vdots \\
+a_m
+\end{bmatrix}
+,
+\begin{bmatrix}
+b_1 \\
+\vdots \\
+b_l
+\end{bmatrix}
+\right) 
+\end{equation}
+%%%%%%%%%%%%%%%%%%%%%%
+where we splitted the context variables into two groups, system parameters $a$ and tasks parameters $b$, with $c'= [a' \; b'] $.
 
-Indirect = policy is the results of an optimation, and the parameter are parametrizing a cost function with define the objective.
+Then applying the Buckingham Pi theorem to this function tell us that if $p$ dimensions are involved in all thoses variables, then an equivalent dimentionless relationship between $(k+n+m+l) - p$ dimentionless $\Pi$ groups can be found. If we pick $p$ system parameters as the basis (the repeated variables) to scale all other variables in a dimentionless form (that we will note with an $*$ exposant), then we have the form that will we call a dimentionless policy:
+%%%%%%%%%%%%%%%%%%%%%%
+\begin{equation}
+\underbrace{
+\begin{bmatrix}
+u_1^* \\
+\vdots \\
+u_k^*
+\end{bmatrix}
+=
+\pi^* \Biggl(
+\begin{bmatrix}
+x_1^* \\
+\vdots \\
+x_n^*
+\end{bmatrix}
+}_{\text{Dimentionless feedback law}}
+,
+\underbrace{
+\begin{bmatrix}
+a_1^* \\
+\vdots \\
+a_{m-p}^*
+\end{bmatrix}
+,
+\begin{bmatrix}
+b_1^* \\
+\vdots \\
+b_l^*
+\end{bmatrix}
+}_{\text{Dimentionless context $c^*$}}
+\Biggr)
+\end{equation}
+%%%%%%%%%%%%%%%%%%%%%%
+One interesting perk of this dimentional analisys, is that we can remove $p$ variable form the context (typically $p$ would be 2 or 3 for controlling a physical system involving time, force and length). The global problem of learning $\pi(x,c)$, i.e. the good feeback policy for all possible context is thus simplified in dimentionless form. But more importantly, it shows how different contexts will have the same dimentionless feedback law, meaning the knowledge of a policy for a specific context can actually be generalized to a sub-space of all context for which the dimentionless context is equal.
 
+%%%%%%%%%%%%%%%%%%%%%%
+\begin{equation}
+f_i^*(x^*) = \pi^*( x^* , c^* = c_i^*)
+\end{equation}
+%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%
+\begin{equation}
+f_1^*(x^*) = f_2^*(x^*) \; \forall x^* \; \quad \text{if} \quad c_1^* = c_2^*
+\end{equation}
+%%%%%%%%%%%%%%%%%%%%%%
+
+If we have a good policy for a specific context, its dimentionless form should be the same for all combination of systems and task parameters that make all the dimentionless group equal to thoses of the original context. 
 
 % %%%%%%%%%%%%%%%%%%%%%%
 % \begin{equation}
@@ -140,7 +225,7 @@ In this paper, we will focus on solving a specific case study of the pendulum sw
 The dynamic of the system is described by:
 %%%%%%%%%%%%%%%%%%%%%%
 \begin{equation}
-ml^2 \ddot{\theta} + mgl \sin \theta = \tau
+ml^2 \ddot{\theta} - mgl \sin \theta = \tau
 \end{equation}
 %%%%%%%%%%%%%%%%%%%%%%
 
@@ -365,7 +450,7 @@ where the only parameters are the system parameters and two variables caracteriz
 \pi_{ct} \left(
 \underbrace{ \theta, \dot{\theta} }_{\text{states}},
 \underbrace{ m , g , l }_{\text{system parameters}},
-\underbrace{ \omega_d , \zeta }_{\text{policy parameters}}
+\underbrace{ \omega_d , \zeta }_{\text{task parameters}}
 \right)
 \end{equation}
 %%%%%%%%%%%%%%%%%%%%%%
@@ -471,7 +556,19 @@ Here we can confirme directly, dividing eq \eqref{eq:ct} by $mgl$ leads to :
 \pi \left(
 \underbrace{ \theta, \dot{\theta} }_{\text{states}},
 \underbrace{ m , g , l }_{\text{system parameters}},
-\underbrace{ q }_{\text{policy parameters}}
+\underbrace{ a , b }_{\text{task parameters}}
+\right)
+\end{equation}
+%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%
+\begin{equation}
+\underbrace{\tau}_{\text{inputs}}
+=
+\pi \left(
+\underbrace{ \theta, \dot{\theta} }_{\text{states}},
+\underbrace{ m , g , l }_{\text{system parameters}},
+\underbrace{ a , b }_{\text{task parameters}}
 \right)
 \end{equation}
 %%%%%%%%%%%%%%%%%%%%%%
