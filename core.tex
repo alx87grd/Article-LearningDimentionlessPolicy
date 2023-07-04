@@ -20,7 +20,7 @@ Is it a good way to Generalize Numerical Results?
 
 
 \begin{abstract}
-Maybe. Here we show that by modifying the problem formulation of the pendulum swing-up task using dimentionless variables, we can re-use the optimal policy generated numerically for any pendulum that are dimentionnaly similar. We also demonstrate that by leveraging this scheme when using reinforcement learning, multiple systems of various dimentions can share a data-base during the learning phase, which can be a big advantage for data efficiency. It remains to be seen if this approach can also help generalizing policies for more complex high-dimentional problems.
+Yes if the context are dimentionnaly similar. Here we show that by modifying the problem formulation of the pendulum swing-up task using dimentionless variables, we can re-use the optimal policy generated numerically for any pendulum that are dimentionnaly similar. We also demonstrate that by leveraging this scheme when using reinforcement learning, multiple systems of various dimentions can share a data-base during the learning phase, which can be a big advantage for data efficiency. It remains to be seen if this approach can also help generalizing policies for more complex high-dimentional problems.
 \end{abstract}
 
 %%%%%%%%%%%%%%%%%%%%%%
@@ -34,9 +34,9 @@ System and problem parameters are not explicitly in the function
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{What define a policy?}
+\subsection{Context variables in the policy mapping}
 
-For a specific system, a control policy 
+For a specific system, a control policy takes the form of mapping from a vector space $x$ representing the state $x$ of the dynamic system to be controlled, and a vector space representing the control inputs $u$ of the system. 
 %%%%%%%%%%%%%%%%%%%%%%
 \begin{equation}
 u
@@ -46,10 +46,9 @@ x
 \right)
 \end{equation}
 %%%%%%%%%%%%%%%%%%%%%%
-Note that here we will only consider fully observable systems and time-invariant policies. 
+Under some assumptions (mainly a fully observable systems and an infinite time horizon), the optimal policy is also guarantee to be of this form [Cite Bertsekas]
 
-
-To consider the question of how can this policy or knowledge can be transfer in a different context, it is usefull to think about a higher dimension policy function $\pi$ also having arguments a vector of variables describing the context:
+To consider the question of how can this policy or knowledge can be transfer in a different context, it is usefull to think about a higher dimension mapping, that we will note $\pi$, also having arguments a vector of variables $c$ describing the context:
 %%%%%%%%%%%%%%%%%%%%%%
 \begin{equation}
 u
@@ -61,16 +60,66 @@ c
 \end{equation}
 %%%%%%%%%%%%%%%%%%%%%%
 
+
+
 %%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}[H]
+\vspace{-5pt}
 \begin{center}
-\includegraphics[width=0.99\linewidth]{fig/policy_context.jpg}
-\caption{Big picture}\label{fig:policy_context}
+\includegraphics[width=0.75\linewidth]{fig/policy_context.jpg}
+\caption{For the pendulum swing-up task, the context is 5 variables: the parameter of the system: $m$, $g$, and $l$, a parameter of the cost function: $q$ and a parameter defining the constraints: $\tau_{max}$.
+}\label{fig:policy_context}
 \end{center}
+\vspace{-5pt}
 \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%
 
-The context variables includes the system parameters and also parameters describing the task (which will often means parameters of a cost function that describe a good behavior of the task). Then we can formalize the goal of generalizing a policy to a different context as : if a good feedback policy $f_1$ is found for a system in a context described by variables $c_1$, can this knowledge help finding a equivalent good feedback policy in a different context $c_2$
+%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}[t]
+\vspace{-5pt}
+\begin{center}
+\includegraphics[width=0.99\linewidth]{fig/big_picture.jpg}
+\caption{Big picture}\label{fig:big_picture}
+\end{center}
+\vspace{-15pt}
+\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%
+
+The context must include all the variables, system parameters and task parameters, that would affect the  policy:
+%%%%%%%%%%%%%%%%%%%%%%
+\begin{equation}
+\underbrace{\begin{bmatrix}
+u_1 \\
+\vdots \\
+u_k
+\end{bmatrix}}_{\text{inputs}}
+=
+\pi \left(
+\underbrace{\begin{bmatrix}
+x_1 \\
+\vdots \\
+x_n
+\end{bmatrix}}_{\text{states}}
+,
+\underbrace{
+\underbrace{\begin{bmatrix}
+a_1 \\
+\vdots \\
+\vdots \\
+a_m
+\end{bmatrix}}_{\text{system}}
+,
+\underbrace{\begin{bmatrix}
+b_1 \\
+\vdots \\
+b_l
+\end{bmatrix}}_{\text{task}}
+}_{\text{Context $c$}}
+\right) 
+\end{equation}
+%%%%%%%%%%%%%%%%%%%%%%
+
+Then we can formalize the goal of generalizing a policy to a different context: if a good feedback policy $f_1$ is found for a system in a context described by variables $c_1$, can this knowledge help finding an equivalent good feedback policy in a different context $c_2$?
 %%%%%%%%%%%%%%%%%%%%%%
 \begin{equation}
 \pi \left(
@@ -87,16 +136,7 @@ c = c_2
 \right) = ?
 \end{equation}
 %%%%%%%%%%%%%%%%%%%%%%
-
-%%%%%%%%%%%%%%%%%%%%%%
-\begin{figure}[t]
-\begin{center}
-\includegraphics[width=0.99\linewidth]{fig/big_picture.jpg}
-\caption{Big picture}\label{fig:big_picture}
-\end{center}
-\end{figure}
-%%%%%%%%%%%%%%%%%%%%%%
-
+Using the Buckinham Pi theorem [Cite something], we will show that if a dimentionless version of the context is equal, then a dimentionless version of the policy mapping must be also equivalent.
 
 
 % %%%%%%%%%%%%%%%%%%%%%%
@@ -108,42 +148,45 @@ c = c_2
 % \end{figure}
 % %%%%%%%%%%%%%%%%%%%%%%
 
-\subsection{Dimentional analysis and the buckingham pi theorem}
+\subsection{Dimentional analysis of the augmented policy mapping}
 
-If the policy involve $k$ control input variables, a $n$ states system fully defined by $m$ parameters, and a task fully defined by $l$ paramters:
+If the policy involve $k$ control input variables, then we can treat the augmented policy as $k$ mapping from states and context to scalar control inputs:
 %%%%%%%%%%%%%%%%%%%%%%
 \begin{equation}
-\begin{bmatrix}
-u_1 \\
-\vdots \\
-u_k
-\end{bmatrix}
-=
-\pi \left(
-\begin{bmatrix}
-x_1 \\
-\vdots \\
-x_n
-\end{bmatrix}
-,
-\begin{bmatrix}
-a_1 \\
-\vdots \\
-\vdots \\
-a_m
-\end{bmatrix}
-,
-\begin{bmatrix}
-b_1 \\
-\vdots \\
-b_l
-\end{bmatrix}
+u_j = \pi_j \left(
+x,
+c 
+\right) \quad j = \{ 1, \hdots , k \}
+\end{equation}
+%%%%%%%%%%%%%%%%%%%%%%
+Then, if the state vector is define by $n$ variables, and the context is defined by $m$ system parameters plus $l$ tasks parameters, then each mapping $\pi_j$ involves $1 + n + m + l$ (usually dimentionnal) variables. Dimentional analysis is based on the fact that those mapping describe a function that should not fundenmentaly depends on the system of units involved, this is formalized with Buckingham Pi theorem. Applying the Buckingham Pi theorem to this relashionship, tell us that if $d$ dimensions are involved in all thoses variables, then an equivalent dimentionless relationship between $p$ dimentionless $\Pi$ groups, where:
+%%%%%%%%%%%%%%%%%%%%%%
+\begin{equation}
+p \geq (1 + n + m + l ) - d
+\end{equation}
+%%%%%%%%%%%%%%%%%%%%%%
+Assuming $d$ dimentions are involved in the $m$ system parameter, and that we are in a situation where the maximum reduction is possinle $p = (1 + n + m + l ) - d$, we canpick $d$ system parameters as the basis (the repeated variables) to scale all other variables in a dimentionless form (that we will note with an ${}^*$ exposant), then each dimentionnal rela
+%%%%%%%%%%%%%%%%%%%%%%
+\begin{equation}
+u_j = \pi_j \left(
+x_1, \hdots, x_n, 
+a_1, \hdots \hdots, a_m, 
+b_1, \hdots, b_l, 
 \right) 
 \end{equation}
 %%%%%%%%%%%%%%%%%%%%%%
-where we splitted the context variables into two groups, system parameters $a$ and tasks parameters $b$, with $c'= [a' \; b'] $.
+can be expressed in a relationship between dimentionsless variables:
+%%%%%%%%%%%%%%%%%%%%%%
+\begin{equation}
+u_j^* = \pi_j^* \left(
+x_1^*, \hdots, x_n^*, 
+a_1^*, \hdots, a_{m-d}^*, 
+b_1^*, \hdots, b_l^*, 
+\right) 
+\end{equation}
+%%%%%%%%%%%%%%%%%%%%%%
 
-Then applying the Buckingham Pi theorem to this function tell us that if $p$ dimensions are involved in all thoses variables, then an equivalent dimentionless relationship between $(k+n+m+l) - p$ dimentionless $\Pi$ groups can be found. If we pick $p$ system parameters as the basis (the repeated variables) to scale all other variables in a dimentionless form (that we will note with an $*$ exposant), then we have the form that will we call a dimentionless policy:
+back to vector form:
 %%%%%%%%%%%%%%%%%%%%%%
 \begin{equation}
 \underbrace{
@@ -165,7 +208,7 @@ x_n^*
 \begin{bmatrix}
 a_1^* \\
 \vdots \\
-a_{m-p}^*
+a_{m-d}^*
 \end{bmatrix}
 ,
 \begin{bmatrix}
@@ -556,20 +599,49 @@ Here we can confirme directly, dividing eq \eqref{eq:ct} by $mgl$ leads to :
 \pi \left(
 \underbrace{ \theta, \dot{\theta} }_{\text{states}},
 \underbrace{ m , g , l }_{\text{system parameters}},
-\underbrace{ a , b }_{\text{task parameters}}
+\underbrace{ q }_{\text{task parameters}}
 \right)
 \end{equation}
 %%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%
 \begin{equation}
-\underbrace{\tau}_{\text{inputs}}
+\tau^*
 =
-\pi \left(
-\underbrace{ \theta, \dot{\theta} }_{\text{states}},
-\underbrace{ m , g , l }_{\text{system parameters}},
-\underbrace{ a , b }_{\text{task parameters}}
+\pi^* \left(
+ \theta, \dot{\theta}^* ,
+ q^* 
 \right)
+\end{equation}
+%%%%%%%%%%%%%%%%%%%%%%
+
+
+See alex screen shot 4 july 2023
+%%%%%%%%%%%%%%%%%%%%%%
+\begin{equation}
+\tau = 
+\left[
+mgl \right] \theta
++
+\left[
+\sqrt{ (mgl)^2 + q^2} \right] \theta
++
+\left[
+\sqrt{ 2 ml^2)} \sqrt{mgl+ \sqrt{ (mgl)^2 + q^2}}
+\right] \dot{\theta}^*
+\end{equation}
+%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%
+\begin{equation}
+\tau^* = 
+\left[
+1 + \sqrt{ 1 + (q^*)^2}
+\right] \theta
++
+\left[
+\sqrt{2} \sqrt{ 1 + \sqrt{ 1 + (q^*)^2}}
+\right] \dot{\theta}^*
 \end{equation}
 %%%%%%%%%%%%%%%%%%%%%%
 
