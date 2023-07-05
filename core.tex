@@ -116,6 +116,7 @@ b_l
 \end{bmatrix}}_{\text{task}}
 }_{\text{Context $c$}}
 \right) 
+\label{eq:vectorpolicy}
 \end{equation}
 %%%%%%%%%%%%%%%%%%%%%%
 
@@ -150,22 +151,7 @@ Using the Buckinham Pi theorem [Cite something], we will show that if a dimentio
 
 \subsection{Dimentional analysis of the augmented policy mapping}
 
-If the policy involve $k$ control input variables, then we can treat the augmented policy as $k$ mapping from states and context to scalar control inputs:
-%%%%%%%%%%%%%%%%%%%%%%
-\begin{equation}
-u_j = \pi_j \left(
-x,
-c 
-\right) \quad j = \{ 1, \hdots , k \}
-\end{equation}
-%%%%%%%%%%%%%%%%%%%%%%
-Then, if the state vector is define by $n$ variables, and the context is defined by $m$ system parameters plus $l$ tasks parameters, then each mapping $\pi_j$ involves $1 + n + m + l$ (usually dimentionnal) variables. Dimentional analysis is based on the fact that those mapping describe a function that should not fundenmentaly depends on the system of units involved, this is formalized with Buckingham Pi theorem. Applying the Buckingham Pi theorem to this relashionship, tell us that if $d$ dimensions are involved in all thoses variables, then an equivalent dimentionless relationship between $p$ dimentionless $\Pi$ groups, where:
-%%%%%%%%%%%%%%%%%%%%%%
-\begin{equation}
-p \geq (1 + n + m + l ) - d
-\end{equation}
-%%%%%%%%%%%%%%%%%%%%%%
-Assuming $d$ dimentions are involved in the $m$ system parameter, and that we are in a situation where the maximum reduction is possinle $p = (1 + n + m + l ) - d$, we canpick $d$ system parameters as the basis (the repeated variables) to scale all other variables in a dimentionless form (that we will note with an ${}^*$ exposant), then each dimentionnal rela
+If the policy involve $k$ control input variables, then we can treat the augmented policy as $k$ mapping from states and context variables to the scalar control input $j$:
 %%%%%%%%%%%%%%%%%%%%%%
 \begin{equation}
 u_j = \pi_j \left(
@@ -173,20 +159,45 @@ x_1, \hdots, x_n,
 a_1, \hdots \hdots, a_m, 
 b_1, \hdots, b_l, 
 \right) 
+\label{eq:scalarpolicy}
 \end{equation}
 %%%%%%%%%%%%%%%%%%%%%%
-can be expressed in a relationship between dimentionsless variables:
+% %%%%%%%%%%%%%%%%%%%%%%
+% \begin{equation}
+% u_j = \pi_j \left(
+% x,
+% c 
+% \right) \quad j = \{ 1, \hdots , k \}
+% \end{equation}
+% %%%%%%%%%%%%%%%%%%%%%%
+where eq. \eqref{eq:scalarpolicy} is the $j$th line of the policy in vector form described by eq. \eqref{eq:vectorpolicy}.
+Then, if the state vector is define by $n$ variables, and the context is defined by $m$ system parameters plus $l$ tasks parameters, then each mapping $\pi_j$ involves $1 + n + m + l$ (usually dimentionnal) variables. Dimentional analysis is based on the fact that those mapping describe a function that should not fundenmentaly depends on the system of units involved, this is formalized with Buckingham Pi theorem. Applying the Buckingham Pi theorem to this relashionship, tell us that if $d$ dimensions are involved in all thoses variables, then an equivalent dimentionless relationship between $p$ dimentionless $\Pi$ groups, where:
+%%%%%%%%%%%%%%%%%%%%%%
+\begin{equation}
+p \geq (1 + n + m + l ) - d
+\end{equation}
+%%%%%%%%%%%%%%%%%%%%%%
+Assuming $d$ dimentions are involved in the $m$ system parameter, and that we are in a situation where the maximum reduction is possinle $p = (1 + n + m + l ) - d$, we can pick $d$ system parameters as the basis (the repeated variables are $\{a_1, a_2 , \hdots, a_d\}$) to scale all other variables in a dimentionless form (we will note dimentionless $\Pi$ group as variables with an ${}^*$ subscript):
+%%%%%%%%%%%%%%%%%%%%%%
+\begin{align}
+u_j^* &= u_j \left[ a_1 \right]^{e_1} \left[ a_2 \right]^{e_2} \hdots \left[ a_d \right]^{e_d} \quad  j = \{ 1, \hdots , k \} \\
+x_i^* &= x_i \left[ a_1 \right]^{e_1} \left[ a_2\right]^{e_2} \hdots \left[ a_d \right]^{e_d} \quad  i = \{ 1, \hdots , n \} \\
+a_i^* &= a_i \left[ a_1 \right]^{e_1} \left[ a_2 \right]^{e_2} \hdots \left[ a_d \right]^{e_d} \quad  i = \{ d+1, \hdots , m \} \\
+b_i^* &= b_i \left[ a_1 \right]^{e_1} \left[ a_2 \right]^{e_2} \hdots \left[ a_d \right]^{e_d} \quad  i = \{ 1, \hdots , l \} 
+\end{align}
+%%%%%%%%%%%%%%%%%%%%%%
+where exposant $e_i$ are rational numbers selected to make all equations dimentionless. Then, the buckingham theorem tell us that the relationship described by eq. \eqref{eq:scalarpolicy} can be restated as the following relationship between  dimentionsless variables:
 %%%%%%%%%%%%%%%%%%%%%%
 \begin{equation}
 u_j^* = \pi_j^* \left(
 x_1^*, \hdots, x_n^*, 
-a_1^*, \hdots, a_{m-d}^*, 
+a_{d+1}^*, \hdots, a_{m}^*, 
 b_1^*, \hdots, b_l^*, 
 \right) 
+\label{eq:scalardimpolicy}
 \end{equation}
 %%%%%%%%%%%%%%%%%%%%%%
-
-back to vector form:
+involving $d$ less dimentionless variables then dimentional variables that were involved in eq. \eqref{eq:scalarpolicy}. If we apply the same procedure to all control inputs, when can then assemble the $k$ mapping into a vector form:
 %%%%%%%%%%%%%%%%%%%%%%
 \begin{equation}
 \underbrace{
@@ -206,9 +217,9 @@ x_n^*
 ,
 \underbrace{
 \begin{bmatrix}
-a_1^* \\
+a_{d+1}^* \\
 \vdots \\
-a_{m-d}^*
+a_{m}^*
 \end{bmatrix}
 ,
 \begin{bmatrix}
@@ -218,23 +229,36 @@ b_l^*
 \end{bmatrix}
 }_{\text{Dimentionless context $c^*$}}
 \Biggr)
+\label{eq:vectordimpolicy}
 \end{equation}
 %%%%%%%%%%%%%%%%%%%%%%
-One interesting perk of this dimentional analisys, is that we can remove $p$ variable form the context (typically $p$ would be 2 or 3 for controlling a physical system involving time, force and length). The global problem of learning $\pi(x,c)$, i.e. the good feeback policy for all possible context is thus simplified in dimentionless form. But more importantly, it shows how different contexts will have the same dimentionless feedback law, meaning the knowledge of a policy for a specific context can actually be generalized to a sub-space of all context for which the dimentionless context is equal.
-
+that we will sometime write in vector notation: 
 %%%%%%%%%%%%%%%%%%%%%%
 \begin{equation}
-f_i^*(x^*) = \pi^*( x^* , c^* = c_i^*)
+u^* = \pi^*( x^* , c^* )
+\label{eq:vectordimpolicyshort}
 \end{equation}
 %%%%%%%%%%%%%%%%%%%%%%
-
+One interesting perk of this dimentional analysis, is that we can remove $p$ variable form the context (typically $p$ would be 2 or 3 for controlling a physical system involving time, force and length). The global problem of learning $\pi(x,c)$, i.e. the good feeback policy for all possible context is thus simplified in dimentionless form. But more importantly, it shows how different contexts will have the same dimentionless feedback law, meaning the knowledge of a policy for a specific context can actually be generalized to a sub-space of all context for which the dimentionless context is equal. For instance, if a numerical algorithm find the optimal policy $f_1$ for specific context defined by variables $c_1$. Then we can scale the input and output to obtain the equivalent dimentionless relationship:
 %%%%%%%%%%%%%%%%%%%%%%
 \begin{equation}
-f_1^*(x^*) = f_2^*(x^*) \; \forall x^* \; \quad \text{if} \quad c_1^* = c_2^*
+f_1^*(x^*) = \pi^*( x^* , c^* = c_1^*)
 \end{equation}
 %%%%%%%%%%%%%%%%%%%%%%
+%where $c_1^*$ means here an instance of context variables corresponding to a context labeled 1.
+Then if we have another context $c_2$, of equivalent dimentionless system and task parameters, the dimentionless feedback law must be the same:
+%%%%%%%%%%%%%%%%%%%%%%
+\begin{equation}
+\text{if} \quad c_1^* = c_2^*  \quad \text{then} \quad f_1^*(x^*) = f_2^*(x^*) \; \forall x^*   
+\end{equation}
+%%%%%%%%%%%%%%%%%%%%%%
+This is simply stating that the mapping of \eqref{eq:vectordimpolicyshort} give the same output for the same inputs. Finally, in order to use $f_2^*$ we would only have to rescale, using the context no2 parameters, to retrieve the dimentional version $f_2$. Applying $f_2$ policy on the system and task described by the context $c_2$ should be exactly equivalent as applying policy $f_1$ on the system and task described by the context $c_1$. 
 
-If we have a good policy for a specific context, its dimentionless form should be the same for all combination of systems and task parameters that make all the dimentionless group equal to thoses of the original context. 
+The concept of dimentional context is powerful, in the sense that it shows how to transfer a control policy to diferent context where the results should be exactly equivalent. However, it is limited because if the dimentional context is not exactly equal, then 
+
+
+
+
 
 % %%%%%%%%%%%%%%%%%%%%%%
 % \begin{equation}
@@ -251,19 +275,7 @@ If we have a good policy for a specific context, its dimentionless form should b
 \newpage
 %%%%%%%%%%%%%%%%%%%%%%
 \section{Pendulum swing-up task}
-In this paper, we will focus on solving a specific case study of the pendulum swing-up task. 
-
-%%%%%%%%%%%%%%%%%%%%%%
-\begin{equation}
-\underbrace{\tau}_{\text{inputs}}
-=
-\pi \left(
-\underbrace{ \theta, \dot{\theta} }_{\text{states}},
-\underbrace{ m , g , l }_{\text{system parameters}},
-\underbrace{ q , \tau_{max} }_{\text{policy parameters}}
-\right)
-\end{equation}
-%%%%%%%%%%%%%%%%%%%%%%
+In this paper, we will used a version of the pendulum swing-up task as a prototype problem to test the proposed ideas of dimentionless policies.
 
 The dynamic of the system is described by:
 %%%%%%%%%%%%%%%%%%%%%%
@@ -286,6 +298,19 @@ Constraints on control inputs are given by:
 \end{equation}
 %%%%%%%%%%%%%%%%%%%%%%
 
+%%%%%%%%%%%%%%%%%%%%%%
+\begin{equation}
+\underbrace{\tau}_{\text{inputs}}
+=
+\pi \left(
+\underbrace{ \theta, \dot{\theta} }_{\text{states}},
+\underbrace{ m , g , l }_{\text{system parameters}},
+\underbrace{ q , \tau_{max} }_{\text{policy parameters}}
+\right)
+\end{equation}
+%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{table}[htb]
    \centering % center the table
    \caption{Pendulum swing-up optimal policy variables} 
@@ -323,6 +348,7 @@ Constraints on control inputs are given by:
    %\bottomrule[\heavyrulewidth] 
    \end{tabular}
 \end{table}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 But here the 3 system paramters $m$, $g$ and $l$ are only present in two groups in the dynamic equation. 
 
