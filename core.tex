@@ -36,7 +36,7 @@ System and problem parameters are not explicitly in the function
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Context variables in the policy mapping}
 
-For a specific system, a control policy takes the form of mapping from a vector space $x$ representing the state $x$ of the dynamic system to be controlled, and a vector space representing the control inputs $u$ of the system. 
+For a specific system, a control policy takes the form of mapping from an input vector space representing the state $x$ of the dynamic system to be controlled, to an output vector space representing the control inputs $u$ of the system. 
 %%%%%%%%%%%%%%%%%%%%%%
 \begin{equation}
 u
@@ -48,7 +48,7 @@ x
 %%%%%%%%%%%%%%%%%%%%%%
 Under some assumptions (mainly a fully observable systems and an infinite time horizon), the optimal policy is also guarantee to be of this form [Cite Bertsekas]
 
-To consider the question of how can this policy or knowledge can be transfer in a different context, it is usefull to think about a higher dimension mapping, that we will note $\pi$, also having arguments a vector of variables $c$ describing the context:
+To consider the question of how can this policy or knowledge can be transfer in a different context, it is usefull to think about a higher dimension mapping, that we will note $\pi$, also having input arguments a vector of variables $c$ describing the context:
 %%%%%%%%%%%%%%%%%%%%%%
 \begin{equation}
 u
@@ -74,11 +74,14 @@ c
 \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%
 
+
+
+
 %%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}[t]
 \vspace{-5pt}
 \begin{center}
-\includegraphics[width=0.99\linewidth]{fig/big_picture.jpg}
+\includegraphics[width=0.99\linewidth]{fig/bigpicture2.jpg}
 \caption{Big picture}\label{fig:big_picture}
 \end{center}
 \vspace{-15pt}
@@ -151,7 +154,7 @@ Using the Buckinham Pi theorem [Cite something], we will show that if a dimentio
 
 \subsection{Dimentional analysis of the augmented policy mapping}
 
-If the policy involve $k$ control input variables, then we can treat the augmented policy as $k$ mapping from states and context variables to the scalar control input $j$:
+If the policy involve $k$ control input variables, then we can treat the augmented policy as $k$ mapping from states and context variables to each scalar control input $u_j$:
 %%%%%%%%%%%%%%%%%%%%%%
 \begin{equation}
 u_j = \pi_j \left(
@@ -171,13 +174,13 @@ b_1, \hdots, b_l,
 % \end{equation}
 % %%%%%%%%%%%%%%%%%%%%%%
 where eq. \eqref{eq:scalarpolicy} is the $j$th line of the policy in vector form described by eq. \eqref{eq:vectorpolicy}.
-Then, if the state vector is define by $n$ variables, and the context is defined by $m$ system parameters plus $l$ tasks parameters, then each mapping $\pi_j$ involves $1 + n + m + l$ (usually dimentionnal) variables. Dimentional analysis is based on the fact that those mapping describe a function that should not fundenmentaly depends on the system of units involved, this is formalized with Buckingham Pi theorem. Applying the Buckingham Pi theorem to this relashionship, tell us that if $d$ dimensions are involved in all thoses variables, then an equivalent dimentionless relationship between $p$ dimentionless $\Pi$ groups, where:
+Then, if the state vector is define by $n$ variables, and the context is defined by $m$ system parameters plus $l$ tasks parameters, then each mapping $\pi_j$ involves $1 + n + m + l$ (usually dimentionnal) variables. Dimentional analysis is based on the fact that those mapping describe a function that should not fundenmentaly depends on the system of units involved, this is formalized with Buckingham Pi theorem. Applying the Buckingham Pi theorem to this relashionship, tell us that if $d$ dimensions are involved in all thoses variables, then an equivalent dimentionless relationship between $p$ dimentionless $\Pi$ groups where:
 %%%%%%%%%%%%%%%%%%%%%%
 \begin{equation}
 p \geq (1 + n + m + l ) - d
 \end{equation}
 %%%%%%%%%%%%%%%%%%%%%%
-Assuming $d$ dimentions are involved in the $m$ system parameter, and that we are in a situation where the maximum reduction is possinle $p = (1 + n + m + l ) - d$, we can pick $d$ system parameters as the basis (the repeated variables are $\{a_1, a_2 , \hdots, a_d\}$) to scale all other variables in a dimentionless form (we will note dimentionless $\Pi$ group as variables with an ${}^*$ subscript):
+Assuming $d$ dimentions are involved in the $m$ system parameter, and that we are in a situation where the maximum reduction is possible $p = (1 + n + m + l ) - d$, we can pick $d$ system parameters $\{a_1, a_2 , \hdots, a_d\}$ as the basis (the repeated variables) to scale all other variables in a dimentionless form (we will note dimentionless $\Pi$ group as variables with an ${}^*$ subscript):
 %%%%%%%%%%%%%%%%%%%%%%
 \begin{align}
 u_j^* &= u_j \left[ a_1 \right]^{e_1} \left[ a_2 \right]^{e_2} \hdots \left[ a_d \right]^{e_d} \quad  j = \{ 1, \hdots , k \} \\
@@ -197,7 +200,7 @@ b_1^*, \hdots, b_l^*,
 \label{eq:scalardimpolicy}
 \end{equation}
 %%%%%%%%%%%%%%%%%%%%%%
-involving $d$ less dimentionless variables then dimentional variables that were involved in eq. \eqref{eq:scalarpolicy}. If we apply the same procedure to all control inputs, when can then assemble the $k$ mapping into a vector form:
+involving $d$ less dimentionless variables in eq. \eqref{eq:scalarpolicy}. If we apply the same procedure to all control inputs, when can then assemble the $k$ mapping back into a vector form:
 %%%%%%%%%%%%%%%%%%%%%%
 \begin{equation}
 \underbrace{
@@ -232,14 +235,24 @@ b_l^*
 \label{eq:vectordimpolicy}
 \end{equation}
 %%%%%%%%%%%%%%%%%%%%%%
-that we will sometime write in vector notation: 
+that we will sometime write in compact form as: 
 %%%%%%%%%%%%%%%%%%%%%%
 \begin{equation}
 u^* = \pi^*( x^* , c^* )
 \label{eq:vectordimpolicyshort}
 \end{equation}
 %%%%%%%%%%%%%%%%%%%%%%
-One interesting perk of this dimentional analysis, is that we can remove $p$ variable form the context (typically $p$ would be 2 or 3 for controlling a physical system involving time, force and length). The global problem of learning $\pi(x,c)$, i.e. the good feeback policy for all possible context is thus simplified in dimentionless form. But more importantly, it shows how different contexts will have the same dimentionless feedback law, meaning the knowledge of a policy for a specific context can actually be generalized to a sub-space of all context for which the dimentionless context is equal. For instance, if a numerical algorithm find the optimal policy $f_1$ for specific context defined by variables $c_1$. Then we can scale the input and output to obtain the equivalent dimentionless relationship:
+%%%%%%%%%%%%%%%%%%%%%%
+ \begin{figure}[h]
+    \centering
+    \vspace{-10pt}
+    \subfloat[Dimentional \label{fig:b}]{\includegraphics[width=0.20\textwidth]{fig/policy.jpg}}   
+    \subfloat[Dimentionless \label{fig:c}]{\includegraphics[width=0.30\textwidth]{fig/dimpolicy.jpg}}
+    \caption{subfigures}
+    \label{fig:subfigures}
+\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%
+One interesting perk of this dimentional analysis, is that we can remove $p$ variable form the context (typically $p$ would be 2 or 3 for controlling a physical system involving time, force and length). The global problem of learning $\pi(x,c)$, i.e. the good feeback policy for all possible context is thus simplified in dimentionless form. But more importantly, it shows how different contexts will have the same dimentionless feedback law, meaning the knowledge of a policy for a specific context $c$ can actually be generalized to a sub-space of all context for which the dimentionless context $c^*$ is equal. For instance, if a numerical algorithm find the optimal policy $f_1$ for specific context defined by variables $c_1$. Then we can scale the input and output to obtain the equivalent dimentionless relationship:
 %%%%%%%%%%%%%%%%%%%%%%
 \begin{equation}
 f_1^*(x^*) = \pi^*( x^* , c^* = c_1^*)
@@ -252,9 +265,9 @@ Then if we have another context $c_2$, of equivalent dimentionless system and ta
 \text{if} \quad c_1^* = c_2^*  \quad \text{then} \quad f_1^*(x^*) = f_2^*(x^*) \; \forall x^*   
 \end{equation}
 %%%%%%%%%%%%%%%%%%%%%%
-This is simply stating that the mapping of \eqref{eq:vectordimpolicyshort} give the same output for the same inputs. Finally, in order to use $f_2^*$ we would only have to rescale, using the context no2 parameters, to retrieve the dimentional version $f_2$. Applying $f_2$ policy on the system and task described by the context $c_2$ should be exactly equivalent as applying policy $f_1$ on the system and task described by the context $c_1$. 
+This is simply stating that the dimentionless policy (eq. \eqref{eq:vectordimpolicyshort}) give the same output for the same inputs. Finally, in order to use $f_2^*$ we would only have to rescale, using the context no2 parameters, to retrieve the dimentional version $f_2$. Applying $f_2$ policy on the system and task described by the context $c_2$ should be exactly equivalent as applying policy $f_1$ on the system and task described by the context $c_1$. 
 
-The concept of dimentional context is powerful, in the sense that it shows how to transfer a control policy to diferent context where the results should be exactly equivalent. However, it is limited because if the dimentional context is not exactly equal, then nothing can be deduced. Furthermore, the challenge of leveraging this idea is including all meaningful context variables. If a meaningful variable, in the sense that the policy would be different if its value is changed, is omitted from the context vector $c$ in the dimentional analysis, then transfering a policy between similar system probably won't lead to equivalent behavior. On the other hand, if we include too many variables to fully describe a context, then dimentionnaly similar context space will probably be so specific it won't be pratical to use for transfering policy between systems. Henseforth, finding the appropriate parametrization of the context will be critical in order to leverage this principle for sharing policy between similar system, 
+The concept of dimentionless context is powerful, in the sense that it shows how to transfer a control policy to diferent context where the results should be exactly equivalent. However, it is limited because if the dimentionless context $c^*$ is not exactly equal, then nothing can be deduced regarding if a policy is transferable. Furthermore, the challenge of leveraging this idea is to include all meaningful context variables. If a meaningful variable (in the sense that the policy would be different if its value is changed) is omitted from the context vector $c$ in the dimentional analysis, then the dimentional analysis results might be wrong. On the other hand, if we include too many variables to fully describe a context, then dimentionnaly similar context space will probably be so specific it won't be pratical to use for transfering policy between systems. Henseforth, finding the appropriate parametrization of the context will be critical in order to leverage this principle for sharing policy between similar system, 
 
 
 
