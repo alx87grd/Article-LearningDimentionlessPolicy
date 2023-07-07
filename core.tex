@@ -275,58 +275,77 @@ T_x^{-1}(c_a) \; x^*
 }_{x}
 \right)
 }_{u}
+\label{eq:f2star}
 \end{align}
 %%%%%%%%%%%%%%%%%%%%%%
-and the dimentionless context values can be found using $T_c$:
+and the dimentionless context values $c^*_a$ can be found using eq. \eqref{eq:Tc}.
+% %%%%%%%%%%%%%%%%%%%%%%
+% \begin{align}
+% c_a^* &= T_c( c_a ) \; c_a 
+% \end{align}
+% %%%%%%%%%%%%%%%%%%%%%%
+Inversely, if we know a dimentionless feedback law $f_b^*$, matrices $T_u$ and $T_x$ can be used to scale it back to a specific context $c_b$:
 %%%%%%%%%%%%%%%%%%%%%%
 \begin{align}
-c_a^* &= T_c( c_a ) \; c_a 
-\end{align}
-%%%%%%%%%%%%%%%%%%%%%%
-Inversely, if we know a dimentionless feedback law, matrices $T_u$ and $T_x$ can be used to scale it to a specific context $c$:
-%%%%%%%%%%%%%%%%%%%%%%
-\begin{align}
-f ( x ) &= T^{-1}_u(c) 
+f_b ( x ) &= T^{-1}_u(c_b) 
 \underbrace{
-f^* \left(  
+f_b^* \left(  
 \underbrace{
-T_x(c) \; x
+T_x(c_b) \; x
 }_{x^*}
 \right)
 }_{u^*}
+\label{eq:star2f}
 \end{align}
 %%%%%%%%%%%%%%%%%%%%%%
+Thus, eq. \eqref{eq:f2star} and eq. \eqref{eq:f2star} can be used to take any context specific feedback law, finding its dimentionless form, and scale it back to a new context. In general, there is no guarantee that the behavior of the scaled feedback law in the new context will be similar to the behavior of the feedback law in the original context. However, if the dimentionless context are equal, then the behavior should be eactly equivalent:
+%%%%%%%%%%%%%%%%%%%%%%
+\begin{equation}
+\text{if} \quad c_a^* = c_b^*  \quad \text{then} \quad f_a^*(x^*) = f_b^*(x^*) \; \forall x^*   
+\end{equation}
+%%%%%%%%%%%%%%%%%%%%%%
+where
+%%%%%%%%%%%%%%%%%%%%%%
+\begin{align}
+f_a^*(x^*) = \pi^*( x^* , c^* = c_a^*)\\
+f_b^*(x^*) = \pi^*( x^* , c^* = c_b^*)
+\end{align}
+%%%%%%%%%%%%%%%%%%%%%%
+This is simply based on the fact that the dimentionless policy (eq. \eqref{eq:vectordimpolicyshort}) give the same output for the same inputs. This results means that the knowledge of a policy for a specific context $c$ can actually be generalized to a sub-space of all context for which the dimentionless context $c^*$ is equal. For instance, lets suppose an optimal policy $f_a$ is known for a specific context $c_a$, then applying the scaled policy:
+%%%%%%%%%%%%%%%%%%%%%%
+\begin{align}
+f_b ( x ) &= T^{-1}_u(c_b) 
+T_u(c_a) 
+f_a \left(  
+T_x^{-1}(c_a) 
+T_x^{-1}(c_b)
+x
+\right)
+\end{align}
+%%%%%%%%%%%%%%%%%%%%%%
+on a system described by the context $c_b$ will be equaly equivalent (up to scaling factors) if 
+%%%%%%%%%%%%%%%%%%%%%%
+\begin{equation}
+c_b^* =  T_c( c_b ) \; c_b  = T_c( c_a ) \; c_a = c_a^* 
+\end{equation}
+%%%%%%%%%%%%%%%%%%%%%%
 
 
 %%%%%%%%%%%%%%%%%%%%%%
- \begin{figure}[ht]
-    \centering
-    \vspace{-10pt}
-    \subfloat[Dimentional \label{fig:b}]{\includegraphics[width=0.20\textwidth]{fig/policy.jpg}}   
-    \subfloat[Dimentionless \label{fig:c}]{\includegraphics[width=0.30\textwidth]{fig/dimpolicy.jpg}}
-    \caption{subfigures}
-    \label{fig:subfigures}
+\begin{figure}[t]
+\vspace{-5pt}
+\begin{center}
+\includegraphics[width=0.99\linewidth]{fig/dimpol.jpg}
+\caption{Isolating the dimentionless knowledge in a policy}\label{fig:dimpol}
+\end{center}
+\vspace{-15pt}
 \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%
 
+One interesting perk of this dimentional analysis, is that we can remove $p$ variable form the context (typically $p$ would be 2 or 3 for controlling a physical system involving time, force and length). The global problem of learning $\pi(x,c)$, i.e. the good feeback policy for all possible context is thus simplified in a dimentionless form. 
 
 
-
-
-One interesting perk of this dimentional analysis, is that we can remove $p$ variable form the context (typically $p$ would be 2 or 3 for controlling a physical system involving time, force and length). The global problem of learning $\pi(x,c)$, i.e. the good feeback policy for all possible context is thus simplified in a dimentionless form. But more importantly, it shows how different contexts will have the same dimentionless feedback law. In other words, the knowledge of a policy for a specific context $c$ can actually be generalized to a sub-space of all context for which the dimentionless context $c^*$ is equal. For instance, if a numerical algorithm find the optimal policy $f_a$ for specific context defined by variables $c_a$. Then we can scale the input and output to obtain the equivalent dimentionless relationship:
-%%%%%%%%%%%%%%%%%%%%%%
-\begin{equation}
-f_1^*(x^*) = \pi^*( x^* , c^* = c_1^*)
-\end{equation}
-%%%%%%%%%%%%%%%%%%%%%%
-%where $c_1^*$ means here an instance of context variables corresponding to a context labeled 1.
-Then if we have another context $c_2$, of equivalent dimentionless system and task parameters, the dimentionless feedback law must be the same:
-%%%%%%%%%%%%%%%%%%%%%%
-\begin{equation}
-\text{if} \quad c_1^* = c_2^*  \quad \text{then} \quad f_1^*(x^*) = f_2^*(x^*) \; \forall x^*   
-\end{equation}
-%%%%%%%%%%%%%%%%%%%%%%
-This is simply stating that the dimentionless policy (eq. \eqref{eq:vectordimpolicyshort}) give the same output for the same inputs. Finally, in order to use $f_2^*$ we would only have to rescale, using the context no2 parameters, to retrieve the dimentional version $f_2$. Applying $f_2$ policy on the system and task described by the context $c_2$ should be exactly equivalent as applying policy $f_1$ on the system and task described by the context $c_1$. 
+ 
 
 
 
@@ -678,14 +697,14 @@ Here we can confirme directly, dividing eq \eqref{eq:ct} by $mgl$ leads to :
 \end{equation}
 %%%%%%%%%%%%%%%%%%%%%%
 
-%%%%%%%%%%%%%%%%%%%%%%
-\begin{figure}[H]
-\begin{center}
-\includegraphics[width=0.99\linewidth]{fig/ct.JPG}
-\caption{Dimentionless computed torque}\label{fig:ct}
-\end{center}
-\end{figure}
-%%%%%%%%%%%%%%%%%%%%%%
+% %%%%%%%%%%%%%%%%%%%%%%
+% \begin{figure}[H]
+% \begin{center}
+% \includegraphics[width=0.99\linewidth]{fig/ct.JPG}
+% \caption{Dimentionless computed torque}\label{fig:ct}
+% \end{center}
+% \end{figure}
+% %%%%%%%%%%%%%%%%%%%%%%
 
 
 
