@@ -241,8 +241,36 @@ u^* = \pi^*( x^* , c^* )
 \label{eq:vectordimpolicyshort}
 \end{equation}
 %%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}[ht]
+\vspace{-5pt}
+\begin{center}
+\includegraphics[width=0.99\linewidth]{fig/c_space.jpg}
+\caption{Dimentionlaly similar context}\label{fig:c_space}
+\end{center}
+\vspace{-15pt}
+\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%
+One interesting perk of this dimentional analysis, is that we can remove $p$ variable form the context (typically $p$ would be 2 or 3 for controlling a physical system involving time, force and length). The global problem of learning $\pi(x,c)$, i.e. the good feeback policy for all possible context is thus simplified in a dimentionless form. Also, an even more interesting feature to help transfering feedback law between systems, is that the dimentional analysis procedure shows that a global policy $\pi( x , c )$, will have an equivalent dimentionless form for multiple context $c$. As illustrated at Fig. \ref{fig:c_space}, the dimentionless context $c^*$ is a lower dimentional space ($m+l-d$) and multiple context vector $c$ will correspond to the same dimentionless vector $c^*$. If the dimentionless context are equal, then the dimentionless feedback law should be eactly equivalent:
+%%%%%%%%%%%%%%%%%%%%%%
+\begin{equation}
+\text{if} \quad c_a^* = c_b^*  \quad \text{then} \quad f_a^*(x^*) = f_b^*(x^*) \; \forall x^*   
+\end{equation}
+%%%%%%%%%%%%%%%%%%%%%%
+where
+%%%%%%%%%%%%%%%%%%%%%%
+\begin{align}
+f_a^*(x^*) = \pi^*( x^* , c^* = c_a^*)\\
+f_b^*(x^*) = \pi^*( x^* , c^* = c_b^*)
+\end{align}
+%%%%%%%%%%%%%%%%%%%%%%
+This is simply based on the fact that the dimentionless policy (eq. \eqref{eq:vectordimpolicyshort}) give the same output for the same inputs. This results means that the knowledge of a policy for a specific context $c$ can actually be generalized to a sub-space of all context for which the dimentionless context $c^*$ is equal.
 
-It is usefull to define transformation matrices based on scalar equations \eqref{eq:piu}, \eqref{eq:pix} and \eqref{eq:pic}:
+Lets illustrate this with an example of a spherical submarine for witch we have an optimal policy of trust as a function of two context variables: the sphere radius and its velocity. The dimentionless policy would only be a function of a single dimentionless context variable: the Reynolds number, and would be the same for all submarines with the same Reynolds number. 
+
+\subsection{Transfering policies between contexts}
+
+In order to exploit this property, it is usefull to define transformation matrices based on scalar equations \eqref{eq:piu}, \eqref{eq:pix} and \eqref{eq:pic}:
 %%%%%%%%%%%%%%%%%%%%%%
 \begin{align}
 u^* &= \left[ T_u(c) \right] \, u  \label{eq:Tu} \\
@@ -250,9 +278,9 @@ x^* &= \left[ T_x(c) \right] \, x \label{eq:Tx} \\
 c^* &= \left[ T_c(c) \right] \, c \label{eq:Tc}
 \end{align}
 %%%%%%%%%%%%%%%%%%%%%%
-where matrices $T_u$ and $T_x$ are square diagonal matrix, where each diagonal term is a multiplication of the first $d$ context variables up to a rational power (found by applying the buckinghan pi theorem). Equations \eqref{eq:Tu} and \eqref{eq:Tx} are inversible (unless a context variable is equal to zero) and can be used to go back-and-forth between dimentional and dimentionless state and input variables. The matrix $T_c$ however have $d$ less row than columns and equation \eqref{eq:Tc} is not inversible, for a given context $c$ there is only one dimentionless context $c^*$, however a dimentionless context $c^*$ correspond to multiple dimentional context $c$.
+where matrices $T_u$ and $T_x$ are square diagonal matrix, where each diagonal term is a multiplication of the first $d$ context variables ($\{c_1, c_2 , \hdots,c_d\}$) up to a rational power (found by applying the buckinghan pi theorem). Equations \eqref{eq:Tu} and \eqref{eq:Tx} are inversible (unless a context variable is equal to zero) and can be used to go back-and-forth between dimentional and dimentionless state and input variables. The matrix $T_c$ however have $d$ less row than columns and equation \eqref{eq:Tc} is not inversible, for a given context $c$ there is only one dimentionless context $c^*$, however a dimentionless context $c^*$ correspond to multiple dimentional context $c$.
 
-To summarize the dimentional analysis procedure, if a dimentional feedback law $f_a$ for a context $c_a$ is known:
+To summarize the dimentional analysis procedure, using the transformation matrices, if a dimentional feedback law $f_a$ for a context $c_a$ is known:
 %%%%%%%%%%%%%%%%%%%%%%
 \begin{align}
 f_a ( x ) &= \pi \left( x, c = c_a \right)
@@ -264,7 +292,7 @@ its representation in dimentionless form:
 f_a^* ( x^* ) &= \pi \left( x^*, c^* = c_a^* )\right) 
 \end{align}
 %%%%%%%%%%%%%%%%%%%%%%
-can be found by scaling the input and output of $f_a$ using matrices $T_u$ and $T_x$:
+can be found by scaling the input and output of $f_a$ with $T_u$ and $T_x$:
 %%%%%%%%%%%%%%%%%%%%%%
 \begin{align}
 f_a^* ( x^* ) &= T_u(c_a) 
@@ -298,27 +326,19 @@ T_x(c_b) \; x
 \label{eq:star2f}
 \end{align}
 %%%%%%%%%%%%%%%%%%%%%%
-Thus, eq. \eqref{eq:f2star} and eq. \eqref{eq:f2star} can be used to take any context specific feedback law, finding its dimentionless form, and scale it back to a new context. In general, there is no guarantee that the behavior of the scaled feedback law in the new context will be similar to the behavior of the feedback law in the original context. However, if the dimentionless context are equal, then the behavior should be eactly equivalent:
-%%%%%%%%%%%%%%%%%%%%%%
-\begin{equation}
-\text{if} \quad c_a^* = c_b^*  \quad \text{then} \quad f_a^*(x^*) = f_b^*(x^*) \; \forall x^*   
-\end{equation}
-%%%%%%%%%%%%%%%%%%%%%%
-where
+Thus, eq. \eqref{eq:f2star} and eq. \eqref{eq:f2star} can be used to take any context specific feedback law, finding its dimentionless form, and scale it back to a new context. In general, there is no guarantee that the behavior of the scaled feedback law in the new context will be similar to the behavior of the feedback law in the original context. However, if the dimentionless context are equal, then the behavior should be eactly equivalent, because 
+
+For instance, lets suppose an optimal policy $f_a$ is known for a specific context $c_a$, then applying the scaled policy:
 %%%%%%%%%%%%%%%%%%%%%%
 \begin{align}
-f_a^*(x^*) = \pi^*( x^* , c^* = c_a^*)\\
-f_b^*(x^*) = \pi^*( x^* , c^* = c_b^*)
-\end{align}
-%%%%%%%%%%%%%%%%%%%%%%
-This is simply based on the fact that the dimentionless policy (eq. \eqref{eq:vectordimpolicyshort}) give the same output for the same inputs. This results means that the knowledge of a policy for a specific context $c$ can actually be generalized to a sub-space of all context for which the dimentionless context $c^*$ is equal. For instance, lets suppose an optimal policy $f_a$ is known for a specific context $c_a$, then applying the scaled policy:
-%%%%%%%%%%%%%%%%%%%%%%
-\begin{align}
-f_b ( x ) &= T^{-1}_u(c_b) 
-T_u(c_a) 
-f_a \left(  
+f_b ( x ) &= 
+\left[ T^{-1}_u(c_b) 
+T_u(c_a) \right] \,
+f_a \left( 
+\left[
 T_x^{-1}(c_a) 
 T_x^{-1}(c_b)
+\right] \,
 x
 \right)
 \end{align}
@@ -342,14 +362,11 @@ c_b^* =  T_c( c_b ) \; c_b  = T_c( c_a ) \; c_a = c_a^*
 \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%
 
-One interesting perk of this dimentional analysis, is that we can remove $p$ variable form the context (typically $p$ would be 2 or 3 for controlling a physical system involving time, force and length). The global problem of learning $\pi(x,c)$, i.e. the good feeback policy for all possible context is thus simplified in a dimentionless form. 
 
 
  
 
 
-
-The concept of dimentionless context is powerful, in the sense that it shows how to transfer a control policy to diferent context where the results should be exactly equivalent. However, it is limited because if the dimentionless context $c^*$ is not exactly equal, then nothing can be deduced regarding if a policy is transferable. Furthermore, the challenge of leveraging this idea is to include all meaningful context variables. If a meaningful variable (in the sense that the policy would be different if its value is changed) is omitted from the context vector $c$ in the dimentional analysis, then the dimentional analysis results might be wrong. On the other hand, if we include too many variables to fully describe a context, then dimentionnaly similar context space will probably be so specific it won't be pratical to use for transfering policy between systems. Henseforth, finding the appropriate parametrization of the context will be critical in order to leverage this principle for sharing policy between similar system, 
 
 
 
@@ -449,36 +466,14 @@ But here the 3 system paramters $m$, $g$ and $l$ are only present in two groups 
 
 \begin{table}[htb]
    \centering % center the table
-   \caption{Pendulum swing-up optimal policy variables} 
+   \caption{Pendulum swing-up minimal system variables} 
    \label{expVari}
    \begin{tabular}{p{1.5cm} p{2.2cm} p{0.8cm} p{1.5cm} }
-   \hline \hline \noalign{\smallskip} \noalign{\smallskip} \noalign{\smallskip} \noalign{\smallskip}
-   %%%%%%%%%%%%%%%%%%%%%%
-   \textbf{Variable} & \textbf{Description} & \textbf{Units} & \textbf{Dimensions} \\ 
-   %%%%%%%%%%%%%%%%%%%%%%
-   \hline \hline \noalign{\smallskip} 
-   \multicolumn{4}{c}{\textbf{Control inputs}}\\ \noalign{\smallskip}  \hline \hline
-   \noalign{\smallskip} 
-   %%%%%%%%%%%%%%%%%%%%%%
-   $\tau$ & Actuator torque & $Nm$ & [$ML^2T^{-2}$]\\ 
-   %%%%%%%%%%%%%%%%%%%%%%
-   \hline \hline \noalign{\smallskip} 
-   \multicolumn{4}{c}{\textbf{State variables}}\\ \noalign{\smallskip}  \hline \hline \noalign{\smallskip} 
-   %%%%%%%%%%%%%%%%%%%%%%
-   $\theta$ & Joint angle & $rad$ & []\\ \noalign{\smallskip} \hline \noalign{\smallskip}
-   $\dot{\theta}$ & Joint angular velocity & $rad/sec$ & [$T^{-1}$] \\
-   %%%%%%%%%%%%%%%%%%%%%%
-   \hline \hline \noalign{\smallskip} 
+   \hline \hline \noalign{\smallskip} \noalign{\smallskip} 
    \multicolumn{4}{c}{\textbf{System parameters}}\\ \noalign{\smallskip}  \hline\hline  \noalign{\smallskip} 
    %%%%%%%%%%%%%%%%%%%%%%
    $mgl$ & Maximum gravitational torque  & $Nm$ & [$ML^2T^{-2}$]  \\ \noalign{\smallskip} \hline \noalign{\smallskip}
    $\omega = {(\frac{g}{l})}^{1/2}$ & Natural frequency & $sec^{-1}$ & [$T^{-1}$]  \\ \noalign{\smallskip} \hline \noalign{\smallskip}
-%%%%%%%%%%%%%%%%%%%%%%
-   \hline \hline \noalign{\smallskip} 
-   \multicolumn{4}{c}{\textbf{Problem parameters}}\\ \noalign{\smallskip}  \hline\hline  \noalign{\smallskip} 
-   %%%%%%%%%%%%%%%%%%%%%%
-   $q$ & Weight parameter  & $Nm$ & [$ML^2T^{-2}$]   \\ \noalign{\smallskip} \hline \noalign{\smallskip}
-   $\tau_{max}$ & Maximum torque & $Nm$ & [$ML^2T^{-2}$] \\ \noalign{\smallskip} \hline \noalign{\smallskip}
    \hline \noalign{\smallskip}
    %\bottomrule[\heavyrulewidth] 
    \end{tabular}
@@ -486,67 +481,48 @@ But here the 3 system paramters $m$, $g$ and $l$ are only present in two groups 
 
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Dimentionless dynamics}
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \subsection{Dimentionless dynamics}
+
 
 
 % %%%%%%%%%%%%%%%%%%%%%%
 % \begin{align}
-% \ddot{\theta} &= \frac{\tau}{ml^2} - \frac{mgl}{ml^2} \sin \theta \\
-% \ddot{\theta} &= \omega^2 \left( \frac{\tau}{mgl} - \sin \theta \right)
+% %ml^2 \ddot{\theta} + mgl \sin \theta &= \tau  \\
+% \frac{\ddot{\theta}}{\omega^2} + \sin \theta &= \frac{\tau}{mgl}
 % \end{align}
 % %%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%
-\begin{align}
-%ml^2 \ddot{\theta} + mgl \sin \theta &= \tau  \\
-\frac{\ddot{\theta}}{\omega^2} + \sin \theta &= \frac{\tau}{mgl}
-\end{align}
-%%%%%%%%%%%%%%%%%%%%%%
-
-%%%%%%%%%%%%%%%%%%%%%%
-\begin{equation}
-m = (n = 5 ) - ( p = 2 ) = 3
-\end{equation}
-%%%%%%%%%%%%%%%%%%%%%%
-
-%%%%%%%%%%%%%%%%%%%%%%
-\begin{align}
-\Pi_1 &= \tau^* = \frac{\tau}{mgl} \quad \quad \frac{[ML^2T^{-2}]}{[M][LT^{-2}][L]} \\
-\Pi_2 &= \theta^* = \theta \quad \quad [-]\\
-\Pi_3 &= \ddot{\theta}^* = \frac{ \ddot{\theta}  }{ \omega^2 } \quad \quad \frac{[T^{-2}]}{[T^{-1}][T^{-1}]} 
-\end{align}
-%%%%%%%%%%%%%%%%%%%%%%
 
 % %%%%%%%%%%%%%%%%%%%%%%
 % \begin{equation}
-% \ddot{\theta}^*
-% =
-% f\left(
-% \theta^*, \tau^* 
-% \right) = \tau^* - \sin \theta
+% m = (n = 5 ) - ( p = 2 ) = 3
 % \end{equation}
 % %%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%
-\begin{equation}
-\tau^*
-=
-f\left(
-\theta^*,\ddot{\theta}^*
-\right) = \ddot{\theta}^* + \sin \theta^*
-\end{equation}
-%%%%%%%%%%%%%%%%%%%%%%
+
+% %%%%%%%%%%%%%%%%%%%%%%
+% \begin{align}
+% \Pi_1 &= \tau^* = \frac{\tau}{mgl} \quad \quad \frac{[ML^2T^{-2}]}{[M][LT^{-2}][L]} \\
+% \Pi_2 &= \theta^* = \theta \quad \quad [-]\\
+% \Pi_3 &= \ddot{\theta}^* = \frac{ \ddot{\theta}  }{ \omega^2 } \quad \quad \frac{[T^{-2}]}{[T^{-1}][T^{-1}]} 
+% \end{align}
+% %%%%%%%%%%%%%%%%%%%%%%
+
+% %%%%%%%%%%%%%%%%%%%%%%
+% \begin{equation}
+% \tau^*
+% =
+% f\left(
+% \theta^*,\ddot{\theta}^*
+% \right) = \ddot{\theta}^* + \sin \theta^*
+% \end{equation}
+% %%%%%%%%%%%%%%%%%%%%%%
 
 \newpage 
 \subsection{Applying the buckingham $\pi$ theorem to the policy function}
 
-Here $n=7$ variables are involved and only $p=2$ independants dimensions ( $ML^2T^{-2}$ and $T^{-1}$ )
+Here we have $1+(n=2)+(m=2)+(l=2)=7$ variables are involved and only $d=2$ independants dimensions ( $ML^2T^{-2}$ and $T^{-1}$ )
 
-%%%%%%%%%%%%%%%%%%%%%%
-\begin{equation}
-m = (n = 7 ) - ( p = 2 ) = 5
-\end{equation}
-%%%%%%%%%%%%%%%%%%%%%%
-Using $mgl$ and $\omega$, the system parameters, as the repeating variables lead to the following dimentionless groups:
+Using $c_1 = mgl$ and $c_2 = \omega$, the system parameters, as the repeating variables lead to the following dimentionless groups:
 %%%%%%%%%%%%%%%%%%%%%%
 \begin{align}
 \Pi_1 &= \tau^* = \frac{\tau}{mgl} \quad \quad \frac{[ML^2T^{-2}]}{[M][LT^{-2}][L]} \\
@@ -556,7 +532,38 @@ Using $mgl$ and $\omega$, the system parameters, as the repeating variables lead
 \Pi_5 &= q^* = \frac{q}{mgl} \quad \quad \frac{[Ml^2T^{-2}]}{[M][LT^{-2}][L]} 
 \end{align}
 %%%%%%%%%%%%%%%%%%%%%%
-Here, all 3 torque variables (the system inputs, the system maximum and cost function parameter) are scaled by the maximum gravitationnal torque, and the pendulum velocity variable is scaled by the pendulum natural frequency.
+Here, all 3 torque variables (the system inputs, the system maximum and cost function parameter) are scaled by the maximum gravitationnal torque, and the pendulum velocity variable is scaled by the pendulum natural frequency. The transformation matrices are then
+%%%%%%%%%%%%%%%%%%%%%%
+\begin{align}
+\tau^* &= 
+\underbrace{\left[  1/mgl \right]}_{T_u}
+\, \tau  \label{eq:Tupendulum} \\
+\begin{bmatrix}
+\theta^* \\ \dot{\theta}^*
+\end{bmatrix} &= 
+\underbrace{
+\begin{bmatrix}
+    1 & 0 \\ 0 & 1/\omega
+\end{bmatrix}
+}_{T_x} \, 
+\begin{bmatrix}
+\theta \\ \dot{\theta}
+\end{bmatrix}
+ \label{eq:Txpendulum} \\
+\begin{bmatrix}
+q^* \\ \tau_{max}^*
+\end{bmatrix} &= 
+\underbrace{
+\begin{bmatrix}
+      1/mgl & 0 \\ 0 &  1/mgl
+\end{bmatrix}
+}_{T_c} \, 
+\begin{bmatrix}
+q \\ \tau_{max}
+\end{bmatrix}
+ \label{eq:Tcpendulum} 
+\end{align}
+%%%%%%%%%%%%%%%%%%%%%%
 
 %that corespond to torque required to balance the gravity when the pendulum is
 
@@ -1091,3 +1098,7 @@ q^* = 10 , \tau_{max}^* = 1.0
 
 
 
+\section{Conclusion}
+
+
+The concept of dimentionless context is powerful, in the sense that it shows how to transfer a control policy to diferent context where the results should be exactly equivalent. However, it is limited because if the dimentionless context $c^*$ is not exactly equal, then nothing can be deduced regarding if a policy is transferable. Furthermore, the challenge of leveraging this idea is to include all meaningful context variables. If a meaningful variable (in the sense that the policy would be different if its value is changed) is omitted from the context vector $c$ in the dimentional analysis, then the dimentional analysis results might be wrong. On the other hand, if we include too many variables to fully describe a context, then dimentionnaly similar context space will probably be so specific it won't be pratical to use for transfering policy between systems. Henseforth, finding the appropriate parametrization of the context will be critical in order to leverage this principle for sharing policy between similar system, 
