@@ -636,6 +636,29 @@ The optimal (up to discretization error) feedback laws are computed for 9 contex
 Figure XXXX illustrate that for each sub-group with equal dimentionless context, the dimentional feedback law generated numerically, and also the exemple trajectory of the system starting from rest at the bottom position, looks very similar. They are similar up to a scaling of the axis, if we neglect slight differences due to discretization errors. Furthermore, when we compute the dimentionless verion of the feedback laws $f^*$, using eq. \eqref{eq:f2star}, the dimentionless version is actually equal within the dimentionaly similar context sub-group. This was the expected results given by the dimentional analysis of section \ref{sec:dimenanalysis}.
 
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Sensibility to context variables and regime}
+
+%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}[ht]
+\begin{center}
+\includegraphics[width=0.99\linewidth]{fig/regime.pdf}
+\caption{Optimal dimentionless policy for various contexts $\tau^* = \pi^*( \theta^* , \dot{\theta}^* = 0 , q^* = 0.05 , \tau^*_max )$}\label{fig:regime}
+\end{center}
+\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}[ht]
+\begin{center}
+\includegraphics[width=0.99\linewidth]{fig/regime2.pdf}
+\caption{Optimal dimentionless policy for various contexts  $\tau^* = \pi^*( \theta^* = -\pi , \dot{\theta}^* , q^* = 0.05 , \tau^*_max )$}\label{fig:regime2}
+\end{center}
+\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%
+
+
 \subsection{Methodology}
 
 We used the value-iteration [cite] algoithm on a discretized version of the continuous system...
