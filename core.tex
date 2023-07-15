@@ -644,7 +644,7 @@ Figure XXXX illustrate that for each sub-group with equal dimentionless context,
 \begin{figure}[ht]
 \begin{center}
 \includegraphics[width=0.99\linewidth]{fig/regime.pdf}
-\caption{Optimal dimentionless policy for various contexts $\tau^* = \pi^*( \theta^* , \dot{\theta}^* = 0 , q^* = 0.05 , \tau^*_max )$}\label{fig:regime}
+\caption{Optimal dimentionless policy for various contexts $\tau^* = \pi^*( \theta^* , \dot{\theta}^* = 0 , q^* = 0.05 , \tau^*_{max} )$}\label{fig:regime}
 \end{center}
 \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%
@@ -653,7 +653,16 @@ Figure XXXX illustrate that for each sub-group with equal dimentionless context,
 \begin{figure}[ht]
 \begin{center}
 \includegraphics[width=0.99\linewidth]{fig/regime2.pdf}
-\caption{Optimal dimentionless policy for various contexts  $\tau^* = \pi^*( \theta^* = -\pi , \dot{\theta}^* , q^* = 0.05 , \tau^*_max )$}\label{fig:regime2}
+\caption{Optimal dimentionless policy for various contexts  $\tau^* = \pi^*( \theta^* = -\pi , \dot{\theta}^* , q^* = 0.05 , \tau^*_{max} )$}\label{fig:regime2}
+\end{center}
+\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}[ht]
+\begin{center}
+\includegraphics[width=0.99\linewidth]{fig/q_sensitivity.pdf}
+\caption{Optimal dimentionless policy for various contexts  $\tau^* = \pi^*( \theta^*  , \dot{\theta}^* = 0 , q^*  , \tau^*_{max} = 0.5 )$}\label{fig:q_sensitivity}
 \end{center}
 \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%
@@ -669,7 +678,7 @@ Using dynamic programming for solving the optimal policy numerically require set
 %%%%%%%%%%%%%%%%%%%%%%
 \begin{align}
 \theta^*_{max} &= \theta_{max} = 2 \pi \\
-\dot{\theta}^*_{max} &= \frac{ \dot{\theta}_{max} }{\omega} = 2 \\
+\dot{\theta}^*_{max} &= \frac{ \dot{\theta}_{max} }{\omega} = \pi \\
 t^*_{f} &= t_{f} \; \omega = 10 \times 2 \pi 
 \end{align}
 %%%%%%%%%%%%%%%%%%%%%%
