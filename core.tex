@@ -165,7 +165,7 @@ Using the Buckinham Pi theorem [Cite something], we will show that if a dimentio
 
 \subsection{Dimentional analysis of the augmented policy mapping}
 
-For a system with $k$ control inputs, we can treat the augmented policy as $k$ mapping from states and context variables to each scalar control input $u_j$:
+For a system with $k$ control inputs, we can treat the augmented policy as $k$ mappings from states and context variables to each scalar control input $u_j$:
 %%%%%%%%%%%%%%%%%%%%%%
 \begin{equation}
 u_j = \pi_j \left(
@@ -249,7 +249,7 @@ u^* = \pi^*( x^* , c^* )
 \end{equation}
 %%%%%%%%%%%%%%%%%%%%%%
 
-One interesting perk of this dimentional analysis, is that we can remove $p$ variable form the context (typically $p$ would be 2 or 3 for controlling a physical system involving time, force and length). The global problem of learning $\pi(x,c)$, i.e. the good feeback policy for all possible context is thus simplified in a dimentionless form. Also, an even more interesting feature to help transfering feedback law between systems, is that the dimentional analysis procedure shows that a global policy $\pi( x , c )$, will have an equivalent dimentionless form for multiple context $c$. As illustrated at Fig. \ref{fig:c_space}, the dimentionless context $c^*$ is a lower dimentional space ($m+l-d$) and multiple context vector $c$ will correspond to the same dimentionless vector $c^*$. 
+One interesting perk of this dimentional analysis, is that we can remove $p$ variables form the context (typically $p$ would be 2 or 3 for controlling a physical system involving time, force and length). The global problem of learning $\pi(x,c)$, i.e. the good feeback policy for all possible context is thus simplified in a dimentionless form. Also, an even more interesting feature, that we can use for transfering feedback law between systems, is that a global policy $\pi( x , c )$, will have an equivalent dimentionless form for multiple context $c$. As illustrated at Fig. \ref{fig:c_space}, the dimentionless context $c^*$ is a lower dimentional space ($m+l-d$) and multiple context vector $c$ will correspond to the same dimentionless vector $c^*$. 
 %%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}[ht]
 \vspace{-5pt}
@@ -288,7 +288,7 @@ x^* &= \left[ T_x(c) \right] \, x \label{eq:Tx} \\
 c^* &= \left[ T_c(c) \right] \, c \label{eq:Tc}
 \end{align}
 %%%%%%%%%%%%%%%%%%%%%%
-where matrices $T_u$ and $T_x$ are square diagonal matrix, where each diagonal term is a multiplication of the first $d$ context variables ($\{c_1, c_2 , \hdots,c_d\}$) up to a rational power (found by applying the buckinghan pi theorem). Equations \eqref{eq:Tu} and \eqref{eq:Tx} are inversible (unless a context variable is equal to zero) and can be used to go back-and-forth between dimentional and dimentionless state and input variables. The matrix $T_c$ however have $d$ less row than columns and equation \eqref{eq:Tc} is not inversible, for a given context $c$ there is only one dimentionless context $c^*$, however a dimentionless context $c^*$ correspond to multiple dimentional context $c$.
+where matrices $T_u$ and $T_x$ are square diagonal matrix, where each diagonal term is a multiplication of the first $d$ context variables ($\{c_1, c_2 , \hdots,c_d\}$) up to a rational power (found by applying the buckinghan pi theorem). Equations \eqref{eq:Tu} and \eqref{eq:Tx} are inversible (unless a context variable is equal to zero) and can be used to go back-and-forth between dimentional and dimentionless state and input variables. The matrix $T_c$ however have $d$ less row than columns and eq. \eqref{eq:Tc} is not inversible: for a given context $c$ there is only one dimentionless context $c^*$, however a dimentionless context $c^*$ correspond to multiple dimentional context $c$.
 
 To summarize the dimentional analysis procedure, using the transformation matrices, if a dimentional feedback law $f_a$ for a context $c_a$ is known:
 %%%%%%%%%%%%%%%%%%%%%%
@@ -641,68 +641,91 @@ Figure XXXX illustrate that for each sub-group with equal dimentionless context,
 \subsection{Sensibility to context variables and regime}
 
 %%%%%%%%%%%%%%%%%%%%%%
-\begin{figure}[p]
+\begin{align}
+\pi^*( \theta^* , \dot{\theta}^*, q^*, \tau_{max}^*) \approx 
+\left\{
+\begin{array}{c}
+&f_{BB}^*( \theta^* , \dot{\theta}^* ) \; if \;  R^* \gg 1 \\
+&f_{Tr}^*( \theta^* , \dot{\theta}^* ) \; if \;  R^* \approx 1\\
+&f_{Un}^*( \theta^* , \dot{\theta}^* ) \; if \; R^* \ll 1
+\end{array}
+\right.
+\end{align}
+%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}[ht]
+\begin{center}
+\includegraphics[width=0.99\linewidth]{fig/regimes.jpg}
+\caption{Regime zones}\label{fig:regimeszones}
+\end{center}
+\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}[ht]
 \begin{center}
 \includegraphics[width=0.99\linewidth]{fig/s_t_1_8.pdf}
-\caption{Optimal dimentionless policy for various contexts $\tau^* = \pi^*( \theta^* , \dot{\theta}^* = 0 , q^* = 0.05 , \tau^*_{max} )$}\label{fig:regime}
+\caption{Optimal dimentionless policy for various contexts $\tau^* = \pi^*( \theta^* , \dot{\theta}^* = 0 , q^* = 0.05 , \tau^*_{max} = [0.1, ... , 0.8] )$}\label{fig:regime}
 \end{center}
 \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%
 
+% %%%%%%%%%%%%%%%%%%%%%%
+% \begin{figure}[p]
+% \begin{center}
+% \includegraphics[width=0.99\linewidth]{fig/s_t_1_82.pdf}
+% \caption{Optimal dimentionless policy for various contexts  $\tau^* = \pi^*( \theta^* = -\pi , \dot{\theta}^* , q^* = 0.05 , \tau^*_{max} )$}\label{fig:regime2}
+% \end{center}
+% \end{figure}
+% %%%%%%%%%%%%%%%%%%%%%%
+
+% %%%%%%%%%%%%%%%%%%%%%%
+% \begin{figure}[p]
+% \begin{center}
+% \includegraphics[width=0.99\linewidth]{fig/q_sensitivity.pdf}
+% \caption{Optimal dimentionless policy for various contexts  $\tau^* = \pi^*( \theta^*  , \dot{\theta}^* = 0 , q^*  , \tau^*_{max} = 0.5 )$}\label{fig:q_sensitivity}
+% \end{center}
+% \end{figure}
+% %%%%%%%%%%%%%%%%%%%%%%
+
+
 %%%%%%%%%%%%%%%%%%%%%%
-\begin{figure}[p]
+\begin{figure}[ht]
 \begin{center}
-\includegraphics[width=0.99\linewidth]{fig/s_t_1_82.pdf}
-\caption{Optimal dimentionless policy for various contexts  $\tau^* = \pi^*( \theta^* = -\pi , \dot{\theta}^* , q^* = 0.05 , \tau^*_{max} )$}\label{fig:regime2}
+\includegraphics[width=0.99\linewidth]{fig/s_q_5_2.pdf}
+\caption{Optimal dimentionless policy for various contexts  $\tau^* = \pi^*( \theta^*  , \dot{\theta}^* = 0 , q^* = [0.05, ... , 2.0]  , \tau^*_{max} = 0.5 )$}\label{fig:q_sensitivity}
 \end{center}
 \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%
 
-%%%%%%%%%%%%%%%%%%%%%%
-\begin{figure}[p]
-\begin{center}
-\includegraphics[width=0.99\linewidth]{fig/q_sensitivity.pdf}
-\caption{Optimal dimentionless policy for various contexts  $\tau^* = \pi^*( \theta^*  , \dot{\theta}^* = 0 , q^*  , \tau^*_{max} = 0.5 )$}\label{fig:q_sensitivity}
-\end{center}
-\end{figure}
-%%%%%%%%%%%%%%%%%%%%%%
+% %%%%%%%%%%%%%%%%%%%%%%
+% \begin{figure}[p]
+% \begin{center}
+% \includegraphics[width=0.99\linewidth]{fig/s_q_2_92.pdf}
+% \caption{Optimal dimentionless policy for various contexts  $\tau^* = \pi^*( \theta^* = -\pi  , \dot{\theta}^*  , q^*  , \tau^*_{max} = 0.5 )$}\label{fig:q_sensitivity}
+% \end{center}
+% \end{figure}
+% %%%%%%%%%%%%%%%%%%%%%%
 
+% %%%%%%%%%%%%%%%%%%%%%%
+% \begin{figure}[p]
+% \begin{center}
+% \includegraphics[width=0.99\linewidth]{fig/s_q_5_15.pdf}
+% \caption{Optimal dimentionless policy for various contexts  $\tau^* = \pi^*( \theta^*  , \dot{\theta}^* = 0 , q^*  , \tau^*_{max} = 0.5 )$}\label{fig:q_sensitivity}
+% \end{center}
+% \end{figure}
+% %%%%%%%%%%%%%%%%%%%%%%
 
-%%%%%%%%%%%%%%%%%%%%%%
-\begin{figure}[p]
-\begin{center}
-\includegraphics[width=0.99\linewidth]{fig/s_q_2_9.pdf}
-\caption{Optimal dimentionless policy for various contexts  $\tau^* = \pi^*( \theta^*  , \dot{\theta}^* = 0 , q^*  , \tau^*_{max} = 0.5 )$}\label{fig:q_sensitivity}
-\end{center}
-\end{figure}
-%%%%%%%%%%%%%%%%%%%%%%
-
-%%%%%%%%%%%%%%%%%%%%%%
-\begin{figure}[p]
-\begin{center}
-\includegraphics[width=0.99\linewidth]{fig/s_q_2_92.pdf}
-\caption{Optimal dimentionless policy for various contexts  $\tau^* = \pi^*( \theta^* = -\pi  , \dot{\theta}^*  , q^*  , \tau^*_{max} = 0.5 )$}\label{fig:q_sensitivity}
-\end{center}
-\end{figure}
-%%%%%%%%%%%%%%%%%%%%%%
-
-%%%%%%%%%%%%%%%%%%%%%%
-\begin{figure}[p]
-\begin{center}
-\includegraphics[width=0.99\linewidth]{fig/s_q_5_15.pdf}
-\caption{Optimal dimentionless policy for various contexts  $\tau^* = \pi^*( \theta^*  , \dot{\theta}^* = 0 , q^*  , \tau^*_{max} = 0.5 )$}\label{fig:q_sensitivity}
-\end{center}
-\end{figure}
-%%%%%%%%%%%%%%%%%%%%%%
-
-%%%%%%%%%%%%%%%%%%%%%%
-\begin{figure}[p]
-\begin{center}
-\includegraphics[width=0.99\linewidth]{fig/s_q_5_152.pdf}
-\caption{Optimal dimentionless policy for various contexts  $\tau^* = \pi^*( \theta^* = -\pi  , \dot{\theta}^*  , q^*  , \tau^*_{max} = 0.5 )$}\label{fig:q_sensitivity}
-\end{center}
-\end{figure}
-%%%%%%%%%%%%%%%%%%%%%%
+% %%%%%%%%%%%%%%%%%%%%%%
+% \begin{figure}[p]
+% \begin{center}
+% \includegraphics[width=0.99\linewidth]{fig/s_q_5_152.pdf}
+% \caption{Optimal dimentionless policy for various contexts  $\tau^* = \pi^*( \theta^* = -\pi  , \dot{\theta}^*  , q^*  , \tau^*_{max} = 0.5 )$}\label{fig:q_sensitivity}
+% \end{center}
+% \end{figure}
+% %%%%%%%%%%%%%%%%%%%%%%
 
 
 
