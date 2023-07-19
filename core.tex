@@ -91,7 +91,7 @@ The context $c$ is the vector of all variables that would affect what is the fee
 \vspace{-5pt}
 \begin{center}
 \includegraphics[width=0.95\linewidth]{fig/policy_context.jpg}
-\caption{For the pendulum swing-up task, the context includes 5 variables: the parameter of the system: $m$, $g$, and $l$, a parameter of the cost function: $q$ and a parameter defining the constraints: $\tau_{max}$. The control input solution is a function of all those variables in addition of the current states.
+\caption{For the pendulum swing-up task, the context includes 5 variables: the parameter of the system: $m$, $g$, and $l$, a parameter of the cost function: $q$ and a parameter defining the constraints: $\tau_{max}$. The optimal solution depends on all those variables.
 }\label{fig:policy_context}
 \end{center}
 \vspace{-5pt}
@@ -151,7 +151,7 @@ c = c_b
 \right) = ?
 \end{equation}
 %%%%%%%%%%%%%%%%%%%%%%
-Using the Buckinham Pi theorem [Cite something], we will show that if a dimentionless version of the context is equal, then a dimentionless version of the policy mapping must be also equivalent.
+Using the Buckinham $\pi$ theorem [Cite something], we will show that if the context is dimentionnaly similar, then the dimentionless version of the policy mapping must be equal.
 
 
 % %%%%%%%%%%%%%%%%%%%%%%
@@ -184,9 +184,9 @@ c_1, \hdots \hdots, c_{m+l}
 % \end{equation}
 % %%%%%%%%%%%%%%%%%%%%%%
 where eq. \eqref{eq:scalarpolicy} is the $j$th line of the policy in vector form described by eq. \eqref{eq:vectorpolicy}.
-Then, if the state vector is define by $n$ variables, and the context is defined by $m$ system parameters plus $l$ tasks parameters, then each mapping $\pi_j$ involves $1 + n + m + l$ (usually dimentionnal) variables. Here, we will assume that the policy fonction is physically meaningful, in the sense of the requirement for applying the Buckingham Pi theorem [Cite]. This means for exemple, that a policy that computes a force based on position and velocity measurement would be in this framework, but not of policy for playing chess for instance. 
+Then, if the state vector is defined by $n$ variables, and the context is defined by $m$ system parameters plus $l$ tasks parameters, then each mapping $\pi_j$ involves $1 + n + m + l$ (usually dimentionnal) variables. Here, we will assume that the policy fonction is physically meaningful, in the sense of the requirement for applying the Buckingham $\pi$ theorem [Cite]. This means for exemple, that a policy that computes a force based on position and velocity measurement would be in this framework, but not of policy for playing chess for instance. 
 
-Applying the Buckingham $\pi$ theorem to the relashionship, tell us that if $d$ dimensions are involved in all thoses variables, then eq. \eqref{eq:scalarpolicy} can be restated into an equivalent dimentionless relationship between $p$ dimentionless $\Pi$ groups where $p \geq (1 + n + m + l ) - d$ [cite bukhingham pi]. Assuming $d$ dimentions are involved in the $m$ system parameter, and that we are in a situation where the maximum reduction is possible $p = (1 + n + m + l ) - d$, we can pick $d$ context variable $\{c_1, c_2 , \hdots,c_d\}$ as the basis (the repeated variables) to scale all other variables in a dimentionless form. We will note dimentionless $\Pi$ group as the base variable with an ${}^*$ subscript):
+Applying the Buckingham $\pi$ theorem to the relashionship, tell us that if $d$ dimensions are involved in all thoses variables, then eq. \eqref{eq:scalarpolicy} can be restated into an equivalent dimentionless relationship between $p$ dimentionless $\Pi$ groups where $p \geq (1 + n + m + l ) - d$ [cite bukhingham pi]. Assuming $d$ dimentions are involved in the $m$ system parameter, and that we are in a situation where the maximum reduction is possible $p = (1 + n + m + l ) - d$, we can pick $d$ context variable $\{c_1, c_2 , \hdots,c_d\}$ as the basis (the repeated variables) to scale all other variables in a dimentionless form. We will note dimentionless $\Pi$ group as the base variable with an ${}^*$ subscript:
 %%%%%%%%%%%%%%%%%%%%%%
 \begin{align}
 u_j^* &= u_j \left[ c_1 \right]^{e^u_{1j}} \left[ c_2 \right]^{e^u_{2j}} \hdots \left[ c_d \right]^{e^u_{dj}} \quad \scriptstyle j = \{ 1, \hdots , k \} \label{eq:piu}\\
@@ -195,7 +195,7 @@ c_i^* &= c_i\left[ c_1 \right]^{e^c_{1i}} \left[ c_2 \right]^{e^c_{2i}} \hdots \
 %b_i^* &= b_i \left[ a_1 \right]^{e_1} \left[ a_2 \right]^{e_2} \hdots \left[ a_d \right]^{e_d} \quad  i = \{ 1, \hdots , l \} 
 \end{align}
 %%%%%%%%%%%%%%%%%%%%%%
-where exposant $e$ are rational numbers selected to make all equations dimentionless. Then, the Buckingham $\pi$ theorem tell us that the relationship described by eq. \eqref{eq:scalarpolicy} can be restated as the following relationship between  dimentionsless variables:
+where exposants $e_{ij}$ are rational numbers selected to make all equations dimentionless. Then, the Buckingham $\pi$ theorem tell us that the relationship described by eq. \eqref{eq:scalarpolicy} can be restated as the following relationship between  dimentionsless variables:
 %%%%%%%%%%%%%%%%%%%%%%
 \begin{equation}
 u_j^* = \pi_j^* \left(
@@ -206,7 +206,7 @@ c_{d+1}^*, \hdots, c_{m+l}^*,
 \label{eq:scalardimpolicy}
 \end{equation}
 %%%%%%%%%%%%%%%%%%%%%%
-involving $d$ less dimentionless variables. If we apply the same procedure to all control inputs, when can then assemble the $k$ mapping back into a vector form:
+involving $d$ less dimentionless variables. If we apply the same procedure to all control inputs, when can then assemble the $k$ mappings back into a vector form:
 %%%%%%%%%%%%%%%%%%%%%%
 \begin{equation}
 \underbrace{
@@ -289,7 +289,7 @@ x^* &= \left[ T_x(c) \right] \, x \label{eq:Tx} \\
 c^* &= \left[ T_c(c) \right] \, c \label{eq:Tc}
 \end{align}
 %%%%%%%%%%%%%%%%%%%%%%
-where matrices $T_u$ and $T_x$ are square diagonal matrix, where each diagonal term is a multiplication of the first $d$ context variables ($\{c_1, c_2 , \hdots,c_d\}$) up to a rational power (found by applying the buckinghan pi theorem). Equations \eqref{eq:Tu} and \eqref{eq:Tx} are inversible (unless a context variable is equal to zero) and can be used to go back-and-forth between dimentional and dimentionless state and input variables. The matrix $T_c$ however have $d$ less row than columns and eq. \eqref{eq:Tc} is not inversible: for a given context $c$ there is only one dimentionless context $c^*$, however a dimentionless context $c^*$ correspond to multiple dimentional context $c$.
+where matrices $T_u$ and $T_x$ are square diagonal matrix, where each diagonal term is a multiplication of the first $d$ context variables ($\{c_1, c_2 , \hdots,c_d\}$) up to a rational power (found by applying the Buckinghan $\pi$ theorem). Equations \eqref{eq:Tu} and \eqref{eq:Tx} are inversible (unless a context variable is equal to zero) and can be used to go back-and-forth between dimentional and dimentionless states and inputs variables. The matrix $T_c$ however have $d$ less row than columns and eq. \eqref{eq:Tc} is not inversible: for a given context $c$ there is only one dimentionless context $c^*$, however a dimentionless context $c^*$ correspond to multiple dimentional context $c$.
 
 To summarize the dimentional analysis procedure, using the transformation matrices, if a dimentional feedback law $f_a$ for a context $c_a$ is known:
 %%%%%%%%%%%%%%%%%%%%%%
@@ -409,7 +409,7 @@ subject to input constraints given by:
 \label{eq:pendulum_constraints}
 \end{equation}
 %%%%%%%%%%%%%%%%%%%%%%
-Note that here, the cost function parameter $q$ is included in way to have units of torque, it was chosen to set to zero the weight on velocity for simplicity, and the weight on torque to one without loss of generality as only the relative values of weights will impact the solution. 
+Note that here, the cost function parameter $q$ is included in this way to have units of torque, it was chosen to set to zero the weight on velocity for simplicity, and the weight on torque to one without loss of generality as only the relative values of weights will impact the solution. 
 
 Thus, assuming there is no hidden variables and that equations \eqref{eq:pendulum_dynamics}, \eqref{eq:pendulum_cost} and \eqref{eq:pendulum_constraints} fully describe the problem. The solution, i.e. the optimal policy for all context, should be of the form given by:
 %%%%%%%%%%%%%%%%%%%%%%
@@ -552,21 +552,26 @@ Here, all 3 torque variables ($\tau$, $q$ and $\tau_{max}$) are scaled by the ma
 \theta \\ \dot{\theta}
 \end{bmatrix}
  \label{eq:Txpendulum} \\
-\begin{bmatrix}
-q^* \\ \tau_{max}^*
-\end{bmatrix} &= 
 \underbrace{
 \begin{bmatrix}
-      1/mgl & 0 \\ 0 &  1/mgl
+q^* \\ \tau_{max}^*
+\end{bmatrix} 
+}_{c^*} 
+&= 
+\underbrace{
+\begin{bmatrix}
+ 0 & 0  & 1/mgl & 0 \\  0 & 0  & 0 &  1/mgl
 \end{bmatrix}
 }_{T_c} \, 
+\underbrace{
 \begin{bmatrix}
-q \\ \tau_{max}
+mgl \\ \omega \\ q \\ \tau_{max}
 \end{bmatrix}
+}_{c} 
  \label{eq:Tcpendulum} 
 \end{align}
 %%%%%%%%%%%%%%%%%%%%%%
-According to the theorem, any policy that is only based on the variable included in our analysis can be expressed as a relationship between the 5 dimentionless pi groups in the form:
+According to the theorem, any policy that is only based on the variable included in our analysis can be restated as a relationship between the 5 dimentionless $\Pi$ groups:
 %%%%%%%%%%%%%%%%%%%%%%
 \begin{equation}
 \tau^*
@@ -578,16 +583,11 @@ q^* , \tau_{max}^*
 \end{equation}
 %%%%%%%%%%%%%%%%%%%%%%
 
-Here, the dimentional analysis shows that, for dimentionnally similar swing-up problem (which means here equal ratios $q^*$ and $\tau_{max}^*$) the optimal feedback laws should be equivalent in their dimentionless form. In other words, if we have an optimal policy $f_a$ found in a specific context $c_a = [m_a,l_a,g_a,q_a,\tau_{max,a}]$, and an optimal policy $f_b$ for a second context $c_b = [m_b,l_b,g_b,q_b,\tau_{max,b}]$. Then, both dimentionless form will be equal $f_a^*=f_b^*$ if $q^*_1 = q^*_2$ and $\tau_{max,1}^* = \tau_{max,2}^*$, what we call a \textit{dimentionnally similar context}. Furthermore, we can thus find $f_b$ using $f_a$ or vice-versa unsing the scaling given by eq. \eqref{eq:ab_transform}. However, if $q^*_a \neq q^*_b$ or $\tau_{max,a}^* \neq \tau_{max,b}^*$ then $f_a$ doesn't give us information on $f_b$ wihtout additionnal assumptions. 
+The dimentional analysis (sec. \ref{sec:dimenanalysis}) told us that, for dimentionnally similar swing-up problem (which means here equal ratios $q^*$ and $\tau_{max}^*$) the optimal feedback laws should be equivalent in their dimentionless form. In other words, if we have an optimal policy $f_a$ found in a specific context $c_a = [m_a,l_a,g_a,q_a,\tau_{max,a}]$, and an optimal policy $f_b$ for a second context $c_b = [m_b,l_b,g_b,q_b,\tau_{max,b}]$. Then, both dimentionless form will be equal $f_a^*=f_b^*$ if $q^*_1 = q^*_2$ and $\tau_{max,1}^* = \tau_{max,2}^*$, what we call a \textit{dimentionnally similar context}. Furthermore, we can thus find $f_b$ using $f_a$ or vice-versa unsing the scaling given by eq. \eqref{eq:ab_transform}. However, if $q^*_a \neq q^*_b$ or $\tau_{max,a}^* \neq \tau_{max,b}^*$ then $f_a$ doesn't give us information on $f_b$ wihtout additionnal assumptions. 
 
 %%%%%%%%%%%%%%%%%%%%%%
 \subsection{Numerical results}
-
-
-
-Here, a numerical algorithm (details of the methodology is presented at ...) is use to compute numerical solution to the prototype motion control problem defined by eq \eqref{eq:pendulum_dynamics}, \eqref{eq:pendulum_cost} and \eqref{eq:pendulum_constraints}. The used numerical recipe produce feedback law solution in the form of look-up table, based on the discretize grid of the state-space. 
-
-The optimal (up to discretization errors) feedback laws are computed for 9 contexts listed at table \ref{tb:9contexts}. In those 9 contexts, there is 3 sub-group of 3 cases with dimentionless similar context. Also each sub-group inlcude the same 3 pendulums, illustrated at Fig. \ref{fig:big_picture}, a regular, a twice longer and a twice heavier. Contexts 1, 2 and 3 describe a task where the torque is limited to half the satic maximum torque.  Contexts 4, 5 and 6 describe a task where the cost highly penalize applying large forces relatively to position errors. Contexts 7, 8 and 9 describe a task where the cost highly penalize position errors, relatively to applying large forces. 
+Here, to demonstrate the presented ideas, a numerical algorithm (details of the methodology is presented at ...) is use to compute numerical solution to the prototype motion control problem defined by eq \eqref{eq:pendulum_dynamics}, \eqref{eq:pendulum_cost} and \eqref{eq:pendulum_constraints}. The used numerical recipe produce feedback law solution in the form of look-up table, based on a discretized grid of the state-space.  The optimal (up to discretization errors) feedback laws are computed for 9 contexts listed at table \ref{tb:9contexts}. In those 9 contexts, there is 3 sub-groups of 3 with dimentionless similar context. Also each sub-group inlcude the same 3 pendulums, illustrated at Fig. \ref{fig:big_picture}, a regular, a twice longer and a twice heavier. Contexts 1, 2 and 3 describe a task where the torque is limited to half the satic maximum torque.  Contexts 4, 5 and 6 describe a task where the cost highly penalize applying large forces relatively to position errors. Contexts 7, 8 and 9 describe a task where the cost highly penalize position errors, relatively to applying large forces. 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{table}[htb]
    \centering % center the table
@@ -625,7 +625,7 @@ The optimal (up to discretization errors) feedback laws are computed for 9 conte
 \end{table}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Figures \ref{fig:c1} to \ref{fig:c9} illustrate that for each sub-group with equal dimentionless context, the dimentional feedback law generated numerically, and also the exemple trajectory of the system starting from rest at the bottom position, looks very similar. They are similar up to a scaling of the axis, if we neglect slight differences due to discretization errors. Furthermore, when we compute the dimentionless verion of the feedback laws $f^*$, using eq. \eqref{eq:f2star}, the dimentionless version is actually equal within the dimentionaly similar context sub-group. This was the expected results given by the dimentional analysis of section \ref{sec:dimenanalysis}.
+Figures \ref{fig:c1} to \ref{fig:c9} illustrate that for each sub-group with equal dimentionless context, the dimentional feedback law generated numerically, and also the resulting optimal trajectory of the system starting from rest at the bottom position, looks very similar. They are similar up to a scaling of their axis, if we neglect slight differences due to discretization errors. Furthermore, when we compute the dimentionless verion of the feedback laws $f^*$, using eq. \eqref{eq:f2star}, the dimentionless version is actually equal within the dimentionaly similar context sub-group. This was the expected results given by the dimentional analysis of section \ref{sec:dimenanalysis}.
 
 
  \begin{figure*}[htp]
@@ -718,6 +718,7 @@ Figures \ref{fig:c1} to \ref{fig:c9} illustrate that for each sub-group with equ
     \label{fig:c9}
 \end{figure*}
 
+In terms of how to use this in a practically scenario, we see that if we computed the feedback law given by Fig. \ref{fig:c1}(a), we can get the feedback law given by Fig. \ref{fig:c2}(a) or Fig. \ref{fig:c3}(a) directly by scaling the original policy with eq. \eqref{eq:ab_transform} without having to recompute. In some sense, we got back the ability to ajust the feedback law on the fly to new system parameters $mgl$ or $\omega$, as it would be the case with an anlytical solution. But this works only within the dimentionaly similar context sub-group. The feedback law given by Fig. \ref{fig:c1}(a) cannot be scalled into the feedback law given by Fig. \ref{fig:c4}(a) for instance, since $\tau^*_{max}$ and $q^*$ are not equals. 
 
 
 
@@ -777,50 +778,39 @@ More formally, regimes...
 \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%
 
+Using an analogy from fluid mechanics, when the Mach number is small $Ma < 0.3$, we can generaly assume to be in an incompressible regime where various speed of sound parameters (for instance having $Ma=0.1$ or $Ma=0.3$) would not really change the behavior.
 
 
-
-
-% %%%%%%%%%%%%%%%%%%%%%%
-% \begin{figure}[p]
-% \begin{center}
-% \includegraphics[width=0.99\linewidth]{fig/s_q_2_92.pdf}
-% \caption{Optimal dimentionless policy for various contexts  $\tau^* = \pi^*( \theta^* = -\pi  , \dot{\theta}^*  , q^*  , \tau^*_{max} = 0.5 )$}\label{fig:q_sensitivity}
-% \end{center}
-% \end{figure}
-% %%%%%%%%%%%%%%%%%%%%%%
-
-% %%%%%%%%%%%%%%%%%%%%%%
-% \begin{figure}[p]
-% \begin{center}
-% \includegraphics[width=0.99\linewidth]{fig/s_q_5_15.pdf}
-% \caption{Optimal dimentionless policy for various contexts  $\tau^* = \pi^*( \theta^*  , \dot{\theta}^* = 0 , q^*  , \tau^*_{max} = 0.5 )$}\label{fig:q_sensitivity}
-% \end{center}
-% \end{figure}
-% %%%%%%%%%%%%%%%%%%%%%%
-
-% %%%%%%%%%%%%%%%%%%%%%%
-% \begin{figure}[p]
-% \begin{center}
-% \includegraphics[width=0.99\linewidth]{fig/s_q_5_152.pdf}
-% \caption{Optimal dimentionless policy for various contexts  $\tau^* = \pi^*( \theta^* = -\pi  , \dot{\theta}^*  , q^*  , \tau^*_{max} = 0.5 )$}\label{fig:q_sensitivity}
-% \end{center}
-% \end{figure}
-% %%%%%%%%%%%%%%%%%%%%%%
 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Trajectory solutions}
 
-Trajectory solutions are also generalizable in their dimentionless forms. Figures \ref{fig:c1} to \ref{fig:c9} show optimal trajectory solutions starting from the bottom position at rest. Those trajectories were computed  by executing the computed optimal policies in a simulation. 
+Trajectory solutions are also generalizable in their dimentionless forms. Figures \ref{fig:c1} to \ref{fig:c9} show optimal trajectory solutions starting from the bottom position at rest. Those trajectories were computed  by executing the computed optimal policies in a simulation. We can also see that withing the 3 dimentionaly similar sub-groups, the optmial trajectories are actually the same but scalled.
 
-Instead of thinking about computing a state feedback law, using the tool as a trajectory generator, we must think about 3 policies defining time-trajectory for states and inputs:
+Instead of thinking about computing a state feedback law, using the tool as a trajectory generator, we must think about computing 3 time-based open-loop feedback law defining trajectory for states and inputs:
 %%%%%%%%%%%%%%%%%%%%%%
 \begin{align}
-\tau          = \pi_{\tau}( t , m , g , l , q , \tau_{max} ) \\
-\theta        = \pi_{\theta}( t , m , g , l , q , \tau_{max} ) \\
-\dot{\theta } = \pi_{\dot{\theta }}( t , m , g , l , q , \tau_{max} )
+\underbrace{
+\tau          = \pi_{\tau}( t 
+, }_{\text{feedback law}}
+\underbrace{
+m , g , l , q , \tau_{max} 
+ }_{\text{context}} ) \\
+\underbrace{
+\theta        = \pi_{\theta}( t  
+, }_{\text{feedback law}}
+\underbrace{
+m , g , l , q , \tau_{max} 
+ }_{\text{context}} )
+\\
+\underbrace{
+\dot{\theta } = \pi_{\dot{\theta }}( t 
+, }_{\text{feedback law}}
+\underbrace{
+m , g , l , q , \tau_{max} 
+ }_{\text{context}} )
 \end{align}
 %%%%%%%%%%%%%%%%%%%%%%
 
@@ -847,266 +837,6 @@ t^*_{f} &= t_{f} \; \omega = 10 \times 2 \pi
 \end{align}
 %%%%%%%%%%%%%%%%%%%%%%
 $\theta_{max}$ is the range of angle for witch the optimal policy is solved, here set at one full revolution. $\dot{\theta}_{max}$ is the range of angular velocity for witch the optimal policy is solved, here the dimentionless ratio scaled with the natural frequency is set at 2. $t_{f}$ is the time horizon, here its associated dimentionless ratio is fixed to always corespond to 10 periods of the pendulum using the natural frequency.
-
-
-
-
-
-% %%%%%%%%%%%%%%%%%%%%%%
-% \begin{figure}[p]
-% \begin{center}
-% \includegraphics[width=0.90\linewidth]{fig/c1_dimpolicy.pdf}
-% \caption{ 
-% $\tau^*
-% =
-% \pi^* \left(
-% \theta, \dot{\theta}^*,
-% q^*=0.1 , \tau_{max}^* = 0.5
-% \right)
-% $
-% (Context no 1, 2 and 3) 
-% }\label{fig:c1_policy}
-% \end{center}
-% \end{figure}
-% %%%%%%%%%%%%%%%%%%%%%%
-
-% %%%%%%%%%%%%%%%%%%%%%%
-% \begin{figure}[p]
-% \begin{center}
-% \includegraphics[width=0.90\linewidth]{fig/c4_dimpolicy.pdf}
-% \caption{
-% $\tau^*
-% =
-% \pi^* \left(
-% \theta, \dot{\theta}^*,
-% q^*=0.05 , \tau_{max}^* = 1.0
-% \right)$
-% (ontext no 4, 5 and 6)}\label{fig:c456_policy}
-% \end{center}
-% \end{figure}
-% %%%%%%%%%%%%%%%%%%%%%%
-
-
-% %%%%%%%%%%%%%%%%%%%%%%
-% \begin{figure}[p]
-% \begin{center}
-% \includegraphics[width=0.90\linewidth]{fig/c7_dimpolicy.pdf}
-% \caption{
-% $\tau^*
-% =
-% \pi^* \left(
-% \theta, \dot{\theta}^*,
-% q^* = 10 , \tau_{max}^* = 1.0
-% \right)$
-% (Context no 7, 8 and 9)}\label{fig:c789_policy}
-% \end{center}
-% \end{figure}
-% %%%%%%%%%%%%%%%%%%%%%%
-
-
-
-
-
-
-
-
-
-
-
-
-% %  \begin{figure}[ht]
-% %     \centering
-% %     \vspace{-10pt}
-% %     \subfloat[Small vehicle \label{fig:a}]{\includegraphics[width=0.12\textwidth]{fig/a.jpg}}
-% %     \subfloat[Long vehicle \label{fig:b}]{\includegraphics[width=0.18\textwidth]{fig/b.jpg}}   
-% %     \subfloat[Large vehicle \label{fig:c}]{\includegraphics[width=0.16\textwidth]{fig/c.PNG}}
-% %     \caption{subfigures}
-% %     \label{fig:subfigures}
-% % \end{figure}
-
-
-
-
-
-
-
-
-
-
-
-% %%%%%%%%%%%%%%%%%%%%%%
-% \begin{figure}[p]
-% \begin{center}
-% \includegraphics[width=0.99\linewidth]{fig/c1_policy.pdf}
-% \caption{Context no 1 optimal policy}\label{fig:c1_policy}
-% \end{center}
-% \end{figure}
-% %%%%%%%%%%%%%%%%%%%%%%
-
-
-% %%%%%%%%%%%%%%%%%%%%%%
-% \begin{figure}[p]
-% \begin{center}
-% \includegraphics[width=0.99\linewidth]{fig/c2_policy.pdf}
-% \caption{Context no2 optimal policy}\label{fig:c1_policy}
-% \end{center}
-% \end{figure}
-% %%%%%%%%%%%%%%%%%%%%%%
-
-% %%%%%%%%%%%%%%%%%%%%%%
-% \begin{figure}[p]
-% \begin{center}
-% \includegraphics[width=0.99\linewidth]{fig/c3_policy.pdf}
-% \caption{Context no3 optimal policy}\label{fig:c1_policy}
-% \end{center}
-% \end{figure}
-% %%%%%%%%%%%%%%%%%%%%%%
-
-% \newpage
-% %%%%%%%%%%%%%%%%%%%%%%
-% \begin{figure}[p]
-% \begin{center}
-% \includegraphics[width=0.99\linewidth]{fig/c1_traj.pdf}
-% \caption{Context no1 optimal trajectory from up-down position}\label{fig:c1_traj}
-% \end{center}
-% \end{figure}
-% %%%%%%%%%%%%%%%%%%%%%%
-
-
-% %%%%%%%%%%%%%%%%%%%%%%
-% \begin{figure}[p]
-% \begin{center}
-% \includegraphics[width=0.99\linewidth]{fig/c2_traj.pdf}
-% \caption{Context no2 optimal trajectory from up-down position}\label{fig:c2_traj}
-% \end{center}
-% \end{figure}
-% %%%%%%%%%%%%%%%%%%%%%%
-
-% %%%%%%%%%%%%%%%%%%%%%%
-% \begin{figure}[p]
-% \begin{center}
-% \includegraphics[width=0.99\linewidth]{fig/c3_traj.pdf}
-% \caption{Context no3 optimal trajectory from up-down position}\label{fig:c3_traj}
-% \end{center}
-% \end{figure}
-% %%%%%%%%%%%%%%%%%%%%%%
-
-
-% %%%%%%%%%%%%%%%%%%%%%%
-% \begin{figure}[p]
-% \begin{center}
-% \includegraphics[width=0.99\linewidth]{fig/c4_policy.pdf}
-% \caption{Context no 4 optimal policy}\label{fig:c4_policy}
-% \end{center}
-% \end{figure}
-% %%%%%%%%%%%%%%%%%%%%%%
-
-
-% %%%%%%%%%%%%%%%%%%%%%%
-% \begin{figure}[p]
-% \begin{center}
-% \includegraphics[width=0.99\linewidth]{fig/c5_policy.pdf}
-% \caption{Context no5 optimal policy}\label{fig:c5_policy}
-% \end{center}
-% \end{figure}
-% %%%%%%%%%%%%%%%%%%%%%%
-
-% %%%%%%%%%%%%%%%%%%%%%%
-% \begin{figure}[p]
-% \begin{center}
-% \includegraphics[width=0.99\linewidth]{fig/c6_policy.pdf}
-% \caption{Context no6 optimal policy}\label{fig:c6_policy}
-% \end{center}
-% \end{figure}
-% %%%%%%%%%%%%%%%%%%%%%%
-
-% \newpage
-% %%%%%%%%%%%%%%%%%%%%%%
-% \begin{figure}[p]
-% \begin{center}
-% \includegraphics[width=0.99\linewidth]{fig/c4_traj.pdf}
-% \caption{Context no4 optimal trajectory from up-down position}\label{fig:c4_traj}
-% \end{center}
-% \end{figure}
-% %%%%%%%%%%%%%%%%%%%%%%
-
-
-% %%%%%%%%%%%%%%%%%%%%%%
-% \begin{figure}[p]
-% \begin{center}
-% \includegraphics[width=0.99\linewidth]{fig/c5_traj.pdf}
-% \caption{Context no5 optimal trajectory from up-down position}\label{fig:c5_traj}
-% \end{center}
-% \end{figure}
-% %%%%%%%%%%%%%%%%%%%%%%
-
-% %%%%%%%%%%%%%%%%%%%%%%
-% \begin{figure}[p]
-% \begin{center}
-% \includegraphics[width=0.99\linewidth]{fig/c6_traj.pdf}
-% \caption{Context no6 optimal trajectory from up-down position}\label{fig:c6_traj}
-% \end{center}
-% \end{figure}
-% %%%%%%%%%%%%%%%%%%%%%%
-
-
-% %%%%%%%%%%%%%%%%%%%%%%
-% \begin{figure}[p]
-% \begin{center}
-% \includegraphics[width=0.99\linewidth]{fig/c7_policy.pdf}
-% \caption{Context no 7 optimal policy}\label{fig:c7_policy}
-% \end{center}
-% \end{figure}
-% %%%%%%%%%%%%%%%%%%%%%%
-
-
-% %%%%%%%%%%%%%%%%%%%%%%
-% \begin{figure}[p]
-% \begin{center}
-% \includegraphics[width=0.99\linewidth]{fig/c8_policy.pdf}
-% \caption{Context no8 optimal policy}\label{fig:c8_policy}
-% \end{center}
-% \end{figure}
-% %%%%%%%%%%%%%%%%%%%%%%
-
-% %%%%%%%%%%%%%%%%%%%%%%
-% \begin{figure}[p]
-% \begin{center}
-% \includegraphics[width=0.99\linewidth]{fig/c9_policy.pdf}
-% \caption{Context no9 optimal policy}\label{fig:c9_policy}
-% \end{center}
-% \end{figure}
-% %%%%%%%%%%%%%%%%%%%%%%
-
-% \newpage
-% %%%%%%%%%%%%%%%%%%%%%%
-% \begin{figure}[p]
-% \begin{center}
-% \includegraphics[width=0.99\linewidth]{fig/c7_traj.pdf}
-% \caption{Context no7 optimal trajectory from up-down position}\label{fig:c7_traj}
-% \end{center}
-% \end{figure}
-% %%%%%%%%%%%%%%%%%%%%%%
-
-
-% %%%%%%%%%%%%%%%%%%%%%%
-% \begin{figure}[p]
-% \begin{center}
-% \includegraphics[width=0.99\linewidth]{fig/c8_traj.pdf}
-% \caption{Context no8 optimal trajectory from up-down position}\label{fig:c8_traj}
-% \end{center}
-% \end{figure}
-% %%%%%%%%%%%%%%%%%%%%%%
-
-% %%%%%%%%%%%%%%%%%%%%%%
-% \begin{figure}[p]
-% \begin{center}
-% \includegraphics[width=0.99\linewidth]{fig/c9_traj.pdf}
-% \caption{Context no9 optimal trajectory from up-down position}\label{fig:c9_traj}
-% \end{center}
-% \end{figure}
-% %%%%%%%%%%%%%%%%%%%%%%
-
 
 
 
@@ -1303,6 +1033,7 @@ We can thus select the same dimentionless group as before, and conclude that eq.
  \theta, \dot{\theta}^* ,
  q^* 
 \right)
+\label{eq:lqr_dimpolicy}
 \end{equation}
 %%%%%%%%%%%%%%%%%%%%%%
 
@@ -1319,7 +1050,6 @@ mgl \right] \theta
 \left[
 \sqrt{ 2 ml^2)} \sqrt{mgl+ \sqrt{ (mgl)^2 + q^2}}
 \right] \dot{\theta}^*
-\label{eq:lqr_dimpolicy}
 \end{align}
 %%%%%%%%%%%%%%%%%%%%%%
 It is possible to, by this and that.., arrive to this dimentionless form:
@@ -1335,7 +1065,7 @@ It is possible to, by this and that.., arrive to this dimentionless form:
 \right] \dot{\theta}^*
 \end{equation}
 %%%%%%%%%%%%%%%%%%%%%%
-That correspond to the form predicted by the dimentional analysis of eq. \eqref{eq:lqr_dimpolicy}.
+That correspond to the form of eq. \eqref{eq:lqr_dimpolicy} predicted by the dimentional analysis.
 
 I am not sure where I am going with this..
 
