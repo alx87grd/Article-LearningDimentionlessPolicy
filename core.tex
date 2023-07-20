@@ -360,7 +360,7 @@ c_b^* =  T_c( c_b ) \; c_b  = T_c( c_a ) \; c_a = c_a^*
 \label{eq:dimcontextequal}
 \end{equation}
 %%%%%%%%%%%%%%%%%%%%%%
-In section \ref{sec:optimalswingup}, we show exemples of this result with numerical solution to dimentionnaly similar pendulum swing-up problems. Furthermore, we demonstrate that in some situations, eq. \eqref{eq:dimcontextequal} equality conditions can be relaxed into an inequality contitions, i.e. both contexts being in the same region corresponding to a similar regime.
+In section \ref{sec:optimalswingup}, we show exemples of this result with numerical solution to dimentionnaly similar pendulum swing-up problems. Furthermore, we demonstrate that in some situations, eq. \eqref{eq:dimcontextequal} equality conditions can be relaxed into inequality contitions, i.e. both contexts being in the same region corresponding to a similar regime.
 
 
 %%%%%%%%%%%%%%%%%%%%%%
@@ -718,30 +718,30 @@ Figures \ref{fig:c1} to \ref{fig:c9} illustrate that for each sub-group with equ
     \label{fig:c9}
 \end{figure*}
 
-In terms of how to use this in a practically scenario, we see that if we computed the feedback law given by Fig. \ref{fig:c1}(a), we can get the feedback law given by Fig. \ref{fig:c2}(a) or Fig. \ref{fig:c3}(a) directly by scaling the original policy with eq. \eqref{eq:ab_transform} without having to recompute. In some sense, we got back the ability to ajust the feedback law on the fly to new system parameters $mgl$ or $\omega$, as it would be the case with an anlytical solution. But this works only within the dimentionaly similar context sub-group. The feedback law given by Fig. \ref{fig:c1}(a) cannot be scalled into the feedback law given by Fig. \ref{fig:c4}(a) for instance, since $\tau^*_{max}$ and $q^*$ are not equals. 
+In terms of how to use this in a practically scenario, we see that if we computed the feedback law given by Fig. \ref{fig:c1}(a), we can get the feedback law given by Fig. \ref{fig:c2}(a) or Fig. \ref{fig:c3}(a) directly by scaling the original policy with eq. \eqref{eq:ab_transform}, using the approriate context variables, without having to recompute. In some sense, we got back the ability to ajust the feedback law on the fly to new system parameters $mgl$ or $\omega$, as it would be the case with an anlytical solution. But this works only within the dimentionaly similar context sub-group. The feedback law given by Fig. \ref{fig:c1}(a) cannot be scalled into the feedback law given by Fig. \ref{fig:c4}(a) for instance, since $\tau^*_{max}$ and $q^*$ are not equals. 
 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Sensibility to context variables and regime}
+\subsection{Regimes of solutions}
 
-In some situation, changing a context variable will have little effect on the optimal policy. For instance, for the torque-limited optimal pendulum swing-up problem, augmenting $\tau_{max}$ or $q$ while keeping the other value fixed will have little effect pass a given threeshold. For instance, if we look at the solutions for context no 4, 5 and 6, using a lot of torque is so highly penalize by the cost function that the saturation limit is not really impacting the solution (except edges cases on the boundary), hence we would expect that augmenting $\tau_{max}$ should not change the solution. 
+In some situation, changing a context variable will not havbe any effect on the optimal policy. For instance, for the torque-limited optimal pendulum swing-up problem, augmenting $\tau_{max}$ or $q$ while keeping the other value fixed will have little effect pass a given threeshold. For instance, if we look at the solutions for context no 4, 5 and 6, using a lot of torque is so highly penalized by the cost function that the saturation limit is not really impacting the solution (except edges cases on the boundary), hence we would expect that augmenting $\tau_{max}$ should not change the solution. 
 
-A sensivity analysis was conducted ...
-
+Fig. \ref{fig:torque_sensitivity} and \ref{fig:q_sensitivity} show a slice (to allow visualization) of the optimal policy solution, for various contexts. Fig. \ref{fig:torque_sensitivity} illustrate how changing $\tau_{max}^*$ while keeping $q^*$ fixed. We can see that when $\tau_{max}^*<0.3$ the policy is almost always on the min-max allowable values, this behavior is often called \textit{bang-bang}. At the other extreme when 
+$\tau_{max}^*<2.5$ the policy solution is continuous and almost never affected by the saturation. 
 %%%%%%%%%%%%%%%%%%%%%%
-\begin{figure}[htp]
+\begin{figure}[ht]
 \begin{center}
 \includegraphics[width=0.99\linewidth]{fig/qs05.pdf}
 \caption{Optimal dimentionless policy for various contexts $\tau^* = \pi^*( \theta^* , \dot{\theta}^* = 0 , q^* = 0.5 , \tau^*_{max} = [0.1, ... , 5.0] )$}
 \vspace{-10pt}
-\label{fig:regime}
+\label{fig:torque_sensitivity}
 \end{center}
 \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%
-
+Fig. \ref{fig:q_sensitivity} illustrate how changing $q^*$ while keeping $\tau_{max}^*$ fixed. We can see that when $q^*<0.1$ the optimal policy solution does not reach the min-max saturation, while when $q^*>1.0$, is almost always on the min-max allowable values. We can note that is the limit of very large $q^*$ value, the motion control problem would then to be equivalent to the minimum time problem, for which we know the solution is a bang-bang type policy.
 %%%%%%%%%%%%%%%%%%%%%%
-\begin{figure}[htp]
+\begin{figure}[ht]
 \begin{center}
 \includegraphics[width=0.99\linewidth]{fig/s_q_5_2.pdf}
 \caption{Optimal dimentionless policy for various contexts  $\tau^* = \pi^*( \theta^*  , \dot{\theta}^* = 0 , q^* = [0.05, ... , 2.0]  , \tau^*_{max} = 0.5 )$}
@@ -751,24 +751,9 @@ A sensivity analysis was conducted ...
 \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%
 
-More formally, regimes...
-
+We can see that for extreme context values, we have two type of behaviors, illustrated as region in the dimentionless context space at Fig. \ref{fig:regimeszones}. 
 %%%%%%%%%%%%%%%%%%%%%%
-\begin{align}
-\pi^*( \theta^* , \dot{\theta}^*, q^*, \tau_{max}^*) &\approx 
-\left\{
-\begin{array}{c}
-\pi^*_{b}( \theta^* , \dot{\theta}^* , q^* ) \; if \;  R^* \gg 1 \\
-\pi^*_{u}( \theta^* , \dot{\theta}^* , \tau_{max}^* ) \; if \; R^* \ll 1
-\end{array}
-\right. \\
-\text{with} \quad &R^* = \frac{\tau^*_{max}}{q^*} = \frac{\tau_{max}}{q} 
-\end{align}
-%%%%%%%%%%%%%%%%%%%%%%
-
-
-%%%%%%%%%%%%%%%%%%%%%%
-\begin{figure}[htp]
+\begin{figure}[ht]
 \begin{center}
 \includegraphics[width=0.99\linewidth]{fig/regime_zones.jpg}
 \caption{Regime zones}
@@ -777,8 +762,44 @@ More formally, regimes...
 \end{center}
 \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%
+Those regions are best caracterized by a ratio of $q^*$ and $\tau_{max}^*$, a new dimentionless value that we will define as:
+%%%%%%%%%%%%%%%%%%%%%%
+\begin{align}
+R^* = \frac{\tau^*_{max}}{q^*} = \frac{\tau_{max}}{q} \quad\quad 
+\end{align}
+%%%%%%%%%%%%%%%%%%%%%%
+the ratio of the maximum torque staturation $\tau_{max}$ over the weight in the cost function $q$ (both have units of torque). When the value of $R^* \approx 1$, the policy solution is continuous in some region, and on the min-max value in some other region of the state-space, a behavior we will call the transition regime. When the value of $R^* \ll 1$, the constraint on torque drives the solution to have have a bang-bang type behavior. In this region, that we would approximate here based on our sensitivity analysis to $R^* \ll 0.1$, the global policy is only a function of $\tau_{max}^*$:
+%%%%%%%%%%%%%%%%%%%%%%
+\begin{align}
+\pi^*( \theta^* , \dot{\theta}^*, q^*, \tau_{max}^*) &\approx 
+\pi^*( \theta^* , \dot{\theta}^* , \tau_{max}^* ) \; if \; R^* \ll 1
+\label{eq:bangbang_policy}
+\end{align}
+%%%%%%%%%%%%%%%%%%%%%%
+The value of $q^*$ is not affecting the solution. On the other hang, when the value of $R^* \approx 1$, the policy solution is unconstrained. In this region, that we would approximate here based on our sensitivity analysis to $R^* \gg 10$, the global policy is only a function of $q^*$ since the constraint is so far away:
+%%%%%%%%%%%%%%%%%%%%%%
+\begin{align}
+\pi^*( \theta^* , \dot{\theta}^*, q^*, \tau_{max}^*) &\approx 
+\pi^*( \theta^* , \dot{\theta}^* , q^* ) \; if \;  R^* \gg 1 
+\label{eq:unconstrained_policy}
+\end{align}
+%%%%%%%%%%%%%%%%%%%%%%
 
-Using an analogy from fluid mechanics, when the Mach number is small $Ma < 0.3$, we can generaly assume to be in an incompressible regime where various speed of sound parameters (for instance having $Ma=0.1$ or $Ma=0.3$) would not really change the behavior.
+The concept of regime is often leveraged in fluid mechanics, it allow to generalize results between situation where the relevant dimentionless number are not exactly matched. For instance, when the Mach number is small $Ma < 0.3$, we can generaly assume to be in an incompressible regime where various speed of sound parameters (for instance having $Ma=0.1$ or $Ma=0.3$) would not really change the behavior. Here, for the purpose of transfering policy solution between different system or context, it means that the condition of having the same exact dimentionless context variables matched, the condition can be relaxed to an inequality that correspond to a regime. For instance, for two motion control problems, if both context are in the unconstrained regime, it is sufficient to match only $q^*$ to have equivalent dimentionless policies. More formally, from eq. \eqref{eq:unconstrained_policy}, we can say that:
+%%%%%%%%%%%%%%%%%%%%%%
+\begin{align}
+f_a^*(x^*) &= f_b^*(x^*) \;\forall\;  x^* 
+\\ &\text{if} \quad q^*_a=q^*_b \; \text{,} \quad R^*_a \gg 1 \quad \text{and} \quad R^*_b \gg 1
+\end{align}
+%%%%%%%%%%%%%%%%%%%%%%
+Also, for two motion control problems, if both context are in the bang-bang regime, it is sufficient to match only $\tau_{max}^*$ to have equivalent dimentionless policies. More formally, from eq. \eqref{eq:bangbang_policy}, we can say that:
+%%%%%%%%%%%%%%%%%%%%%%
+\begin{align}
+f_a^*(x^*) &= f_b^*(x^*) \;\forall\;  x^* 
+\\ &\text{if} \quad \tau_{max,a}^*=\tau_{max,b}^* \; \text{,} \; R^*_a \ll 1 \; \text{and} \; R^*_b \ll 1
+\end{align}
+%%%%%%%%%%%%%%%%%%%%%%
+Another point of view, is that assuming we are in one of those regime means we could have removed one variable from the context from the start of the dimentional analysis. 
 
 
 
@@ -787,7 +808,7 @@ Using an analogy from fluid mechanics, when the Mach number is small $Ma < 0.3$,
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Trajectory solutions}
 
-Trajectory solutions are also generalizable in their dimentionless forms. Figures \ref{fig:c1} to \ref{fig:c9} show optimal trajectory solutions starting from the bottom position at rest. Those trajectories were computed  by executing the computed optimal policies in a simulation. We can also see that withing the 3 dimentionaly similar sub-groups, the optmial trajectories are actually the same but scalled.
+Trajectory solutions are also generalizable in their dimentionless forms. Figures \ref{fig:c1} to \ref{fig:c9} show optimal trajectory solutions starting from the bottom position at rest. Those trajectories were computed  by executing the computed optimal policies in a simulation. We can also see that within the 3 dimentionaly similar sub-groups, the optmial trajectories are actually the same but scalled.
 
 Instead of thinking about computing a state feedback law, using the tool as a trajectory generator, we must think about computing 3 time-based open-loop feedback law defining trajectory for states and inputs:
 %%%%%%%%%%%%%%%%%%%%%%
