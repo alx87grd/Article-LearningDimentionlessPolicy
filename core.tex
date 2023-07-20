@@ -720,6 +720,62 @@ Figures \ref{fig:c1} to \ref{fig:c9} illustrate that for each sub-group with equ
 
 In terms of how to use this in a practically scenario, we see that if we computed the feedback law given by Fig. \ref{fig:c1}(a), we can get the feedback law given by Fig. \ref{fig:c2}(a) or Fig. \ref{fig:c3}(a) directly by scaling the original policy with eq. \eqref{eq:ab_transform}, using the approriate context variables, without having to recompute. In some sense, we got back the ability to ajust the feedback law on the fly to new system parameters $mgl$ or $\omega$, as it would be the case with an anlytical solution. But this works only within the dimentionaly similar context sub-group. The feedback law given by Fig. \ref{fig:c1}(a) cannot be scalled into the feedback law given by Fig. \ref{fig:c4}(a) for instance, since $\tau^*_{max}$ and $q^*$ are not equals. 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Trajectory solutions}
+
+Trajectory solutions are also generalizable in their dimentionless forms. Figures \ref{fig:c1}(c) to \ref{fig:c9}(c) show optimal trajectory solutions starting from the bottom position at rest. Those trajectories were computed  by executing the computed optimal policies in a simulation. We can also see that within the 3 dimentionaly similar sub-groups, the optmial trajectories are actually the same but scalled. Lets assume we were trying to solve a slightly different motion control problem, instead of looking for the feedback law here lets assume we only want the trajectory solutions from the bottom position. We must think about the problem as computing 3 time-based open-loop feedback law defining trajectory for states and inputs:
+%%%%%%%%%%%%%%%%%%%%%%
+\begin{align}
+\tau          = \pi_{\tau}( t , &
+ \, m , g , l , q , \tau_{max} )  \label{eq:traj_policy_1}\\
+\theta        = \pi_{\theta}( t ,&
+ \, m , g , l , q , \tau_{max} )
+\label{eq:traj_policy_2}\\
+\underbrace{
+\dot{\theta } = \pi_{\dot{\theta }}( t 
+ }_{\text{trajectory}} ,&
+\underbrace{
+m , g , l , q , \tau_{max} 
+ }_{\text{context}} )
+ \label{eq:traj_policy_3}
+\end{align}
+%%%%%%%%%%%%%%%%%%%%%%
+We can use the same dimentionless group as before, but with the addition of a dimentionless time:
+%%%%%%%%%%%%%%%%%%%%%%
+\begin{align}
+t^* &= t \; \omega \quad \quad [T][T^{-1}]
+\end{align}
+%%%%%%%%%%%%%%%%%%%%%%
+since the time $t$ is now explicitly an argument of the global policy. Applying the same dimentional analysis, to eq. \eqref{eq:traj_policy_1}, eq. \eqref{eq:traj_policy_2} and eq. \eqref{eq:traj_policy_3}, we would conclude that it can be restated as:
+% %%%%%%%%%%%%%%%%%%%%%%
+% \begin{align}
+% \underbrace{
+% \tau^*  = \pi_{\tau}^*( t^* 
+% }_{\text{dimentionless trajectory}} , 
+% \underbrace{
+% q^* , \tau_{max}^*
+% }_{c^*} ) 
+% \label{eq:dim_traj_policy}
+% \end{align}
+% %%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%
+\begin{align}
+\tau^*          = \pi^*_{\tau}( t^* , &
+ \, q^* , \tau_{max}^* )  \label{eq:dim_traj_policy_1}\\
+\theta^*        = \pi^*_{\theta}( t^* ,&
+ \, q^* , \tau_{max}^* )
+\label{eq:dim_traj_policy_2}\\
+\underbrace{
+\dot{\theta }^* = \pi^*_{\dot{\theta }}( t^* 
+}_{\text{dim. trajectory}} ,&
+\underbrace{
+ q^* , \tau_{max}^*
+ }_{c^*} )
+ \label{eq:dim_traj_policy_3}
+\end{align}
+%%%%%%%%%%%%%%%%%%%%%%
+Hence, as it is the case for the feedback laws, the optimal trajectories should be equivalent in their dimentionless version, if the dimentionless context is equal. 
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -799,48 +855,13 @@ f_a^*(x^*) &= f_b^*(x^*) \;\forall\;  x^*
 \\ &\text{if} \quad \tau_{max,a}^*=\tau_{max,b}^* \; \text{,} \; R^*_a \ll 1 \; \text{and} \; R^*_b \ll 1
 \end{align}
 %%%%%%%%%%%%%%%%%%%%%%
-Another point of view, is that assuming we are in one of those regime means we could have removed one variable from the context from the start of the dimentional analysis. 
+Another point of view, is that assuming we are in one of those regime means we could have removed one variable from the context from the start of the dimentional analysis. All in all, the impact of having such regimes indentified is that we can increase the sub-space of contexts for which the dimentionless version of the policy should be equivalent, leading to a potentially larger pools of systems that can share learned policy or numerical results. 
 
 
 
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Trajectory solutions}
 
-Trajectory solutions are also generalizable in their dimentionless forms. Figures \ref{fig:c1} to \ref{fig:c9} show optimal trajectory solutions starting from the bottom position at rest. Those trajectories were computed  by executing the computed optimal policies in a simulation. We can also see that within the 3 dimentionaly similar sub-groups, the optmial trajectories are actually the same but scalled.
-
-Instead of thinking about computing a state feedback law, using the tool as a trajectory generator, we must think about computing 3 time-based open-loop feedback law defining trajectory for states and inputs:
-%%%%%%%%%%%%%%%%%%%%%%
-\begin{align}
-\underbrace{
-\tau          = \pi_{\tau}( t 
-, }_{\text{feedback law}}
-\underbrace{
-m , g , l , q , \tau_{max} 
- }_{\text{context}} ) \\
-\underbrace{
-\theta        = \pi_{\theta}( t  
-, }_{\text{feedback law}}
-\underbrace{
-m , g , l , q , \tau_{max} 
- }_{\text{context}} )
-\\
-\underbrace{
-\dot{\theta } = \pi_{\dot{\theta }}( t 
-, }_{\text{feedback law}}
-\underbrace{
-m , g , l , q , \tau_{max} 
- }_{\text{context}} )
-\end{align}
-%%%%%%%%%%%%%%%%%%%%%%
-
-but time must also be scaled:
-%%%%%%%%%%%%%%%%%%%%%%
-\begin{align}
-t^* &= t \; \omega \quad \quad [T][T^{-1}]
-\end{align}
-%%%%%%%%%%%%%%%%%%%%%%
 
 
 \subsection{Methodology}
