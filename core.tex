@@ -59,7 +59,7 @@ x
 \right)
 \end{equation}
 %%%%%%%%%%%%%%%%%%%%%%
-Under some assumptions, mainly a fully observable systems, an additive cost and an infinite time horizon, the optimal policy is also guarantee to be of this form [Cite Bertsekas]. Only this case is considered is considered for the following analysis.
+Under some assumptions, mainly a fully observable systems, an additive cost and an infinite time horizon, the optimal policy is also guarantee to be of this form \cite{bertsekas_dynamic_2012}. Only this case is considered is considered for the following analysis.
 
 To consider the question of how can this feedback law (a form of system specific knowledge) can be transfered in a different context, it is usefull to think about a higher dimension mapping, that we will note $\pi$, also having input arguments a vector of variables $c$ describing the context:
 %%%%%%%%%%%%%%%%%%%%%%
@@ -151,7 +151,7 @@ c = c_b
 \right) = ?
 \end{equation}
 %%%%%%%%%%%%%%%%%%%%%%
-Using the Buckinham $\pi$ theorem [Cite something], we will show that if the context is dimentionnaly similar, then the dimentionless version of the policy mapping must be equal.
+Using the Buckinham $\pi$ theorem \cite{buckingham_physically_1914}, we will show that if the context is dimentionnaly similar, then the dimentionless version of the policy mapping must be equal.
 
 
 % %%%%%%%%%%%%%%%%%%%%%%
@@ -866,16 +866,14 @@ Another point of view, is that assuming we are in one of those regime means we c
 
 \subsection{Methodology}
 
-We used the value-iteration [cite] algoithm on a discretized version of the continuous system...
+We obtained the optimal feedback law by using the basic dynamic programming algorithm \cite{bertsekas_dynamic_2012} on a discretized version of the continuous system. The approach is almost equivalent to the value iteration algorithm, sometime refer to as model-based reinforcement learning \cite{sutton_reinforcement_2018}, with the exception that here the total number of iteration steps was  fixed (corresponding to a very long time horizon), instead of stopping the iteration after reaching a convergence criterion. This approach was chosen to have consistent results across all contexts, that lead to wide range of order-of-magnitude cost-to-go solution $J$. The selected discretization parameters are as follow:
+the time step is 0.025 sec, the state space is discretized into an even 501 x 501 grid and the continuous torque is discretized into 101 discrete control options. Special out-of-bound and on-target termination states are included to
+guarantee convergence \cite{bertsekas_dynamic_2012}. The source code is available here: (TODO make a special branch) and this google colab page allow reproducing the results: \url{https://colab.research.google.com/drive/1kf3apyHlf5t7XzJ3uVM8mgDsneVK_63r?usp=sharing}.
 
-colab link:
-github commit:
-
-\subsubsection{Discretization parameters}
 
 \subsubsection{Additionnal dimentionless parameters for the solver}
 
-Using dynamic programming for solving the optimal policy numerically require setting additionnal parameter that define the domain. Altough those parameter should not affect the optimal policy far away from the boundaries, here a dimensionless version of those parameters was kept fixed in all the experiments:
+Using dynamic programming for solving the optimal policy numerically required setting additional parameters that define the domain. Although those parameter should not affect the optimal policy far away from the boundaries, here a dimensionless version of those parameters was kept fixed in all the experiments:
 %%%%%%%%%%%%%%%%%%%%%%
 \begin{align}
 \theta^*_{max} &= \theta_{max} = 2 \pi \\
