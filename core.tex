@@ -20,20 +20,54 @@ Is it a good way to Generalize Numerical Results?
 
 
 \begin{abstract}
-Yes if the context, the list of variable defining the motion control problem, are dimentionnaly similar. Here we show that by modifying the problem formulation using dimentionless variables, we can re-use the optimal control law generated numerically for a specific system to a sub-space of dimentionnaly similar problem. This is demonstrated, with numerical results, for the classic motion control problem of swinging-up a torque-limited inverted pendulum. TODO: (We also demonstrate that by leveraging this scheme when using reinforcement learning, multiple systems of various dimentions can share a data-base during the learning phase, which can be a big advantage for data efficiency.) It remains to be seen if this approach can also help generalizing policies for more complex high-dimentional problems.
+Yes if the context, the list of variable defining the motion control problem, are dimentionnaly similar. Here we show that by modifying the problem formulation using dimentionless variables, we can re-use the optimal control law generated numerically for a specific system to a sub-space of dimentionnaly similar problems. This is demonstrated, with numerical results, for the classic motion control problem of swinging-up a torque-limited inverted pendulum. %TODO: (We also demonstrate that by leveraging this scheme when using reinforcement learning, multiple systems of various dimentions can share a data-base during the learning phase, which can be a big advantage for data efficiency.) 
+We also discuss the concept of regime, a region in the space of context variables, that can help relax the condition on dimensional similarity. 
+It remains to be seen if this approach can also help generalizing policies for more complex high-dimentional problems.
 \end{abstract}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Introduction}
 
-\paragraph{Many numerical algorithms = black box mapping}
--Trajectory optimization
--Reinforcement learning
--etc.
+% \paragraph{Many numerical algorithms = black box mapping}
+% -Trajectory optimization
+% -Reinforcement learning
+% -etc.
 
-\paragraph{With numerical results, unlike analytical solutions, system and problem parameters are not explicitly in the solution }
+% \paragraph{With numerical results, unlike analytical solutions, system and problem parameters are not explicitly in the solution }
 
-\paragraph{This makes the results "context specific" and makes its harder to generalize }
+% \paragraph{This makes the results "context specific" and makes its harder to generalize }
+
+The state-of-the-art toolbox of control engineers include many numerical algorithms and data-driven schemes. Many control approches now include a type of mathematical optimization that has no closed-form solution and that is thus solved numerically, for instance [] and []. Also, recent progress in the field of reinforcement learning have made the approach viable for generating feedback laws for some motion control problem [ETH dog robot], and we expect this list to growth quickly in the future. All in all, numerical tool are very useful and have been used to solve many hard control problem. However, they have a major drawback compared to simpler analytical approaches: parameters of the problem are not explicitly in the solution, which makes it much harder to generalize a solution and reuse it.
+
+Analytical solutions to control problems have the nice property of allowing the solution to be adjusted to different system parameters by simply plugging the new values in the equation. Most numerical solutions act has black-boxes with respect to the parameters. For instance, if we use a reinforcement learning (RL) approach to find a good feedback law for a given task with a robot, the solution will be specific to this system. In other words, the solution, which will take the form of a black-box mapping from states to control inputs, would not be applicable with a modified rigid link twice longer for instance. With an analytical solution, we would simply update the value of the length variable in the equation, while with a RL solution we would have to re-conduct all the training implying generally multiple hours of data collection and/or computation. It would be a great asset to have the ability to adjust black-box numerical solutions with respect to some problem parameters.  
+
+%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}[t]
+\vspace{-5pt}
+\begin{center}
+\includegraphics[width=0.99\linewidth]{fig/bigpicture2.jpg}
+\caption{Big picture}\label{fig:big_picture}
+\end{center}
+\vspace{-25pt}
+\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%
+
+In this paper, we explore the concept of dimentionless policies, a more generic form of knowledge, has a mean to generalize numerical solutions to motion control problem. First, in section \ref{sec:dimenanalysis}, we use dimensional analysis to show that ... Then in section \ref{sec:optimalswingup}, this property is demonstrated for the classical motion control problem of swinging-up an inverted pendulum. Also, in section \ref{sec:closedfrom}, we illustrate with two exemples that the proposal dimentionnal scaling is equivalent to changing parameters in an analytical solution. 
+
+%Another aspect to this issue for RL, is the constraint it pose on data during a training phase. 
+
+\section{Background}
+
+In the field of learning, this is fall under the vast on-goin challenge of generalizing knowledge...
+
+more specifically in robot, .. transfer learning..
+
+ALso, representation learning...
+
+
+\section{Contribution}
+
+
 
 
 
@@ -73,16 +107,7 @@ c
 \end{equation}
 %%%%%%%%%%%%%%%%%%%%%%
 
-%%%%%%%%%%%%%%%%%%%%%%
-\begin{figure}[t]
-\vspace{-5pt}
-\begin{center}
-\includegraphics[width=0.99\linewidth]{fig/bigpicture2.jpg}
-\caption{Big picture}\label{fig:big_picture}
-\end{center}
-\vspace{-25pt}
-\end{figure}
-%%%%%%%%%%%%%%%%%%%%%%
+
 
 
 The context $c$ is the vector of all variables that would affect what is the feedback law solution to a motion control problem. For instance, in section \ref{sec:optimalswingup}, a case study is conducted considering the optimal feedback law for swinging-up an inverted pendulum. For this exemple, the context variables are the pendulum mass $m$, the gravitational constant $g$, the lenght $l$, but also what we will call task parameters: a parameter in the cost function $q$ and a constraint $\tau_{max}$ on the maximum input torque, see Fig. \ref{fig:policy_context}. For a given state of the system, the torque solution might be different if any of the context variable change value, for instance if the pendulum is heavier, more torque limited, etc.
@@ -832,7 +857,7 @@ the ratio of the maximum torque staturation $\tau_{max}$ over the weight in the 
 \label{eq:bangbang_policy}
 \end{align}
 %%%%%%%%%%%%%%%%%%%%%%
-The value of $q^*$ is not affecting the solution. On the other hang, when the value of $R^* \approx 1$, the policy solution is unconstrained. In this region, that we would approximate here based on our sensitivity analysis to $R^* \gg 10$, the global policy is only a function of $q^*$ since the constraint is so far away:
+The value of $q^*$ is not affecting the solution. On the other hang, when the value of $R^* \gg 1$, the policy solution is unconstrained. In this region, that we would approximate here based on our sensitivity analysis to $R^* \gg 10$, the global policy is only a function of $q^*$ since the constraint is so far away:
 %%%%%%%%%%%%%%%%%%%%%%
 \begin{align}
 \pi^*( \theta^* , \dot{\theta}^*, q^*, \tau_{max}^*) &\approx 
