@@ -910,11 +910,180 @@ $\theta_{max}$ is the range of angle for witch the optimal policy is solved, her
 
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Closed-form parametric policies}
 
 To better understand the concept of a dimentionless policy, here we apply the Buckingham $\pi$ theorem on well-known closed form solution to classical motion control problems.
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{ Dimentionless Linear Quatratic Reglator (LQR) solution}
+\label{sec:lqr}
+
+Here we analyse a simplified motion control problem with the LQR framework. A linearized verison of the equation of motion is used:
+%%%%%%%%%%%%%%%%%%%%%%
+\begin{equation}
+ml^2 \ddot{\theta} - mgl \theta = \tau
+\label{eq:pendulum_dynamics_lqr}
+\end{equation}
+%%%%%%%%%%%%%%%%%%%%%%
+Also, the same cost function that was used in section \ref{sec:optimalswingup} is used to formulate the optimal control problem:
+%%%%%%%%%%%%%%%%%%%%%%
+\begin{equation}
+J = \int{( q^2 \theta^2 + 0 \, \dot{\theta}^2 + 1 \, \tau^2 ) dt }
+\label{eq:pendulum_cost_lqr}
+\end{equation}
+%%%%%%%%%%%%%%%%%%%%%%
+However, here no constraints on the torque are included in the problem. With this problem definition, the same variable as in section \ref{sec:optimalswingup} are presents, except the torque limit, see table \ref{tb:lqr}. The global policy solution should then have the form:
+%%%%%%%%%%%%%%%%%%%%%%
+\begin{equation}
+\underbrace{\tau}_{\text{inputs}}
+=
+\pi \left(
+\underbrace{ \theta, \dot{\theta} }_{\text{states}},
+\underbrace{ m , g , l }_{\text{system parameters}},
+\underbrace{ q }_{\text{task parameters}}
+\right)
+\label{eq:lqr_policy_form}
+\end{equation}
+%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{table}[htb]
+   \centering % center the table
+   \caption{Pendulum swing-up optimal policy variables} 
+   \label{tb:lqr}
+   \begin{tabular}{p{1.2cm} p{2.5cm} p{0.8cm} p{1.5cm} }
+   \hline \hline \noalign{\smallskip} \noalign{\smallskip} \noalign{\smallskip} \noalign{\smallskip}
+   %%%%%%%%%%%%%%%%%%%%%%
+   \textbf{Variable} & \textbf{Description} & \textbf{Units} & \textbf{Dimensions} \\ 
+   %%%%%%%%%%%%%%%%%%%%%%
+   \hline \hline \noalign{\smallskip} 
+   \multicolumn{4}{c}{\textbf{Control inputs}}\\ \noalign{\smallskip}  \hline \hline
+   \noalign{\smallskip} 
+   %%%%%%%%%%%%%%%%%%%%%%
+   $\tau$ & Actuator torque & $Nm$ & [$ML^2T^{-2}$]\\ 
+   %%%%%%%%%%%%%%%%%%%%%%
+   \hline \hline \noalign{\smallskip} 
+   \multicolumn{4}{c}{\textbf{State variables}}\\ \noalign{\smallskip}  \hline \hline \noalign{\smallskip} 
+   %%%%%%%%%%%%%%%%%%%%%%
+   $\theta$ & Joint angle & $rad$ & []\\ \noalign{\smallskip} \hline \noalign{\smallskip}
+   $\dot{\theta}$ & Joint angular velocity & $rad/sec$ & [$T^{-1}$] \\
+   %%%%%%%%%%%%%%%%%%%%%%
+   \hline \hline \noalign{\smallskip} 
+   \multicolumn{4}{c}{\textbf{System parameters}}\\ \noalign{\smallskip}  \hline\hline  \noalign{\smallskip} 
+   %%%%%%%%%%%%%%%%%%%%%%
+   $mgl$ & Maximum gravitational torque  & $Nm$ & [$ML^2T^{-2}$]  \\ \noalign{\smallskip} \hline \noalign{\smallskip}
+   $\omega = \sqrt{\frac{g}{l}}$ & Natural frequency & $sec^{-1}$ & [$T^{-1}$]  \\ \noalign{\smallskip} \hline \noalign{\smallskip}
+%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%
+   \hline \hline \noalign{\smallskip} 
+   \multicolumn{4}{c}{\textbf{Task parameters}}\\ \noalign{\smallskip}  \hline\hline  \noalign{\smallskip} 
+   %%%%%%%%%%%%%%%%%%%%%%
+   $q$ & Weight parameter  & $Nm$ & [$ML^2T^{-2}$]   \\ \noalign{\smallskip} \hline \noalign{\smallskip}
+   \hline \noalign{\smallskip}
+   %\bottomrule[\heavyrulewidth] 
+   \end{tabular}
+\end{table}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+We can thus select the same dimentionless group as before, and conclude that eq. \eqref{eq:lqr_policy_form} can be restated under this form:
+%%%%%%%%%%%%%%%%%%%%%%
+\begin{equation}
+\tau^*
+=
+\pi^* \left(
+ \theta, \dot{\theta}^* ,
+ q^* 
+\right)
+\label{eq:lqr_dimpolicy_form}
+\end{equation}
+%%%%%%%%%%%%%%%%%%%%%%
+
+For this motion control problem, an analytical solution exist (see appendix \ref{sec:lqr_proof}), and the policy is
+%%%%%%%%%%%%%%%%%%%%%%
+\begin{align}
+\tau &= 
+\left[
+mgl +
+\sqrt{ (mgl)^2 + q^2} \right] \theta
+\nonumber \\ &+
+\left[
+\sqrt{ 2 ml^2)} \sqrt{mgl+ \sqrt{ (mgl)^2 + q^2}}
+\right] \dot{\theta}
+\label{eq:lqr_policy}
+\end{align}
+%%%%%%%%%%%%%%%%%%%%%%
+Applying eq. \eqref{eq:f2star} to this feedback law given leads to the dimentionless form following form, using again $G=mgl$ and $H=ml^2$ for shortness:
+%%%%%%%%%%%%%%%%%%%%%%
+\begin{align}
+\tau^* &= \left[\frac{1}{G}\right] 
+\left[ G + \sqrt{G^2+q^2}\right] \theta  \nonumber \\& + \left[\frac{1}{G}\right] \left[\sqrt{2H(G+\sqrt{G^2+q^2})}
+\right] \left[\omega \dot{\theta}^*\right] \\
+\tau^* &= 
+\left[ 1 + \sqrt{\frac{G^2+q^2}{G^2}}\right] \theta + \left[\sqrt{\frac{2H\omega^2}{G}\frac{G+\sqrt{G^2+q^2}}{G}}
+\right] \dot{\theta}^* \\
+\tau^* &= 
+\left[
+1 + \sqrt{ 1 + (q^*)^2}
+\right] \theta
++
+\left[
+\sqrt{2} \sqrt{ 1 + \sqrt{ 1 + (q^*)^2}}
+\right] \dot{\theta}^*
+\end{align}
+%%%%%%%%%%%%%%%%%%%%%%
+With the final dimentionless form only a function of states and the dimentionless cost parameter, as predicted by the dimentional analysis (eq. \eqref{eq:lqr_dimpolicy_form}).
+
+We can also use this second example to show that scalling the policy with eq. \eqref{eq:ab_transform} will be equivalent to substituting new context variables. Let again say we have two context, labelled $a$ and $b$, that we can use the global policy solution to have the two dimensional version: 
+%%%%%%%%%%%%%%%%%%%%%%
+\begin{align}
+f_a &=
+\left[ G_a + \sqrt{G_a^2+q_a^2}\right] \theta + \left[\sqrt{2H_a(G_a+\sqrt{G_a^2+q_a^2})}
+\right] \dot{\theta} \\
+f_b &=
+\left[ G_b + \sqrt{G_b^2+q_b^2}\right] \theta + \left[\sqrt{2H_b(G_b+\sqrt{G_b^2+q_b^2})}
+\right] \dot{\theta} \label{eq:lqr_b}
+\end{align}
+%%%%%%%%%%%%%%%%%%%%%%
+We can try to find $f_b$ by scaling $f_a$ using eq. \eqref{eq:ab_transform}:
+%%%%%%%%%%%%%%%%%%%%%%
+\begin{align}
+f_b &= \left[ \frac{G_b}{G_a} \right] f_a \left( \theta , \left[ \frac{\omega_a}{\omega_b} \right] \dot{\theta} \right) 
+\\
+f_b &= G_b \left[
+1 + \sqrt{ 1 + (q_a^*)^2}
+\right] \theta
+\nonumber \\ & + G_b
+\left[
+\sqrt{2} \sqrt{ 1 + \sqrt{ 1 + (q_a^*)^2}} \right] \frac{\dot{\theta}}{\omega_b} 
+\end{align}
+%%%%%%%%%%%%%%%%%%%%%%
+where $q_a^* = q_a / G_a$ is the dimentionless version of the cost parameter. Then, we can distribute $G_b$:
+%%%%%%%%%%%%%%%%%%%%%%
+\begin{align}
+f_b &= \left[
+G_b + \sqrt{ G_b^2 + (G_b q_a^*)^2}
+\right] \theta
+\nonumber \\ & +
+\left[
+\sqrt{\frac{2G_b}{\omega_b^2}} \sqrt{ G_b + \sqrt{ G_b^2 + (G_b q_a^*)^2}} \right] \dot{\theta}
+\\
+f_b &= \left[
+G_b + \sqrt{ G_b^2 + (G_b q_a^*)^2}
+\right] \theta
+\nonumber \\ & +
+\left[
+\sqrt{2 H_b} \sqrt{ G_b + \sqrt{ G_b^2 + (G_b q_a^*)^2}} \right] \dot{\theta}
+\end{align}
+%%%%%%%%%%%%%%%%%%%%%%
+which is equivalent to eq. \eqref{eq:lqr_b}, if 
+%%%%%%%%%%%%%%%%%%%%%%
+\begin{align}
+G_b q_a^* = q_b \quad \text{or equivalently } \quad q_a^* = q_b^*
+\end{align}
+%%%%%%%%%%%%%%%%%%%%%%
+which is the condition of having equal dimentionless context $c_a^* = c_b^*$ for this motion control problem. This example illustrates that applying the scaling of eq. \eqref{eq:ab_transform} based on the dimensional analysis framework, is equivalent to changing the context variables in an analytical solution, when dimentionless context variables are equal.
 
 \subsection{Dimentionless Computed torque}
 
@@ -1084,175 +1253,7 @@ which is the condition of having equal dimentionless context $c_a^* = c_b^*$ for
 \quad \text{and}  \quad \zeta_a^* = \zeta_b^*
 \end{align}
 %%%%%%%%%%%%%%%%%%%%%%
-This example illustrates that applying the scaling of eq. \eqref{eq:ab_transform} based on the dimensional analysis framework, is equivalent to changing the context variables in an analytical solution, when dimentionless context variables are equal.
 
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{ Dimentionless Linear Quatratic Reglator (LQR) solution}
-\label{sec:lqr}
-
-Here we analyse a simplified motion control problem with the LQR framework. A linearized verison of the equation of motion is used:
-%%%%%%%%%%%%%%%%%%%%%%
-\begin{equation}
-ml^2 \ddot{\theta} - mgl \theta = \tau
-\label{eq:pendulum_dynamics_lqr}
-\end{equation}
-%%%%%%%%%%%%%%%%%%%%%%
-Also, the same cost function that was used in section \ref{sec:optimalswingup} is used to formulate the optimal control problem:
-%%%%%%%%%%%%%%%%%%%%%%
-\begin{equation}
-J = \int{( q^2 \theta^2 + 0 \, \dot{\theta}^2 + 1 \, \tau^2 ) dt }
-\label{eq:pendulum_cost_lqr}
-\end{equation}
-%%%%%%%%%%%%%%%%%%%%%%
-However, here no constraints on the torque are included in the problem. With this problem definition, the same variable as in section \ref{sec:optimalswingup} are presents, except the torque limit, see table \ref{tb:lqr}. The global policy solution should then have the form:
-%%%%%%%%%%%%%%%%%%%%%%
-\begin{equation}
-\underbrace{\tau}_{\text{inputs}}
-=
-\pi \left(
-\underbrace{ \theta, \dot{\theta} }_{\text{states}},
-\underbrace{ m , g , l }_{\text{system parameters}},
-\underbrace{ q }_{\text{task parameters}}
-\right)
-\label{eq:lqr_policy_form}
-\end{equation}
-%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{table}[htb]
-   \centering % center the table
-   \caption{Pendulum swing-up optimal policy variables} 
-   \label{tb:lqr}
-   \begin{tabular}{p{1.2cm} p{2.5cm} p{0.8cm} p{1.5cm} }
-   \hline \hline \noalign{\smallskip} \noalign{\smallskip} \noalign{\smallskip} \noalign{\smallskip}
-   %%%%%%%%%%%%%%%%%%%%%%
-   \textbf{Variable} & \textbf{Description} & \textbf{Units} & \textbf{Dimensions} \\ 
-   %%%%%%%%%%%%%%%%%%%%%%
-   \hline \hline \noalign{\smallskip} 
-   \multicolumn{4}{c}{\textbf{Control inputs}}\\ \noalign{\smallskip}  \hline \hline
-   \noalign{\smallskip} 
-   %%%%%%%%%%%%%%%%%%%%%%
-   $\tau$ & Actuator torque & $Nm$ & [$ML^2T^{-2}$]\\ 
-   %%%%%%%%%%%%%%%%%%%%%%
-   \hline \hline \noalign{\smallskip} 
-   \multicolumn{4}{c}{\textbf{State variables}}\\ \noalign{\smallskip}  \hline \hline \noalign{\smallskip} 
-   %%%%%%%%%%%%%%%%%%%%%%
-   $\theta$ & Joint angle & $rad$ & []\\ \noalign{\smallskip} \hline \noalign{\smallskip}
-   $\dot{\theta}$ & Joint angular velocity & $rad/sec$ & [$T^{-1}$] \\
-   %%%%%%%%%%%%%%%%%%%%%%
-   \hline \hline \noalign{\smallskip} 
-   \multicolumn{4}{c}{\textbf{System parameters}}\\ \noalign{\smallskip}  \hline\hline  \noalign{\smallskip} 
-   %%%%%%%%%%%%%%%%%%%%%%
-   $mgl$ & Maximum gravitational torque  & $Nm$ & [$ML^2T^{-2}$]  \\ \noalign{\smallskip} \hline \noalign{\smallskip}
-   $\omega = \sqrt{\frac{g}{l}}$ & Natural frequency & $sec^{-1}$ & [$T^{-1}$]  \\ \noalign{\smallskip} \hline \noalign{\smallskip}
-%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%
-   \hline \hline \noalign{\smallskip} 
-   \multicolumn{4}{c}{\textbf{Task parameters}}\\ \noalign{\smallskip}  \hline\hline  \noalign{\smallskip} 
-   %%%%%%%%%%%%%%%%%%%%%%
-   $q$ & Weight parameter  & $Nm$ & [$ML^2T^{-2}$]   \\ \noalign{\smallskip} \hline \noalign{\smallskip}
-   \hline \noalign{\smallskip}
-   %\bottomrule[\heavyrulewidth] 
-   \end{tabular}
-\end{table}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-We can thus select the same dimentionless group as before, and conclude that eq. \eqref{eq:lqr_policy_form} can be restated under this form:
-%%%%%%%%%%%%%%%%%%%%%%
-\begin{equation}
-\tau^*
-=
-\pi^* \left(
- \theta, \dot{\theta}^* ,
- q^* 
-\right)
-\label{eq:lqr_dimpolicy_form}
-\end{equation}
-%%%%%%%%%%%%%%%%%%%%%%
-
-For this motion control problem, an analytical solution exist (see appendix \ref{sec:lqr_proof}), and the policy is
-%%%%%%%%%%%%%%%%%%%%%%
-\begin{align}
-\tau &= 
-\left[
-mgl +
-\sqrt{ (mgl)^2 + q^2} \right] \theta
-\\ &+
-\left[
-\sqrt{ 2 ml^2)} \sqrt{mgl+ \sqrt{ (mgl)^2 + q^2}}
-\right] \dot{\theta}
-\label{eq:lqr_policy}
-\end{align}
-%%%%%%%%%%%%%%%%%%%%%%
-Applying eq. \eqref{eq:f2star} to this feedback law given leads to the dimentionless form following form, using again $G=mgl$ and $H=ml^2$ for shortness:
-%%%%%%%%%%%%%%%%%%%%%%
-\begin{align}
-\tau^* &= \left[\frac{1}{G}\right] 
-\left[ G + \sqrt{G^2+q^2}\right] \theta \\& + \left[\frac{1}{G}\right] \left[\sqrt{2H(G+\sqrt{G^2+q^2})}
-\right] \left[\omega \dot{\theta}^*\right] \\
-\tau^* &= 
-\left[ 1 + \sqrt{\frac{G^2+q^2}{G^2}}\right] \theta + \left[\sqrt{\frac{2H\omega^2}{G}\frac{G+\sqrt{G^2+q^2}}{G}}
-\right] \dot{\theta}^* \\
-\tau^* &= 
-\left[
-1 + \sqrt{ 1 + (q^*)^2}
-\right] \theta
-+
-\left[
-\sqrt{2} \sqrt{ 1 + \sqrt{ 1 + (q^*)^2}}
-\right] \dot{\theta}^*
-\end{align}
-%%%%%%%%%%%%%%%%%%%%%%
-With the final dimentionless form only a function of states and the dimentionless cost parameter, as predicted by the dimentional analysis (eq. \eqref{eq:lqr_dimpolicy_form}).
-
-We can also use this second example to show that scalling the policy with eq. \eqref{eq:ab_transform} will be equivalent to substituting new context variables. Let again say we have two context, labelled $a$ and $b$, that we can use the global policy solution to have the two dimensional version: 
-%%%%%%%%%%%%%%%%%%%%%%
-\begin{align}
-f_a &=
-\left[ G_a + \sqrt{G_a^2+q_a^2}\right] \theta + \left[\sqrt{2H_a(G_a+\sqrt{G_a^2+q_a^2})}
-\right] \dot{\theta} \\
-f_b &=
-\left[ G_b + \sqrt{G_b^2+q_b^2}\right] \theta + \left[\sqrt{2H_b(G_b+\sqrt{G_b^2+q_b^2})}
-\right] \dot{\theta} \label{eq:lqr_b}
-\end{align}
-%%%%%%%%%%%%%%%%%%%%%%
-We can try to find $f_b$ by scaling $f_a$ using eq. \eqref{eq:ab_transform}:
-%%%%%%%%%%%%%%%%%%%%%%
-\begin{align}
-f_b &= \left[ \frac{G_b}{G_a} \right] f_a \left( \theta , \left[ \frac{\omega_a}{\omega_b} \right] \dot{\theta} \right) 
-\\
-f_b &= G_b \left[
-1 + \sqrt{ 1 + (q_a^*)^2}
-\right] \theta
-\\ & + G_b
-\left[
-\sqrt{2} \sqrt{ 1 + \sqrt{ 1 + (q_a^*)^2}} \right] \frac{\dot{\theta}}{\omega_b} 
-\end{align}
-%%%%%%%%%%%%%%%%%%%%%%
-where $q_a^* = q_a / G_a$ is the dimentionless version of the cost parameter. Then, we can distribute $G_b$:
-%%%%%%%%%%%%%%%%%%%%%%
-\begin{align}
-f_b &= \left[
-G_b + \sqrt{ G_b^2 + (G_b q_a^*)^2}
-\right] \theta
-\\ & +
-\left[
-\sqrt{\frac{2G_b}{\omega_b^2}} \sqrt{ G_b + \sqrt{ G_b^2 + (G_b q_a^*)^2}} \right] \dot{\theta}
-\\
-f_b &= \left[
-G_b + \sqrt{ G_b^2 + (G_b q_a^*)^2}
-\right] \theta
-\\ & +
-\left[
-\sqrt{2 H_b} \sqrt{ G_b + \sqrt{ G_b^2 + (G_b q_a^*)^2}} \right] \dot{\theta}
-\end{align}
-%%%%%%%%%%%%%%%%%%%%%%
-which is equivalent to eq. \eqref{eq:lqr_b}, if 
-%%%%%%%%%%%%%%%%%%%%%%
-\begin{align}
-G_b q_a^* = q_b \quad \text{or equivalently } \quad q_a^* = q_b^*
-\end{align}
-%%%%%%%%%%%%%%%%%%%%%%
-which is the condition of having equal dimentionless context $c_a^* = c_b^*$ for this motion control problem.
 
 
 
