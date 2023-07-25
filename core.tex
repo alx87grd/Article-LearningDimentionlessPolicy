@@ -1001,7 +1001,7 @@ Using $mgl$ and $\omega$, the system parameters, as the repeating variables lead
 \Pi_5 &= \zeta^* = \zeta \quad \quad []
 \end{align}
 %%%%%%%%%%%%%%%%%%%%%%
-Then, applying the Buckingham $\pi$ theorem tell us that 
+Then, applying the Buckingham $\pi$ theorem tell us that the computed torque policy can be restated as a relation between the dimensionless variable:
 %%%%%%%%%%%%%%%%%%%%%%
 \begin{equation}
 \tau^*
@@ -1010,18 +1010,68 @@ Then, applying the Buckingham $\pi$ theorem tell us that
 \theta, \dot{\theta}^*,
 \omega_d^* , \zeta^* 
 \right)
+\label{eq:ct_dim_rel}
 \end{equation}
 %%%%%%%%%%%%%%%%%%%%%%
 
-Here we can confirm directly since we have an analytical solution: dividing eq \eqref{eq:ct} by $mgl$ and making substitution based on the dimentionless group definition, leads to :
+Here we can confirm directly since we have an analytical solution: applying eq. \eqref{eq:f2star} to the computed torque feedback law given by eq. \eqref{eq:ct}, leads to the dimentionless form following form:
 %%%%%%%%%%%%%%%%%%%%%%
-\begin{equation}
+\begin{align}
+\tau^* &= \left[ \frac{1}{mgl} \right] \left( mgl \sin \theta - 2 m l^2 \omega_d \zeta \left( \omega \dot{\theta}^*\right) - m l^2 \omega_d^2 \theta \right) \\
 \tau^*
-=
-\sin \theta
+&=
+\sin \theta^*
 - 2 \omega_d^* \zeta \dot{\theta}^* 
-- (\omega_d^*)^2 \theta
-\end{equation}
+- (\omega_d^*)^2 \theta^*
+\end{align}
+%%%%%%%%%%%%%%%%%%%%%%
+confirming equation eq. \eqref{eq:ct_dim_rel}.
+
+Also, we will use this exemple analytical solution to show that, when the dimentionless context is equal, scaling a policy using eq. \eqref{eq:ab_transform}, is equivalent to pluging new values of the system parameters. Lets assume we have two context $a$ and $b$, leading to two version of the computed torque feedback law:
+%%%%%%%%%%%%%%%%%%%%%%
+\begin{align}
+f_a &= \left(mgl \right)_a \sin \theta - 2 (m l^2 \omega_d \zeta )_a \dot{\theta} - ( m l^2 \omega_d^2)_a \theta \\
+f_b &= \left(mgl \right)_b \sin \theta - 2 (m l^2 \omega_d \zeta )_b \dot{\theta} - ( m l^2 \omega_d^2)_b \theta 
+\end{align}
+%%%%%%%%%%%%%%%%%%%%%%
+where indices $a$ and $b$ refer to the context. Using eq. \eqref{eq:ab_transform}, we can try to get $f_b$ from $f_a$ as follow:
+%%%%%%%%%%%%%%%%%%%%%%
+\begin{align}
+f_b &= \left[ \frac{(mgl)_b}{(mgl)_a} \right] \Bigr[  (mgl )_a \sin \theta - 2 (m l^2 \omega_d \zeta )_a \left[\frac{\omega_a}{\omega_b} \right] \dot{\theta}  - ( m l^2 \omega_d^2)_a \theta \Bigl] \label{eq:ctc_a} \\
+f_b &= (mgl)_b \left[  \sin \theta - 2 \frac{(\omega_d )_a }{\omega_a } \zeta_a \frac{\dot{ \theta }}{\omega_b} - \left(\frac{(\omega_d )_a }{\omega_a }\right)^2 \theta \right]
+\label{eq:ctc_b}
+\end{align}
+%%%%%%%%%%%%%%%%%%%%%%
+where the this intermediate step illustrate the dimentionless generic form in the brackets. By distributing the $(mgl)_b$ factor we can get:
+%%%%%%%%%%%%%%%%%%%%%%
+\begin{align}
+f_b &= (mgl)_b  \sin \theta - 2 (m l^2)_b 
+%\underbrace{
+\left( \frac{\omega_b}{\omega_a} (\omega_d )_a
+\right) \zeta_a
+%}_{(\omega_d \zeta )_b}
+- (m l^2)_b 
+%\underbrace{
+\left( 
+\frac{\omega_b}{\omega_a} (\omega_d)_a 
+\right)^2 
+%}_{(\omega_d)_b^2 }
+\theta
+\end{align}
+%%%%%%%%%%%%%%%%%%%%%%
+which will be exactly equivalent to eq. \eqref{eq:ctc_b} (i.e. be equivalent to changing the value of context variable in eq. \eqref{eq:ctc_a} to the $b$ version) if:
+%%%%%%%%%%%%%%%%%%%%%%
+\begin{align}
+\frac{\omega_b}{\omega_a} (\omega_d )_a = (\omega_d )_b 
+\quad \text{and}  \quad \zeta_a = \zeta_b
+\end{align}
+%%%%%%%%%%%%%%%%%%%%%%
+which is exactly the condition of having equal dimentionless context $c_a^* = c_b^*$ for this motion control problem:
+%%%%%%%%%%%%%%%%%%%%%%
+\begin{align}
+\frac{(\omega_d )_a}{\omega_a}  = \omega^*_a =  \omega^*_b = \frac{(\omega_d )_b}{\omega_b} 
+\quad \text{and}  \quad \zeta_a^* = \zeta_b^*
+\end{align}
 %%%%%%%%%%%%%%%%%%%%%%
 
 
@@ -1119,7 +1169,7 @@ mgl \right] \theta
 +\\
 \left[
 \sqrt{ 2 ml^2)} \sqrt{mgl+ \sqrt{ (mgl)^2 + q^2}}
-\right] \dot{\theta}^*
+\right] \dot{\theta}
 \end{align}
 %%%%%%%%%%%%%%%%%%%%%%
 It is possible to, by this and that.., arrive to this dimentionless form:
