@@ -1027,32 +1027,42 @@ Here we can confirm directly since we have an analytical solution: applying eq. 
 %%%%%%%%%%%%%%%%%%%%%%
 confirming the structure predicted by equation eq. \eqref{eq:ct_dim_rel}.
 
-Also, we will use this exemple analytical solution to show that, when the dimentionless context is equal, scaling a policy using eq. \eqref{eq:ab_transform}, is equivalent to pluging new values of the system parameters. 
-
-Lets assume we have two context $a$ and $b$, leading to two version of the computed torque feedback law:
+Also, we will use this exemple analytical solution to show that, when the dimentionless context is equal, scaling a policy using eq. \eqref{eq:ab_transform}, is equivalent to pluging new values of the system parameters. To simplify the following development we introduce new variables groups:
 %%%%%%%%%%%%%%%%%%%%%%
 \begin{align}
-f_a &= \left(mgl \right)_a \sin \theta - 2 (m l^2 \omega_d \zeta )_a \dot{\theta} - ( m l^2 \omega_d^2)_a \theta \\
-f_b &= \left(mgl \right)_b \sin \theta - 2 (m l^2 \omega_d \zeta )_b \dot{\theta} - ( m l^2 \omega_d^2)_b \theta 
+G_a=m_a g_a l_a \quad H_a=m_a l_a^2 \quad \omega_a = \sqrt{G_a/H_a} \\
+G_b=m_b g_b l_b \quad H_b=m_b l_b^2 \quad \omega_b = \sqrt{G_b/H_b}
 \end{align}
 %%%%%%%%%%%%%%%%%%%%%%
-where indices $a$ and $b$ refer to the context. Using eq. \eqref{eq:ab_transform}, we can try to get $f_b$ from $f_a$ as follow:
+where indices $a$ and $b$ refer to a context instance. By just substituting the variable in the analytical policy solution given by eq \eqref{eq:ct}, we can get two instance of the feedback law:
 %%%%%%%%%%%%%%%%%%%%%%
 \begin{align}
-f_b &= \left[ \frac{(mgl)_b}{(mgl)_a} \right] \Bigr[  (mgl )_a \sin \theta - 2 (m l^2 \omega_d \zeta )_a \left[\frac{\omega_a}{\omega_b} \right] \dot{\theta}  - ( m l^2 \omega_d^2)_a \theta \Bigl] \label{eq:ctc_a} \\
-f_b &= (mgl)_b \left[  \sin \theta - 2 \frac{(\omega_d )_a }{\omega_a } \zeta_a \frac{\dot{ \theta }}{\omega_b} - \left(\frac{(\omega_d )_a }{\omega_a }\right)^2 \theta \right]
+f_a &= G_a \sin \theta - 2 H_a (\omega_d \zeta )_a \dot{\theta} - H_a( \omega_d^2)_a \theta \label{eq:ctc_a} \\
+f_b &= G_b \sin \theta - 2 H_b (\omega_d \zeta )_b \dot{\theta} - H_b( \omega_d^2)_b \theta
 \label{eq:ctc_b}
 \end{align}
 %%%%%%%%%%%%%%%%%%%%%%
-where the this intermediate step illustrate the dimentionless generic form in the brackets. By distributing the $(mgl)_b$ factor we can get:
+Now, lets try to get to $f_b$ from $f_a$ using eq. \eqref{eq:ab_transform}:
 %%%%%%%%%%%%%%%%%%%%%%
 \begin{align}
-f_b &= (mgl)_b  \sin \theta - 2 (m l^2)_b 
+f_b &= \left[ \frac{G_b}{G_a} \right] \Bigr[  G_a \sin \theta - 2 H_a ( \omega_d \zeta )_a \left[\frac{\omega_a}{\omega_b} \right] \dot{\theta}  - H_a ( \omega_d^2)_a \theta \Bigl]  
+\end{align}
+%%%%%%%%%%%%%%%%%%%%%%
+Then, distributing $1/G_a$ leads to:
+%%%%%%%%%%%%%%%%%%%%%%
+\begin{align}
+f_b &= G_b \left[  \sin \theta - 2 \frac{(\omega_d )_a }{\omega_a } \zeta_a \frac{\dot{ \theta }}{\omega_b} - \left(\frac{(\omega_d )_a }{\omega_a }\right)^2 \theta \right]
+\end{align}
+%%%%%%%%%%%%%%%%%%%%%%
+where the this intermediate step illustrate the dimentionless generic form in the brackets. Finaly, by distributing the $G_b$ factor we can get:
+%%%%%%%%%%%%%%%%%%%%%%
+\begin{align}
+f_b &= G_b  \sin \theta - 2 H_b  
 %\underbrace{
 \left( \frac{\omega_b}{\omega_a} (\omega_d )_a
-\right) \zeta_a
+\right) \zeta_a \dot{ \theta }
 %}_{(\omega_d \zeta )_b}
-- (m l^2)_b 
+- H_b 
 %\underbrace{
 \left( 
 \frac{\omega_b}{\omega_a} (\omega_d)_a 
@@ -1061,27 +1071,28 @@ f_b &= (mgl)_b  \sin \theta - 2 (m l^2)_b
 \theta
 \end{align}
 %%%%%%%%%%%%%%%%%%%%%%
-which will be exactly equivalent to eq. \eqref{eq:ctc_b} (i.e. be equivalent to changing the value of context variable in eq. \eqref{eq:ctc_a} to the $b$ version) if:
+which will be exactly equivalent to eq. \eqref{eq:ctc_b} (i.e. be equivalent to changing the value of context variable in eq. \eqref{eq:ctc_a} from the $a$ to the $b$ version) if:
 %%%%%%%%%%%%%%%%%%%%%%
 \begin{align}
 \frac{\omega_b}{\omega_a} (\omega_d )_a = (\omega_d )_b 
 \quad \text{and}  \quad \zeta_a = \zeta_b
 \end{align}
 %%%%%%%%%%%%%%%%%%%%%%
-which is exactly the condition of having equal dimentionless context $c_a^* = c_b^*$ for this motion control problem:
+which is the condition of having equal dimentionless context $c_a^* = c_b^*$ for this motion control problem:
 %%%%%%%%%%%%%%%%%%%%%%
 \begin{align}
 \frac{(\omega_d )_a}{\omega_a}  = \omega^*_a =  \omega^*_b = \frac{(\omega_d )_b}{\omega_b} 
 \quad \text{and}  \quad \zeta_a^* = \zeta_b^*
 \end{align}
 %%%%%%%%%%%%%%%%%%%%%%
+This example illustrates that applying the scaling of eq. \eqref{eq:ab_transform} based on the dimensional analysis framework, is equivalent to changing the context variables in an analytical solution, when dimentionless context variables are equal.
 
 
-\newpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{ Dimentionless Linear Quatratic Reglator (LQR) solution}
+\label{sec:lqr}
 
-Here we analyse the simplified control problem with the LQR framework. A linearized verison of the equation of motion is used:
+Here we analyse a simplified motion control problem with the LQR framework. A linearized verison of the equation of motion is used:
 %%%%%%%%%%%%%%%%%%%%%%
 \begin{equation}
 ml^2 \ddot{\theta} - mgl \theta = \tau
@@ -1105,7 +1116,7 @@ However, here no constraints on the torque are included in the problem. With thi
 \underbrace{ m , g , l }_{\text{system parameters}},
 \underbrace{ q }_{\text{task parameters}}
 \right)
-\label{eq:lqr_policy}
+\label{eq:lqr_policy_form}
 \end{equation}
 %%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1146,7 +1157,7 @@ However, here no constraints on the torque are included in the problem. With thi
    \end{tabular}
 \end{table}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-We can thus select the same dimentionless group as before, and conclude that eq. \eqref{eq:lqr_policy} can be restated under this form:
+We can thus select the same dimentionless group as before, and conclude that eq. \eqref{eq:lqr_policy_form} can be restated under this form:
 %%%%%%%%%%%%%%%%%%%%%%
 \begin{equation}
 \tau^*
@@ -1155,23 +1166,22 @@ We can thus select the same dimentionless group as before, and conclude that eq.
  \theta, \dot{\theta}^* ,
  q^* 
 \right)
-\label{eq:lqr_dimpolicy}
+\label{eq:lqr_dimpolicy_form}
 \end{equation}
 %%%%%%%%%%%%%%%%%%%%%%
 
-For this motion control problem, an analytical solution exist ( for the development, see alex screen shot 4 july 2023), and the policy is
+For this motion control problem, an analytical solution exist (see appendix \ref{sec:lqr_proof}), and the policy is
 %%%%%%%%%%%%%%%%%%%%%%
 \begin{align}
-\tau = 
+\tau &= 
 \left[
-mgl \right] \theta
-+
-\left[
+mgl +
 \sqrt{ (mgl)^2 + q^2} \right] \theta
-+\\
+\\ &+
 \left[
 \sqrt{ 2 ml^2)} \sqrt{mgl+ \sqrt{ (mgl)^2 + q^2}}
 \right] \dot{\theta}
+\label{eq:lqr_policy}
 \end{align}
 %%%%%%%%%%%%%%%%%%%%%%
 It is possible to, by this and that.., arrive to this dimentionless form:
@@ -1187,9 +1197,9 @@ It is possible to, by this and that.., arrive to this dimentionless form:
 \right] \dot{\theta}^*
 \end{equation}
 %%%%%%%%%%%%%%%%%%%%%%
-That correspond to the form of eq. \eqref{eq:lqr_dimpolicy} predicted by the dimentional analysis.
+That correspond to the form of eq. \eqref{eq:lqr_dimpolicy_form} predicted by the dimentional analysis.
 
-I am not sure where I am going with this..
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1198,3 +1208,120 @@ I am not sure where I am going with this..
 
 
 The concept of dimentionless context is powerful, in the sense that it shows how to transfer a control policy to diferent context where the results should be exactly equivalent. However, it is limited because if the dimentionless context $c^*$ is not exactly equal, then nothing can be deduced regarding if a policy is transferable. Furthermore, the challenge of leveraging this idea is to include all meaningful context variables. If a meaningful variable (in the sense that the policy would be different if its value is changed) is omitted from the context vector $c$ in the dimentional analysis, then the dimentional analysis results might be wrong. On the other hand, if we include too many variables to fully describe a context, then dimentionnaly similar context space will probably be so specific it won't be pratical to use for transfering policy between systems. Henseforth, finding the appropriate parametrization of the context will be critical in order to leverage this principle for sharing policy between similar system, 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\appendix
+\subsection{LQR analytic solution}
+\label{sec:lqr_proof}
+In this section, we show that the policy given by eq. \eqref{eq:lqr_policy}, is optimal with respect to the LQR problem defined in section \ref{sec:lqr}.
+
+
+
+We can write the equation of motino given by eq. \eqref{eq:pendulum_dynamics_lqr} in state-space form, using $G=mgl$ and $H=ml^2$, as :
+%%%%%%%%%%%%%%%%%%%%%%
+\begin{equation}
+\frac{d}{dt} 
+\begin{bmatrix}
+    \theta \\
+    \dot{\theta} 
+\end{bmatrix}
+= 
+\underbrace{
+\begin{bmatrix}
+    0 & 1 \\
+    G/H & 0 
+\end{bmatrix}
+}_{A}
+\underbrace{
+\begin{bmatrix}
+    \theta \\
+    \dot{\theta} 
+\end{bmatrix}
+}_{x}
++
+\underbrace{
+\begin{bmatrix}
+    0 \\
+    1/H
+\end{bmatrix}
+}_{B}
+\underbrace{
+\begin{bmatrix}
+    \tau
+\end{bmatrix}
+}_{u}
+\end{equation}
+%%%%%%%%%%%%%%%%%%%%%%
+
+Then, adapting a solution from \cite{hanks_closed-form_1991}, if we parameterize the weight matrix of the cost function this way:
+%%%%%%%%%%%%%%%%%%%%%%
+\begin{equation}
+J = \int_0^{\infty}{ \left( x^T 
+\underbrace{
+\begin{bmatrix}
+    a(a-2G) & 0 \\
+    0       & b^2 - 2 a H
+\end{bmatrix}
+}_{Q} x
++
+u^T 
+\underbrace{
+\begin{bmatrix}
+    1 
+\end{bmatrix}
+}_{R} u
+\right) dt } 
+\end{equation}
+%%%%%%%%%%%%%%%%%%%%%%
+the optimal cost-to-go is given by
+%%%%%%%%%%%%%%%%%%%%%%
+\begin{equation}
+J =   x^T 
+\underbrace{
+\begin{bmatrix}
+    b(a-G) & aH \\
+    aH       & bH
+\end{bmatrix}
+}_{S} x
+\end{equation}
+%%%%%%%%%%%%%%%%%%%%%%
+and the optimal feedback policy is 
+%%%%%%%%%%%%%%%%%%%%%%
+\begin{equation}
+u = 
+- \underbrace{\left[ R^{-1} B^T S\right]}_{K} x
+=
+-
+\underbrace{
+\begin{bmatrix}
+    a & b \\
+\end{bmatrix}
+}_{K} x
+\label{eq:kx}
+\end{equation}
+%%%%%%%%%%%%%%%%%%%%%%
+This solution can by verifyied by subtituting matrices into the algebraic Riccati equation given by:
+%%%%%%%%%%%%%%%%%%%%%%
+\begin{equation}
+0 = SA + A^T S - SBR^{-1}B^TS + Q
+\end{equation}
+%%%%%%%%%%%%%%%%%%%%%%
+as all this fit into the continuous infinite horizon classical LQR result \cite{bertsekas_dynamic_2012}. 
+Then, we can see that the cost function defined in section \ref{sec:lqr}, is a special case where $Q_{11} = q^2$ and $Q_{22}=0$, leading to:
+%%%%%%%%%%%%%%%%%%%%%%
+\begin{align}
+q^2 &= a(a-2G) \\
+0   &= b^2 -2aH
+\end{align}
+%%%%%%%%%%%%%%%%%%%%%%
+Solving for $a$ and $b$, and keeping the positive solution, leads to
+%%%%%%%%%%%%%%%%%%%%%%
+\begin{align}
+a &= G + \sqrt{G^2+q^2} \\
+b &= \sqrt{2aH} = \sqrt{2H(G + \sqrt{G^2+q^2})}
+\end{align}
+%%%%%%%%%%%%%%%%%%%%%%
+that when substituted into eq. \eqref{eq:kx} is equal to the policy given by eq. \eqref{eq:lqr_policy}.
+
+
+
