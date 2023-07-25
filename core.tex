@@ -910,7 +910,6 @@ $\theta_{max}$ is the range of angle for witch the optimal policy is solved, her
 
 
 
-\newpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%
 \section{Closed-form parametric policies}
@@ -1184,10 +1183,16 @@ mgl +
 \label{eq:lqr_policy}
 \end{align}
 %%%%%%%%%%%%%%%%%%%%%%
-It is possible to, by this and that.., arrive to this dimentionless form:
+Applying eq. \eqref{eq:f2star} to this feedback law given leads to the dimentionless form following form, using again $G=mgl$ and $H=ml^2$ for shortness:
 %%%%%%%%%%%%%%%%%%%%%%
-\begin{equation}
-\tau^* = 
+\begin{align}
+\tau^* &= \left[\frac{1}{G}\right] 
+\left[ G + \sqrt{G^2+q^2}\right] \theta \\& + \left[\frac{1}{G}\right] \left[\sqrt{2H(G+\sqrt{G^2+q^2})}
+\right] \left[\omega \dot{\theta}^*\right] \\
+\tau^* &= 
+\left[ 1 + \sqrt{\frac{G^2+q^2}{G^2}}\right] \theta + \left[\sqrt{\frac{2H\omega^2}{G}\frac{G+\sqrt{G^2+q^2}}{G}}
+\right] \dot{\theta}^* \\
+\tau^* &= 
 \left[
 1 + \sqrt{ 1 + (q^*)^2}
 \right] \theta
@@ -1195,15 +1200,63 @@ It is possible to, by this and that.., arrive to this dimentionless form:
 \left[
 \sqrt{2} \sqrt{ 1 + \sqrt{ 1 + (q^*)^2}}
 \right] \dot{\theta}^*
-\end{equation}
+\end{align}
 %%%%%%%%%%%%%%%%%%%%%%
-That correspond to the form of eq. \eqref{eq:lqr_dimpolicy_form} predicted by the dimentional analysis.
+With the final dimentionless form only a function of states and the dimentionless cost parameter, as predicted by the dimentional analysis (eq. \eqref{eq:lqr_dimpolicy_form}).
+
+We can also use this second example to show that scalling the policy with eq. \eqref{eq:ab_transform} will be equivalent to substituting new context variables. Let again say we have two context, labelled $a$ and $b$, that we can use the global policy solution to have the two dimensional version: 
+%%%%%%%%%%%%%%%%%%%%%%
+\begin{align}
+f_a &=
+\left[ G_a + \sqrt{G_a^2+q_a^2}\right] \theta + \left[\sqrt{2H_a(G_a+\sqrt{G_a^2+q_a^2})}
+\right] \dot{\theta} \\
+f_b &=
+\left[ G_b + \sqrt{G_b^2+q_b^2}\right] \theta + \left[\sqrt{2H_b(G_b+\sqrt{G_b^2+q_b^2})}
+\right] \dot{\theta} \label{eq:lqr_b}
+\end{align}
+%%%%%%%%%%%%%%%%%%%%%%
+We can try to find $f_b$ by scaling $f_a$ using eq. \eqref{eq:ab_transform}:
+%%%%%%%%%%%%%%%%%%%%%%
+\begin{align}
+f_b &= \left[ \frac{G_b}{G_a} \right] f_a \left( \theta , \left[ \frac{\omega_a}{\omega_b} \right] \dot{\theta} \right) 
+\\
+f_b &= G_b \left[
+1 + \sqrt{ 1 + (q_a^*)^2}
+\right] \theta
+\\ & + G_b
+\left[
+\sqrt{2} \sqrt{ 1 + \sqrt{ 1 + (q_a^*)^2}} \right] \frac{\dot{\theta}}{\omega_b} 
+\end{align}
+%%%%%%%%%%%%%%%%%%%%%%
+where $q_a^* = q_a / G_a$ is the dimentionless version of the cost parameter. Then, we can distribute $G_b$:
+%%%%%%%%%%%%%%%%%%%%%%
+\begin{align}
+f_b &= \left[
+G_b + \sqrt{ G_b^2 + (G_b q_a^*)^2}
+\right] \theta
+\\ & +
+\left[
+\sqrt{\frac{2G_b}{\omega_b^2}} \sqrt{ G_b + \sqrt{ G_b^2 + (G_b q_a^*)^2}} \right] \dot{\theta}
+\\
+f_b &= \left[
+G_b + \sqrt{ G_b^2 + (G_b q_a^*)^2}
+\right] \theta
+\\ & +
+\left[
+\sqrt{2 H_b} \sqrt{ G_b + \sqrt{ G_b^2 + (G_b q_a^*)^2}} \right] \dot{\theta}
+\end{align}
+%%%%%%%%%%%%%%%%%%%%%%
+which is equivalent to eq. \eqref{eq:lqr_b}, if 
+%%%%%%%%%%%%%%%%%%%%%%
+\begin{align}
+G_b q_a^* = q_b \quad \text{or equivalently } \quad q_a^* = q_b^*
+\end{align}
+%%%%%%%%%%%%%%%%%%%%%%
+which is the condition of having equal dimentionless context $c_a^* = c_b^*$ for this motion control problem.
 
 
 
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\newpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Conclusion}
 
 
