@@ -37,9 +37,9 @@ It remains to be seen if this approach can also help generalizing policies for m
 
 % \paragraph{This makes the results "context specific" and makes its harder to generalize }
 
-The state-of-the-art toolbox of control engineers include many numerical algorithms and data-driven schemes. Many control approches now include a type of mathematical optimization that has no closed-form solution and that is thus solved numerically, for instance [] and []. Also, recent progress in the field of reinforcement learning have made the approach viable for generating feedback laws for some motion control problem [ETH dog robot], and we expect this list to growth quickly in the future. All in all, numerical tool are very useful and have been used to solve many hard control problem. However, they have a major drawback compared to simpler analytical approaches: parameters of the problem are not explicitly in the solution, which makes it much harder to generalize a solution and reuse it.
+The state-of-the-art toolbox of control engineers include many numerical algorithms and data-driven schemes. Many control approches now include a type of mathematical optimization that has no closed-form solution and that is thus solved numerically, for instance [] and []. Also, recent progress in the field of reinforcement learning have made the approach viable for generating feedback laws for some motion control problem [ETH dog robot], and we expect this list to growth quickly in the future. All in all, numerical tool are very useful and have been used to solve many hard control problem. However, they have a major drawback compared to simpler analytical approaches: parameters of the problem are not appearing explicitly in the solutions, which makes it much harder to generalize and reuse them.
 
-Analytical solutions to control problems have the nice property of allowing the solution to be adjusted to different system parameters by simply plugging the new values in the equation. Most numerical solutions act has black-boxes with respect to the parameters. For instance, if we use a reinforcement learning (RL) approach to find a good feedback law for a given task with a robot, the solution will be specific to this system. In other words, the solution, which will take the form of a black-box mapping from states to control inputs, would not be applicable with a modified rigid link twice longer for instance. With an analytical solution, we would simply update the value of the length variable in the equation, while with a RL solution we would have to re-conduct all the training implying generally multiple hours of data collection and/or computation. It would be a great asset to have the ability to adjust black-box numerical solutions with respect to some problem parameters.  
+Analytical solutions to control problems have the nice property of allowing the solution to be adjusted to different system parameters by simply substituting the new values in the equation. Most numerical solutions act has black-boxes with respect to the parameters. For instance, if we use a reinforcement learning (RL) approach to find a good feedback law for a given task with a robot, the solution will be specific to this system. In other words, the solution, which will take the form of a black-box mapping from states to control inputs, would not be applicable with a modified rigid link twice longer for instance. With an analytical solution, we would simply update the value of the length variable in the equation, while with a RL solution we would have to re-conduct all the training implying generally multiple hours of data collection and/or computation. It would be a great asset to have the ability to adjust black-box numerical solutions with respect to some problem parameters.  
 
 %%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}[t]
@@ -78,12 +78,12 @@ ALso, representation learning...
 \section{Dimentionless Policies}
 \label{sec:dimenanalysis}
 
-In the following section, the Buckingham $\pi$ theorem is used to develop the concept of dimentionless policies, and it is shown that multiple systems should have the same dimentionless policy if they have what we will call a similar dimentionless context.
+In the following section, we develop the concept of dimentionless policies based on the Buckingham $\pi$ and show that multiple motion control problems will have the same policy solution when restated in a dimentionless form, if they have what we will call a similar dimentionless context.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Context variables in the policy mapping}
 
-A state feedback law is defined here as a mapping $f$, specific to a given system,  from an vector space representing the state $x$ of the dynamic system, to a vector space representing the control inputs $u$ of the system:
+Here, we will call a feedback law a mapping noted $f$, specific to a given system, from an vector space representing the state $x$ of the dynamic system, to a vector space representing the control inputs $u$ of the system:
 %%%%%%%%%%%%%%%%%%%%%%
 \begin{equation}
 u
@@ -93,9 +93,9 @@ x
 \right)
 \end{equation}
 %%%%%%%%%%%%%%%%%%%%%%
-Under some assumptions, mainly a fully observable systems, an additive cost and an infinite time horizon, the optimal policy is also guarantee to be of this form \cite{bertsekas_dynamic_2012}. Only this case is considered is considered for the following analysis.
+Under some assumptions, mainly a fully observable systems, an additive cost and an infinite time horizon, the optimal policy is also guarantee to be in this state feedback form \cite{bertsekas_dynamic_2012}. We will only consider this case in the following analysis.
 
-To consider the question of how can this feedback law (a form of system specific knowledge) can be transfered in a different context, it is usefull to think about a higher dimension mapping, that we will note $\pi$, also having input arguments a vector of variables $c$ describing the context:
+To consider the question of how can this feedback law (a form of system-specific knowledge) can be transferred in a different context, it is useful to think about a higher dimension mapping, that we will note $\pi$, also having as additional input arguments, a vector of variables $c$ describing the context:
 %%%%%%%%%%%%%%%%%%%%%%
 \begin{equation}
 u
@@ -106,11 +106,7 @@ c
 \right)
 \end{equation}
 %%%%%%%%%%%%%%%%%%%%%%
-
-
-
-
-The context $c$ is the vector of all variables that would affect what is the feedback law solution to a motion control problem. For instance, in section \ref{sec:optimalswingup}, a case study is conducted considering the optimal feedback law for swinging-up an inverted pendulum. For this exemple, the context variables are the pendulum mass $m$, the gravitational constant $g$, the lenght $l$, but also what we will call task parameters: a parameter in the cost function $q$ and a constraint $\tau_{max}$ on the maximum input torque, see Fig. \ref{fig:policy_context}. For a given state of the system, the torque solution might be different if any of the context variable change value, for instance if the pendulum is heavier, more torque limited, etc.
+where the context $c$ is the vector of all variables that would affect what is the feedback law solution. We can think about the policy $\pi$ as the solution to a motion control problem, and $c$ as a vector of parameters in the problem definition. For instance, in section \ref{sec:optimalswingup}, a case study is conducted considering the optimal feedback law for swinging-up an inverted pendulum. For this example, the context variables are the pendulum mass $m$, the gravitational constant $g$, the length $l$, but also what we will call task parameters: a parameter in the cost function $q$ and a constraint $\tau_{max}$ on the maximum input torque, see Fig. \ref{fig:policy_context}. For a given state of the system, the torque solution might be different if any of the context variable change value, for instance if the pendulum is heavier, more torque limited, etc.
 %%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}[h]
 \vspace{-5pt}
@@ -123,7 +119,7 @@ The context $c$ is the vector of all variables that would affect what is the fee
 \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%
 
- The context must include all the variables, system parameters and task parameters, that would affect the solution to the control problem:
+For the following dimensional analysis to work, we must include all the variables, system parameters and task parameters, that would affect the solution to the control problem in the context vector $c$:
 %%%%%%%%%%%%%%%%%%%%%%
 \begin{equation}
 \underbrace{\begin{bmatrix}
