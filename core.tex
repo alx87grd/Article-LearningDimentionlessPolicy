@@ -20,7 +20,7 @@ Is it a good way to Generalize Numerical Results?
 
 
 \begin{abstract}
-Yes if the context, the list of variable defining the motion control problem, are dimensionally similar. Here we show that by modifying the problem formulation using dimensionless variables, we can re-use the optimal control law generated numerically for a specific system to a sub-space of dimensionnally similar problems. This is demonstrated, with numerical results, for the classic motion control problem of swinging-up a torque-limited inverted pendulum. %TODO: (We also demonstrate that by leveraging this scheme when using reinforcement learning, multiple systems of various dimentions can share a data-base during the learning phase, which can be a big advantage for data efficiency.) 
+Yes if the context, the list of variables defining the motion control problem, is dimensionally similar. Here we show that by modifying the problem formulation using dimensionless variables, we can re-use the optimal control law generated numerically for a specific system to a sub-space of dimensionally similar systems. This is demonstrated, with numerically generated optimal controllers, for the classic motion control problem of swinging-up a torque-limited inverted pendulum. %The dimensional analysis also show that multiple systems of various dimensions can share a data-base for reinforcement learning. %TODO: (We also demonstrate that by leveraging this scheme when using reinforcement learning, multiple systems of various dimentions can share a data-base during the learning phase, which can be a big advantage for data efficiency.) 
 We also discuss the concept of regime, a region in the space of context variables, that can help relax the condition on dimensional similarity. 
 It remains to be seen if this approach can also help generalizing policies for more complex high-dimensional problems.
 \end{abstract}
@@ -37,37 +37,37 @@ It remains to be seen if this approach can also help generalizing policies for m
 
 % \paragraph{This makes the results "context specific" and makes its harder to generalize }
 
-The state-of-the-art toolbox of control engineers include many numerical algorithms and data-driven schemes. Many control approaches now include a type of mathematical optimization that has no closed-form solution and that is thus solved numerically, for instance [] and []. Also, recent progress in the field of reinforcement learning have made the approach viable for generating feedback laws for some motion control problem [ETH dog robot], and we expect this list to growth quickly in the future. All in all, numerical tool are very useful and have been used to solve many hard control problem. However, they have a major drawback compared to simpler analytical approaches: parameters of the problem are not appearing explicitly in the solutions, which makes it much harder to generalize and reuse them.
+The state-of-the-art toolbox of control engineers include many numerical algorithms and data-driven schemes. Many control approaches now include a type of mathematical optimization that has no closed-form solution and that is thus solved numerically. More specifically, reinforcement learning (RL), which we can be seen as a data-driven offline optimization, is starting to be a viable option for solving some motion control problems \cite{rudin_learning_2022}. All in all, numerical tool are very useful and have been used to solve many hard control problem. However, they have a major drawback compared to simpler analytical approaches: parameters of the problem are not appearing explicitly in the solutions, which makes it much harder to generalize and reuse them. 
 
-Analytical solutions to control problems have the nice property of allowing the solution to be adjusted to different system parameters by simply substituting the new values in the equation. Most numerical solutions act has black-boxes with respect to the parameters. For instance, if we use a reinforcement learning (RL) approach to find a good feedback law for a given task with a robot, the solution will be specific to this system. In other words, the solution, which will take the form of a black-box mapping from states to control inputs, would not be applicable with a modified rigid link twice longer for instance. With an analytical solution, we would simply update the value of the length variable in the equation, while with a RL solution we would have to re-conduct all the training implying generally multiple hours of data collection and/or computation. It would be a great asset to have the ability to adjust black-box numerical solutions with respect to some problem parameters.  
+Analytical solutions to control problems have the useful property of allowing the solution to be adjusted to different system parameters by simply substituting the new values in the equation. Most numerical solutions, including RL, usually act has black-boxes with respect to the parameters. For instance, if we use a reinforcement learning (RL) approach to find a good feedback law for a given task with a robot, the solution will be specific to this system. If the RL-generated feedback law is transferred to a robot with a longer arm, there is a good chance it will not behave as intended. With an analytical feedback law solution, we would simply update the value of the length variable in the equation to adjust it, while with a RL solution we would have to re-conduct all the training implying generally multiple hours of data collection and/or computation. It would be a great asset to have the ability to adjust black-box numerical solutions with respect to some problem parameters.  
 
 %%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}[t]
-\vspace{-5pt}
+% \vspace{-5pt}
 \begin{center}
-\includegraphics[width=0.99\linewidth]{fig/bigpicture2.jpg}
-\caption{Big picture}\label{fig:big_picture}
+\includegraphics[width=0.99\linewidth]{fig/big_picture3.jpg}
+\caption{Shared dimensionless policy for various systems}\label{fig:big_picture}
 \end{center}
-\vspace{-25pt}
+\vspace{-10pt}
 \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%
 
-In this paper, we explore the concept of dimensionless policies, a more generic form of knowledge, has a mean to generalize numerical solutions to motion control problem. First, in section \ref{sec:dimenanalysis}, we use dimensional analysis to show that ... Then in section \ref{sec:optimalswingup}, this property is demonstrated for the classical motion control problem of swinging-up an inverted pendulum. Also, in section \ref{sec:closedfrom}, we illustrate with two examples that the proposal dimensionnal scaling is equivalent to changing parameters in an analytical solution. 
+In this paper, we explore the concept of dimensionless policies, a more generic form of knowledge, has a mean to generalize numerical solutions to motion control problems. First, in section \ref{sec:dimenanalysis}, we use dimensional analysis (i.e. the Buckingham $\pi$ theorem) to show that motion control problem with dimensionally similar context variables must share the same feedback law solution when expressed in a dimensionless form, and discuss the implications. Then in section \ref{sec:optimalswingup}, this is demonstrated for the classical motion control problem of swinging-up an inverted pendulum, using numerically generated optimal feedback laws with a dynamic programming algorithm. Also, in section \ref{sec:closedfrom}, we illustrate with two examples that the proposed dimensional scaling is equivalent to changing parameters in an analytical solution. 
 
 %Another aspect to this issue for RL, is the constraint it pose on data during a training phase. 
 
-\section{Background}
+% \section{Background}
 
-In the field of learning, this is fall under the vast on-goin challenge of generalizing knowledge...
+% In the field of learning, this is fall under the vast on-goin challenge of generalizing knowledge...
 
-more specifically in robot, .. transfer learning..
+% more specifically in robot, .. transfer learning..
 
-ALso, representation learning...
+% ALso, representation learning...
 
-Usage of Buckingham Pi \cite{bakarji_dimensionally_2022}
+% Usage of Buckingham Pi \cite{bakarji_dimensionally_2022}
 
 
-\section{Contribution}
+% \section{Contribution}
 
 
 
@@ -95,9 +95,9 @@ x
 \right)
 \end{equation}
 %%%%%%%%%%%%%%%%%%%%%%
-Under some assumptions, mainly a fully observable systems, an additive cost and an infinite time horizon, the optimal policy is also guarantee to be in this state feedback form \cite{bertsekas_dynamic_2012}. We will only consider this case in the following analysis.
+Under some assumptions, mainly a fully observable systems, an additive cost and an infinite time horizon, the optimal feedback law is guarantee to be in this state feedback form \cite{bertsekas_dynamic_2012}. We will only consider this case in the following analysis.
 
-To consider the question of how can this system-specific feedback law can be transferred in a different context, it is useful to think about a higher dimension mapping, that we will call a policy and note $\pi$, also having as additional input arguments, a vector of variables $c$ describing the context:
+To consider the question of how can this system-specific feedback law be transferred in a different context, it is useful to think about a higher dimension mapping, that we will call a policy and note $\pi$, also having as additional input arguments, a vector of variables $c$ describing the context:
 %%%%%%%%%%%%%%%%%%%%%%
 \begin{equation}
 u
@@ -108,13 +108,13 @@ c
 \right)
 \end{equation}
 %%%%%%%%%%%%%%%%%%%%%%
-where the context $c$ is the vector of all variables that would affect what is the feedback law solution. We can think about the policy $\pi$ as the solution to a motion control problem, and $c$ as a vector of parameters in the problem definition. The policy $\pi$ gives what control inputs to use as a function of the state $x$, but also as a function of problem parameters. The policy $\pi$ thus contains feedback laws for all possible contexts. For example, in section \ref{sec:optimalswingup}, a case study is conducted considering the optimal feedback law for swinging-up an inverted pendulum. For this example, the context variables are the pendulum mass $m$, the gravitational constant $g$, the length $l$, but also what we will call task parameters: a parameter in the cost function $q$ and a constraint $\tau_{max}$ on the maximum input torque, see Fig. \ref{fig:policy_context}. For a given state of the system, the torque policy might be different if any of the context variable change value, for instance if the pendulum is heavier, more torque limited, etc.
+where the context $c$ is the vector of all variables that would affect what is the feedback law solution. We can think about the policy $\pi$ as the solution to a motion control problem, and $c$ as a vector of parameters in the problem definition. The policy $\pi$ outputs the control action as a function of the state $x$, but also of problem parameters. The policy $\pi$ thus contains the feedback laws for all possible contexts. For example, in section \ref{sec:optimalswingup} a case study is conducted considering the optimal feedback law for swinging-up a torque-limited inverted pendulum. For this example, the context variables are the pendulum mass $m$, the gravitational constant $g$, the length $l$, but also what we will call task parameters: a parameter in the cost function $q$ and a constraint $\tau_{max}$ on the maximum input torque, see Fig. \ref{fig:policy_context}. For a given state of the system, the torque policy might be different if any of the context variable change value, for instance if the pendulum is heavier, more torque limited, etc.
 %%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}[htb]
 \vspace{-5pt}
 \begin{center}
-\includegraphics[width=0.75\linewidth]{fig/policy_context.jpg}
-\caption{For the pendulum swing-up task, the context includes 5 variables: the parameter of the system: $m$, $g$, and $l$, a parameter of the cost function: $q$ and a parameter defining the constraints: $\tau_{max}$. The optimal solution depends on all those variables.
+\includegraphics[width=0.75\linewidth]{fig/policy_context2.jpg}
+\caption{For the pendulum swing-up control problem, the context includes 5 variables: the parameter of the system: $m$, $g$, and $l$, a parameter of the cost function: $q$ and a parameter defining the constraints: $\tau_{max}$. 
 }\label{fig:policy_context}
 \end{center}
 \vspace{-5pt}
@@ -124,7 +124,7 @@ where the context $c$ is the vector of all variables that would affect what is t
 \begin{figure}[htb]
 \vspace{-5pt}
 \begin{center}
-\includegraphics[width=0.95\linewidth]{fig/slice.jpg}
+\includegraphics[width=0.95\linewidth]{fig/slice2.jpg}
 \caption{A feedback law $f$, is a slice of the higher dimensional policy mapping $\pi$ for a specific context.
 }\label{fig:slice}
 \end{center}
@@ -132,7 +132,7 @@ where the context $c$ is the vector of all variables that would affect what is t
 \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%
 
-We will sometime use subscript letter to refer to a specific context, for instance we will note $f_a$ the feedback law solution to a motion problem defined by an instance of context variables $c_a$. The feedback law $f_a$ is thus a slice of the global policy when the context variables are fixed at values $c_a$:
+We will use a subscript letter to refer to a specific context, for instance we will note $f_a$ the feedback law solution to a motion problem defined by an instance of context variables $c_a$. The feedback law $f_a$ is thus a slice of the global policy when the context variables are fixed at values $c_a$:
 %%%%%%%%%%%%%%%%%%%%%%
 \begin{equation}
 f_a \left(
@@ -163,7 +163,7 @@ c = c_b
 \end{equation}
 %%%%%%%%%%%%%%%%%%%%%%
 
-Using the Buckingham $\pi$ theorem \cite{buckingham_physically_1914}, we will show that if the context is dimensionnally similar, then both feedback laws must be equal when restated in dimensionless form. It is important to note that for the following dimensional analysis to hold, we must include all the variables, system parameters and task parameters, that would affect the solution to the control problem in the context vector $c$:
+Using the Buckingham $\pi$ theorem \cite{buckingham_physically_1914}, we will show that if the context is dimensionnally similar, then both feedback laws must be equal when restated in dimensionless form. It is important to note that for the following dimensional analysis to hold, we must include all the variables, system parameters and task parameters, that would affect the policy solution $\pi$ to the control problem in the context vector $c$:
 %%%%%%%%%%%%%%%%%%%%%%
 \begin{equation}
 \underbrace{\begin{bmatrix}
@@ -217,9 +217,9 @@ c_1, \hdots \hdots, c_{m}
 % \end{equation}
 % %%%%%%%%%%%%%%%%%%%%%%
 where eq. \eqref{eq:scalarpolicy} is the $j$th line of the policy in vector form described by eq. \eqref{eq:vectorpolicy}.
-Then, if the state vector is defined by $n$ variables, and the context is defined by $m$ system plus tasks parameters, then each mapping $\pi_j$ involves $1 + n + m $ (usually dimensional) variables. Here, we will assume that the policy is physically meaningful, in the sense of the requirement for applying the Buckingham $\pi$ theorem \cite{buckingham_physically_1914}. This means for example, that a policy that computes a force based on position and velocity measurements would be in this framework, but not a policy for playing chess for instance. 
+Then, if the state vector is defined by $n$ variables, and the context is defined by $m$ system plus tasks parameters, then each mapping $\pi_j$ involves $1 + n + m $ variables. Here, we will assume that the policy is physically meaningful, in the sense of the requirement for applying the Buckingham $\pi$ theorem \cite{buckingham_physically_1914}. This means for example, that a policy that computes a force based on position and velocity measurements would be in this framework, but not a policy for playing chess for instance. 
 
-Applying the Buckingham $\pi$ theorem to this relationship, tell us that if $d$ dimensions are involved in all those variables, then eq. \eqref{eq:scalarpolicy} can be restated into an equivalent relationship between $p$ dimensionless $\Pi$ groups where $p \geq (1 + n + m ) - d$. Assuming $d$ dimensions are involved in the $m$ context variables, and that we are in the usual situation where the maximum reduction is possible, i.e. $p = (1 + n + m ) - d$, then we can pick $d$ context variable $\{c_1, c_2 , \hdots,c_d\}$ as the basis (the repeated variables) to scale all other variables in a dimensionless $\Pi$ group. We will note dimensionless $\Pi$ group as the base variable with an ${}^*$:
+Applying the Buckingham $\pi$ theorem to this relationship, tell us that if $d$ dimensions are involved in all those variables, then eq. \eqref{eq:scalarpolicy} can be restated into an equivalent relationship between $p$ dimensionless $\Pi$ groups where $p \geq (1 + n + m ) - d$. Assuming $d$ dimensions are involved in the $m$ context variables, and that we are in the usual situation where the maximum reduction is possible, i.e. $p = (1 + n + m ) - d$, then we can pick $d$ context variables $\{c_1, c_2 , \hdots,c_d\}$ as the basis (the repeated variables) to scale all other variables in dimensionless $\Pi$ groups. We will note dimensionless $\Pi$ group as the base variable with an ${}^*$:
 %%%%%%%%%%%%%%%%%%%%%%
 \begin{align}
 u_j^* &= u_j \left[ c_1 \right]^{e^u_{1j}} \left[ c_2 \right]^{e^u_{2j}} \hdots \left[ c_d \right]^{e^u_{dj}} \quad \scriptstyle j = \{ 1, \hdots , k \} \label{eq:piu}\\
@@ -287,8 +287,8 @@ One interesting perk of this dimensional analysis, is that we can remove $p$ var
 \begin{figure}[ht]
 \vspace{-5pt}
 \begin{center}
-\includegraphics[width=0.60\linewidth]{fig/c_space.jpg}
-\caption{Dimensionally similar context example with dimensions: $m=2$ and $d=1$}\label{fig:c_space}
+\includegraphics[width=0.80\linewidth]{fig/c_space2.jpg}
+\caption{Dimensionally similar contexts example with dimensions: $m=2$ and $d=1$: $c_a$ is dimensionally similar to $c_b$ but not to $c_c$ or $c_d$.}\label{fig:c_space}
 \end{center}
 \vspace{-15pt}
 \end{figure}
@@ -307,7 +307,7 @@ f_a^*(x^*) = \pi^*( x^* , c^* = c_a^*)\\
 f_b^*(x^*) = \pi^*( x^* , c^* = c_b^*)
 \end{align}
 %%%%%%%%%%%%%%%%%%%%%%
-This is simply based on the fact that the dimensionless policy, i.e. eq. \eqref{eq:vectordimpolicyshort}, gives the same output for the same inputs. This results means that the knowledge of the policy for a specific context $c$ can actually be generalized to a sub-space of all context for which the dimensionless context $c^*$ is equal. For instance, lets imagine we have a global policy for a spherical submarine that depends only on the velocity and the radius. In dimensionless form we would find the policy depends only on the Reynolds number, thus would be equivalent for all pair of velocity and radius that correspond to the same Reynolds number.
+This is simply based on the fact that the dimensionless policy, i.e. eq. \eqref{eq:vectordimpolicyshort}, gives the same outputs for the same inputs. This results means that the knowledge of the policy for a specific context $c$ can actually be generalized to a sub-space of all context for which the dimensionless context $c^*$ is equal. For instance, lets imagine we have a global policy for a spherical submarine that depends only on the velocity and the radius. In dimensionless form we would find the policy depends only on the Reynolds number, thus would be equivalent for all pair of velocity and radius that correspond to the same Reynolds number.
 
 \subsection{Transferring policies between contexts}
 
@@ -361,19 +361,19 @@ T_x(c_b) \; x
 \label{eq:star2f}
 \end{align}
 %%%%%%%%%%%%%%%%%%%%%%
-Thus, eq. \eqref{eq:f2star} and eq. \eqref{eq:star2f} can be used to take any context specific feedback law, finding its dimensionless form, and scale it back to a new context, as illustrated at Fig. \ref{fig:dimpol}. In general, there is no guarantee that the behaviour of the scaled feedback law in the new context will be similar to the behaviour of the feedback law in the original context, only if the context are dimensionaly similar, i.e. the dimensionless context $c^*$ are equal. 
+Thus, eq. \eqref{eq:f2star} and eq. \eqref{eq:star2f} can be used to take any context specific feedback law, finding its dimensionless form, and scale it back to a new context, as illustrated at Fig. \ref{fig:dimpol}. In general, there is no guarantee that the behaviour of the scaled feedback law in the new context will be similar to the behaviour of the feedback law in the original context, only if the context are dimensionally similar, i.e. the dimensionless context $c^*$ are equal. 
 %%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}[htb]
 \vspace{-5pt}
 \begin{center}
-\includegraphics[width=0.99\linewidth]{fig/dimpol.jpg}
+\includegraphics[width=0.99\linewidth]{fig/dimpol2.jpg}
 \caption{Isolating the dimensionless knowledge in a policy}\label{fig:dimpol}
 \end{center}
 \vspace{-15pt}
 \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%
 
-For instance, lets suppose an optimal policy solution $f_a$ is known for a specific context $c_a$, then the scaled policy:
+Lets suppose an optimal policy solution $f_a$ is known for a specific context $c_a$, then the scaled policy:
 %%%%%%%%%%%%%%%%%%%%%%
 \begin{align}
 f_b ( x ) &= 
@@ -396,7 +396,7 @@ c_b^* =  T_c( c_b ) \; c_b  = T_c( c_a ) \; c_a = c_a^*
 \label{eq:dimcontextequal}
 \end{equation}
 %%%%%%%%%%%%%%%%%%%%%%
-In some sense, this similar context condition means that the motion problem with parameters $c_a$ and the motion problem with parameter $c_b$ were actually the exact same problem up to scaling factors. It thus make sense that the two solutions, here feedback laws, should thus also be equivalent up to scaling factors. 
+In some sense, this similar context condition means that the motion problem with parameters $c_a$ and the motion problem with parameter $c_b$ were actually the exact same problem up to scaling factors. It thus make sense that the two solutions should thus also be equivalent up to scaling factors. 
 
 In section \ref{sec:optimalswingup}, we show examples of this result with numerical solution to dimensionally similar pendulum swing-up problems. Furthermore, we demonstrate that in some situations, eq. \eqref{eq:dimcontextequal} equality conditions can be relaxed into inequality conditions, using the concept of regimes.
 
@@ -405,7 +405,7 @@ In section \ref{sec:optimalswingup}, we show examples of this result with numeri
 %%%%%%%%%%%%%%%%%%%%%%
 \section{Optimal pendulum swing-up task}
 \label{sec:optimalswingup}
-In this paper, we will use a version of the pendulum swing-up task to test the ideas of dimensionless policies. The motion control problem is formally defined as finding a feedback law for controlling the dynamic system is described by differential equations:
+In this paper, we will use the classical pendulum swing-up task to test the ideas of dimensionless policies. The motion control problem is formally defined here as finding a feedback law for controlling the dynamic system described by the differential equation:
 %%%%%%%%%%%%%%%%%%%%%%
 \begin{equation}
 ml^2 \ddot{\theta} - mgl \sin \theta = \tau
@@ -426,7 +426,7 @@ subject to input constraints given by:
 \label{eq:pendulum_constraints}
 \end{equation}
 %%%%%%%%%%%%%%%%%%%%%%
-Note that here, 1) the cost function parameter $q$ is included with a power of two to have units of torque, 2) it was chosen to set to zero the weight on velocity for simplicity, and 3) the weight multiplying the torque to one without loss of generality as only the relative values of weights will impact the solution. 
+Note that here, 1) the cost function parameter $q$ is included with a power of two to have units of torque, 2) it was chosen to set to zero the weight on velocity for simplicity, and 3) the weight multiplying the torque is set to one without loss of generality as only the relative values of weights will impact the optimal solution. 
 
 Thus, assuming there is no hidden variables and that equations \eqref{eq:pendulum_dynamics}, \eqref{eq:pendulum_cost} and \eqref{eq:pendulum_constraints} fully describe the problem. The solution, i.e. the optimal policy for all context, should be of the form given by:
 %%%%%%%%%%%%%%%%%%%%%%
@@ -542,7 +542,7 @@ Before, conducting the dimensional analysis, it is interesting to note that whil
 
 \subsection{Dimensional analysis}
 
-Here we have one control input, two state, two system parameter and two task parameter, for a total of $1+(n=2)+(m=4)=7$ variables are involved. In those variables, only $d=2$ independents dimensions ( $ML^2T^{-2}$ and $T^{-1}$ ) are present. Using $c_1 = mgl$ and $c_2 = \omega$ as the repeating variables leads to the following dimensionless groups:
+Here we have one control input, two states, two system parameters and two task parameters, for a total of $1+(n=2)+(m=4)=7$ variables are involved. In those variables, only $d=2$ independents dimensions ( $ML^2T^{-2}$ and $T^{-1}$ ) are present. Using $c_1 = mgl$ and $c_2 = \omega$ as the repeating variables leads to the following dimensionless groups:
 %%%%%%%%%%%%%%%%%%%%%%
 \begin{align}
 \Pi_1 &= \tau^* = \frac{\tau}{mgl} \quad \quad \frac{[ML^2T^{-2}]}{[M][LT^{-2}][L]} \\
@@ -552,7 +552,7 @@ Here we have one control input, two state, two system parameter and two task par
 \Pi_5 &= q^* = \frac{q}{mgl} \quad \quad \frac{[ML^2T^{-2}]}{[M][LT^{-2}][L]} 
 \end{align}
 %%%%%%%%%%%%%%%%%%%%%%
-Here, all 3 torque variables ($\tau$, $q$ and $\tau_{max}$) are scaled by the maximum gravitational torque, and the pendulum velocity variable is scaled by the pendulum natural frequency. The transformation matrices are then
+All 3 torque variables ($\tau$, $q$ and $\tau_{max}$) are scaled by the maximum gravitational torque, and the pendulum velocity variable is scaled by the pendulum natural frequency. The transformation matrices are then:
 %%%%%%%%%%%%%%%%%%%%%%
 \begin{align}
 \tau^* &= 
@@ -601,11 +601,11 @@ q^* , \tau_{max}^*
 \end{equation}
 %%%%%%%%%%%%%%%%%%%%%%
 
-The dimensional analysis conducted at sec. \ref{sec:dimenanalysis}) told us that, for dimensionally similar swing-up problem (which means here equal ratios $q^*$ and $\tau_{max}^*$) the optimal feedback laws should be equivalent in their dimensionless form. In other words, if we have an optimal policy $f_a$ found in a specific context $c_a = [m_a,l_a,g_a,q_a,\tau_{max,a}]$, and an optimal policy $f_b$ for a second context $c_b = [m_b,l_b,g_b,q_b,\tau_{max,b}]$. Then, both dimensionless form will be equal $f_a^*=f_b^*$ if $q^*_a = q^*_b$ and $\tau_{max,a}^* = \tau_{max,b}^*$, what we call a \textit{dimensionnally similar context}. Furthermore, we can thus find $f_b$ using $f_a$ or vice-versa unsing the scaling given by eq. \eqref{eq:ab_transform} if this condition is met. However, if $q^*_a \neq q^*_b$ or $\tau_{max,a}^* \neq \tau_{max,b}^*$ then $f_a$ doesn't give us information on $f_b$ without additional assumptions. 
+The dimensional analysis conducted at sec. \ref{sec:dimenanalysis}) told us that, for dimensionally similar swing-up problem (which means here equal ratios $q^*$ and $\tau_{max}^*$) the optimal feedback laws should be equivalent in their dimensionless form. In other words, if we have an optimal policy $f_a$ found in a specific context $c_a = [m_a,l_a,g_a,q_a,\tau_{max,a}]$, and an optimal policy $f_b$ for a second context $c_b = [m_b,l_b,g_b,q_b,\tau_{max,b}]$. Then, both dimensionless form will be equal $f_a^*=f_b^*$ if $q^*_a = q^*_b$ and $\tau_{max,a}^* = \tau_{max,b}^*$. Furthermore, we can thus find $f_b$ using $f_a$ or vice-versa using the scaling formula given by eq. \eqref{eq:ab_transform} if this condition is met. However, if $q^*_a \neq q^*_b$ or $\tau_{max,a}^* \neq \tau_{max,b}^*$ then $f_a$ doesn't give us information on $f_b$ without additional assumptions. 
 
 %%%%%%%%%%%%%%%%%%%%%%
 \subsection{Numerical results}
-Here, we use a numerical algorithm (we give the details of the methodology at section \ref{sec:metho}) to compute numerical solution to the motion control problem defined by eq \eqref{eq:pendulum_dynamics}, \eqref{eq:pendulum_cost} and \eqref{eq:pendulum_constraints}. The used numerical recipe produce feedback laws in the form of look-up table, based on a discretized grid of the state-space.  The optimal (up to discretization errors) feedback laws are computed for 9 contexts listed at table \ref{tb:9contexts}. In those 9 contexts, there is 3 sub-groups of 3 with dimensionally similar contexts. Also each sub-group inlcudes the same 3 pendulums, illustrated at Fig. \ref{fig:big_picture}, a regular, a twice longer and a twice heavier. Contexts 1, 2 and 3 describe a task where the torque is limited to half the static maximum torque.  Contexts 4, 5 and 6 describe a task where the cost highly penalize applying large torques. Contexts 7, 8 and 9 describe a task where the cost highly penalize position errors. 
+Here, we use a numerical algorithm (we give the details of the methodology at section \ref{sec:metho}) to compute numerical solutions to the motion control problem defined by eq \eqref{eq:pendulum_dynamics}, \eqref{eq:pendulum_cost} and \eqref{eq:pendulum_constraints}. The used numerical recipe produce feedback laws in the form of look-up tables, based on a discretized grid of the state-space.  The optimal (up to discretization errors) feedback laws are computed for 9 contexts listed at table \ref{tb:9contexts}. In those 9 contexts, there are 3 sub-groups of 3 with dimensionally similar contexts. Also each sub-group inlcudes the same 3 pendulums, illustrated at Fig. \ref{fig:big_picture}, a regular, a twice longer and a twice heavier. Contexts 1, 2 and 3 describe a task where the torque is limited to half the static maximum torque.  Contexts 4, 5 and 6 describe a task where the cost highly penalize applying large torques. Contexts 7, 8 and 9 describe a task where the cost highly penalize position errors. 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{table}[htb]
    \centering % center the table
@@ -737,12 +737,12 @@ Figures \ref{fig:c1} to \ref{fig:c9} illustrate that for each sub-group with equ
 \end{figure*}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-In terms of how to use this in a practical scenario, we see that if we computed the feedback law given by Fig. \ref{fig:c1}(a), we can get the feedback law given by Fig. \ref{fig:c2}(a) or Fig. \ref{fig:c3}(a) directly by scaling the original policy with eq. \eqref{eq:ab_transform}, using the appropriate context variables, without having to recompute. In some sense, we got back the ability to adjust the feedback law on the fly to new system parameters $mgl$ or $\omega$, as it would be the case with an analytical solution. But this works only within the dimensionally similar context sub-group. The feedback law given by Fig. \ref{fig:c1}(a) cannot be scaled into the feedback law given by Fig. \ref{fig:c4}(a) for instance, since $\tau^*_{max}$ and $q^*$ are not equals. 
+In terms of how to use this in a practical scenario, we see that if we computed the feedback law given by Fig. \ref{fig:c1}(a), we can get the feedback law given by Fig. \ref{fig:c2}(a) or Fig. \ref{fig:c3}(a) directly by scaling the original policy with eq. \eqref{eq:ab_transform}, using the appropriate context variables, without having to recompute. In some sense, we got back the ability to adjust the feedback law on the fly to new system parameters $mgl$ or $\omega$, as it would be the case with an analytical solution. But this only works within the dimensionally similar context sub-group. The feedback law given by Fig. \ref{fig:c1}(a) cannot be scaled into the feedback law given by Fig. \ref{fig:c4}(a) or Fig. \ref{fig:c7}(a) for instance, since $\tau^*_{max}$ and $q^*$ are not equals. 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Trajectory solutions}
 
-Trajectory solutions are also generalizable in their dimensionless forms. Figures \ref{fig:c1}(c) to \ref{fig:c9}(c) show optimal trajectory solutions starting from the bottom position at rest. Those trajectories were computed by executing the computed optimal policies in a simulation. We can also see that within the 3 dimensionally similar sub-groups, the optimal trajectories are actually the same but scaled. Lets assume we were trying to solve a slightly different motion control problem, instead of looking for feedback laws, lets assume we were looking for optimal trajectories. We must think about this motion problem as looking for three time-based policies defining trajectories for states and inputs:
+Trajectory solutions are also generalizable in their dimensionless forms. Figures \ref{fig:c1}(c) to \ref{fig:c9}(c) show optimal trajectory solutions starting from the bottom position at rest. Those trajectories were computed by executing the computed optimal policies in a simulation. We can also see that within the 3 dimensionally similar sub-groups, the optimal trajectories are actually the same but scaled. Lets assume we were trying to solve a slightly different motion control problem. Instead of looking for feedback laws, lets assume we were looking for optimal trajectories. We must then think about this motion problem as looking for three time-based policies defining trajectories for states and inputs:
 %%%%%%%%%%%%%%%%%%%%%%
 \begin{align}
 \tau          = \pi_{\tau}( t , &
@@ -802,8 +802,8 @@ Hence, as it is the case for the feedback laws, the optimal trajectories should 
 
 In some situation, changing a context variable will not have any effect on the optimal policy. For instance, for the torque-limited optimal pendulum swing-up problem, augmenting $\tau_{max}$ or $q$ while keeping the other value fixed will have little effect pass a given threshold. If we look at the solutions for context no 4, 5 and 6, using a lot of torque is so highly penalized by the cost function that the saturation limit is not really impacting the solution (except edges cases on the boundary), hence we would expect that augmenting $\tau_{max}$ should not change the solution. 
 
-Fig. \ref{fig:torque_sensitivity} and \ref{fig:q_sensitivity} show a slice (to allow visualization) of the optimal policy solution, for various contexts. Fig. \ref{fig:torque_sensitivity} illustrates how changing $\tau_{max}^*$ while keeping $q^*$ fixed. We can see that when $\tau_{max}^*<0.3$ the policy is almost always on the min-max allowable values, this behaviour is often called \textit{bang-bang}. At the other extreme when 
-$\tau_{max}^*>2.5$ the policy solution is continuous and almost never affected by the saturation. Fig. \ref{fig:q_sensitivity} illustrates how changing $q^*$ while keeping $\tau_{max}^*$ fixed change the policy. We can see that when $q^*<0.1$ the optimal policy solution does not reach the min-max saturation, while when $q^*>1.0$, the policy is almost always on the min-max allowable values. We can note that in the limit of very large $q^*$ value, the motion control problem would then to be equivalent to the minimum time problem, for which we know the solution is a bang-bang policy.
+Fig. \ref{fig:torque_sensitivity} and \ref{fig:q_sensitivity} show a slice (to allow visualization) of the optimal policy solution, for various contexts. Fig. \ref{fig:torque_sensitivity} illustrates changing $\tau_{max}^*$ while keeping $q^*$ fixed. We can see that when $\tau_{max}^*<0.3$ the policy is almost always on the min-max allowable values, this behaviour is often called \textit{bang-bang}. At the other extreme when 
+$\tau_{max}^*>2.5$ the policy solution is continuous and almost never affected by the saturation. Fig. \ref{fig:q_sensitivity} illustrates changing $q^*$ while keeping $\tau_{max}^*$ fixed. We can see that when $q^*<0.1$ the optimal policy solution does not reach the min-max saturation, while when $q^*>1.0$, the policy is almost always on the min-max allowable values.% We can note that in the limit of very large $q^*$ value, the motion control problem would then to be equivalent to the minimum time problem, for which we know the solution is a bang-bang policy.
 %%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}[ht]
 \begin{center}
@@ -825,11 +825,11 @@ $\tau_{max}^*>2.5$ the policy solution is continuous and almost never affected b
 \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%
 
-We can see that for extreme context values, we have two type of behaviors, illustrated as region in the dimensionless context space at Fig. \ref{fig:regimeszones}. 
+We can see that for extreme context values, we have two type of behaviour, illustrated as region in the dimensionless context space at Fig. \ref{fig:regimeszones}. 
 %%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}[ht]
 \begin{center}
-\includegraphics[width=0.99\linewidth]{fig/regime_zones.jpg}
+\includegraphics[width=0.99\linewidth]{fig/regime_zones2.jpg}
 \caption{Regime zones}
 \vspace{-10pt}
 \label{fig:regimeszones}
@@ -885,9 +885,9 @@ Another point of view, is that assuming we are in one of those regime means we c
 \subsection{Methodology}
 \label{sec:metho}
 
-We obtained the optimal feedback law by using the basic dynamic programming algorithm \cite{bertsekas_dynamic_2012} on a discretized version of the continuous system. The approach is almost equivalent to the value iteration algorithm, sometime refer to as model-based reinforcement learning \cite{sutton_reinforcement_2018}, with the exception that here the total number of iteration steps was  fixed (corresponding to a very long time horizon), instead of stopping the iteration after reaching a convergence criterion. This approach was chosen to have consistent results across all contexts, that lead to wide range of order-of-magnitude cost-to-go solution $J$. The selected discretization parameters are as follow:
+We obtained the optimal feedback law by using the basic dynamic programming algorithm \cite{bertsekas_dynamic_2012} on a discretized version of the continuous system. The approach is almost equivalent to the value iteration  algorithm \cite{sutton_reinforcement_2018}, sometime refer to as model-based reinforcement learning, with the exception that here the total number of iteration steps was  fixed (corresponding to a very long time horizon), instead of stopping the iteration after reaching a convergence criterion. This approach was chosen to have consistent results across all contexts, that lead to wide range of order-of-magnitude cost-to-go solution $J$. The selected discretization parameters are as follow:
 the time step is 0.025 sec, the state space is discretized into an even 501 x 501 grid and the continuous torque is discretized into 101 discrete control options. Special out-of-bound and on-target termination states are included to
-guarantee convergence \cite{bertsekas_dynamic_2012}. The source code is available here: \url{https://github.com/SherbyRobotics/pyro/tree/dimensionless} and this google colab page allow reproducing the results: \url{https://colab.research.google.com/drive/1kf3apyHlf5t7XzJ3uVM8mgDsneVK_63r?usp=sharing}.
+guarantee convergence \cite{bertsekas_dynamic_2012}. The source code is available here: \url{https://github.com/SherbyRobotics/pyro/blob/dimensionless/dev/dimensionless/cases_master.py} and this google colab page allow reproducing the results: \url{https://colab.research.google.com/drive/1kf3apyHlf5t7XzJ3uVM8mgDsneVK_63r?usp=sharing}.
 
 
 \subsubsection{Additionnal dimensionless parameters for the solver}
@@ -906,6 +906,7 @@ where $\theta_{max}$ is the range of angles for witch the optimal policy is solv
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Closed-form parametric policies}
+\label{sec:closedfrom}
 
 To better understand the concept of a dimensionless policy, here we apply the Buckingham $\pi$ theorem on well-known closed form solution to classical motion control problems.
 
