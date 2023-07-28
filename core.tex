@@ -915,21 +915,21 @@ To better understand the concept of a dimensionless policy, here we apply the Bu
 \subsection{ Dimensionless Linear Quatratic Reglator (LQR) solution}
 \label{sec:lqr}
 
-Here we analyse a simplified motion control problem with the LQR framework. A linearized verison of the equation of motion is used:
+Here we analyse a simplified version of the motion control problem that fits with the LQR framework. A linearized verison of the equation of motion is used:
 %%%%%%%%%%%%%%%%%%%%%%
 \begin{equation}
 ml^2 \ddot{\theta} - mgl \theta = \tau
 \label{eq:pendulum_dynamics_lqr}
 \end{equation}
 %%%%%%%%%%%%%%%%%%%%%%
-Also, the same cost function that was used in section \ref{sec:optimalswingup} is used to formulate the optimal control problem:
+and we keep the same quadratic cost function:
 %%%%%%%%%%%%%%%%%%%%%%
 \begin{equation}
 J = \int{( q^2 \theta^2 + 0 \, \dot{\theta}^2 + 1 \, \tau^2 ) dt }
 \label{eq:pendulum_cost_lqr}
 \end{equation}
 %%%%%%%%%%%%%%%%%%%%%%
-However, here no constraints on the torque are included in the problem. With this problem definition, the same variable as before (section \ref{sec:optimalswingup}) except the torque limit are presents. The global policy solution should then have the form:
+However, here no constraints on the torque are included in the problem. With this problem definition, the same variable as before except the torque limit $\tau_{max}$ are presents. The global policy solution should then have the form:
 %%%%%%%%%%%%%%%%%%%%%%
 \begin{equation}
 \underbrace{\tau}_{\text{inputs}}
@@ -1028,9 +1028,9 @@ Applying eq. \eqref{eq:f2star} to this feedback law given leads to the dimension
 \right] \dot{\theta}^*
 \end{align}
 %%%%%%%%%%%%%%%%%%%%%%
-With the final dimensionless form only a function of states and the dimensionless cost parameter, as predicted by eq. \eqref{eq:lqr_dimpolicy_form} based on the dimensional analysis.
+The dimensionless form is only a function of the states and the dimensionless cost parameter, as predicted by eq. \eqref{eq:lqr_dimpolicy_form} based on the dimensional analysis.
 
-We can also use this analytical policy solution to show that scaling the policy with eq. \eqref{eq:ab_transform} is equivalent to substituting new context variables, when the context are dimentionally similar. Lets say we have two contexts, labelled $a$ and $b$, that we can use the global policy solution of eq. \eqref{eq:lqr_policy} to have the dimensional versions of the context specific feedback laws:
+We can also use this analytical policy solution to show that scaling the policy with eq. \eqref{eq:ab_transform} is equivalent to substituting new context variables, when the context are dimentionally similar. Lets say we have two contexts, labelled $a$ and $b$, and that we use the global policy solution of eq. \eqref{eq:lqr_policy} to have two versions of the context-specific feedback laws:
 %%%%%%%%%%%%%%%%%%%%%%
 \begin{align}
 f_a &=
@@ -1048,9 +1048,7 @@ G_a=m_a g_a l_a \quad H_a=m_a l_a^2 \quad \omega_a = \sqrt{G_a/H_a} \\
 G_b=m_b g_b l_b \quad H_b=m_b l_b^2 \quad \omega_b = \sqrt{G_b/H_b}
 \end{align}
 %%%%%%%%%%%%%%%%%%%%%%
-represent the value of parameter group for each contexts.
-
-We can then try to find $f_b$ by scaling $f_a$ using eq. \eqref{eq:ab_transform}:
+represent the values of the parameter groups for each contexts $a$ and $b$. We can then try to find $f_b$ by scaling $f_a$ using eq. \eqref{eq:ab_transform}:
 %%%%%%%%%%%%%%%%%%%%%%
 \begin{align}
 f_b &= \left[ \frac{G_b}{G_a} \right] f_a \left( \theta , \left[ \frac{\omega_a}{\omega_b} \right] \dot{\theta} \right) 
@@ -1097,7 +1095,7 @@ The computed torque feedback law is a model-based policy (assuming no torque lim
 0 = (\ddot{\theta}_d - \ddot{\theta})+ 2 \omega_d \zeta (\dot{\theta}_d - \dot{\theta}) + \omega_d^2 (\theta - \theta)
 \end{equation}
 %%%%%%%%%%%%%%%%%%%%%%
-For the specific case of the pendulum-swing up, the desired trajectory is simply the up-right position ($\ddot{\theta}_d = \dot{\theta}_d = \theta_d = 0$), leaving only two parameter defining the tasks $\omega_d$ and $\zeta$. Then, the computed torque control law takes this form:
+For the specific case of the pendulum-swing up, the desired trajectory is simply the up-right position ($\ddot{\theta}_d = \dot{\theta}_d = \theta_d = 0$), leaving only two parameter defining the tasks: $\omega_d$ and $\zeta$. Then, the computed torque policy takes this form:
 %%%%%%%%%%%%%%%%%%%%%%
 \begin{equation}
 \tau = mgl \sin \theta - 2 m l^2 \omega_d \zeta \dot{\theta} - m l^2 \omega_d^2 \theta
@@ -1106,7 +1104,7 @@ For the specific case of the pendulum-swing up, the desired trajectory is simply
 %%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%
-where the only parameters are the system parameters and two variables caracterizing the convergence speed. Hence, the dimentional global policy is a function of those variables:
+where the context includes the system parameters and two variables caracterizing the convergence speed. Hence, the dimensional global policy is a function of those variables:
 %%%%%%%%%%%%%%%%%%%%%%
 \begin{equation}
 \underbrace{\tau}_{\text{inputs}}
@@ -1121,7 +1119,7 @@ where the only parameters are the system parameters and two variables caracteriz
 \label{tb:ctc}
 \end{equation}
 %%%%%%%%%%%%%%%%%%%%%%
-Note that here, the task parameters define directly the desired behaviour as opposed to the previous examples where they were defining the behaviour indirectly thought a optimization formulation. The states, control inputs and system parameter are the same as before, only the task parameter differ, having the dimension presented at table \ref{tb:ctc}.
+Note that here, the task parameters define directly the desired behaviour as opposed to the previous examples where they were defining the behaviour indirectly thought a cost function. The states, control inputs and system parameters are the same as before, only the task parameter differ, having the dimension presented at table \ref{tb:ctc}.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{table}[htb]
    \centering % center the table
@@ -1199,9 +1197,9 @@ Here we can confirm directly since we have an analytical solution: applying eq. 
 - (\omega_d^*)^2 \theta^*
 \end{align}
 %%%%%%%%%%%%%%%%%%%%%%
-confirming the structure predicted by equation eq. \eqref{eq:ct_dim_rel}.
+confirming the structure predicted by eq. \eqref{eq:ct_dim_rel}.
 
-Also, we can again use this example to show that, when the dimensionless context is equal, scaling a policy using eq. \eqref{eq:ab_transform}, is equivalent to substituting new values of the system parameters in the analytical equation. By substituting the variable in the analytical policy solution given by eq \eqref{eq:ct}, we can get two instance of the feedback law:
+Also, we can again use this example to show that, when the dimensionless context is equal, scaling a policy using eq. \eqref{eq:ab_transform}, is equivalent to substituting new values of the system parameters in the analytical equation. By substituting the variable in the analytical policy solution given by eq \eqref{eq:ct}, we can get two instances of the feedback law:
 %%%%%%%%%%%%%%%%%%%%%%
 \begin{align}
 f_a &= G_a \sin \theta - 2 H_a (\omega_d \zeta )_a \dot{\theta} - H_a( \omega_d^2)_a \theta \label{eq:ctc_a} \\
@@ -1221,7 +1219,7 @@ Then, distributing $1/G_a$ leads to:
 f_b &= G_b \left[  \sin \theta - 2 \frac{(\omega_d )_a }{\omega_a } \zeta_a \frac{\dot{ \theta }}{\omega_b} - \left(\frac{(\omega_d )_a }{\omega_a }\right)^2 \theta \right]
 \end{align}
 %%%%%%%%%%%%%%%%%%%%%%
-where the this intermediate step illustrate the dimensionless generic form in the brackets. Finaly, by distributing the $G_b$ factor we can get:
+where the this intermediate step illustrate the dimensionless form in the brackets. Finally, by distributing the $G_b$ factor we can get:
 %%%%%%%%%%%%%%%%%%%%%%
 \begin{align}
 f_b &= G_b  \sin \theta - 2 H_b  
