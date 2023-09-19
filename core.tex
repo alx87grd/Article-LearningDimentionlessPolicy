@@ -20,9 +20,10 @@ Is it a good way to Generalize Numerical Results?
 
 
 \begin{abstract}
-Yes if the context, the list of variables defining the motion control problem, is dimensionally similar. Here we show that by modifying the problem formulation using dimensionless variables, we can re-use the optimal control law generated numerically for a specific system to a sub-space of dimensionally similar systems. This is demonstrated, with numerically generated optimal controllers, for the classic motion control problem of swinging-up a torque-limited inverted pendulum. %The dimensional analysis also show that multiple systems of various dimensions can share a data-base for reinforcement learning. %TODO: (We also demonstrate that by leveraging this scheme when using reinforcement learning, multiple systems of various dimentions can share a data-base during the learning phase, which can be a big advantage for data efficiency.) 
+Yes if the context, the list of variables defining the motion control problem, is dimensionally similar. Here we show that by modifying the problem formulation using dimensionless variables, we can re-use the optimal control law generated numerically for a specific system to a sub-space of dimensionally similar systems. This is demonstrated, with numerically generated optimal controllers, for the classic motion control problem of swinging-up a torque-limited inverted pendulum. 
 We also discuss the concept of regime, a region in the space of context variables, that can help relax the condition on dimensional similarity. Futhermore, we discuss how applying dimensionnal scaling of the input and output of a context-specific policy is equivalent to substituing the new systems parameters in an analytical equation for dimentionnaly similar systems. It remains to be seen if this approach can also help generalizing policies for more complex high-dimensional problems.
 \end{abstract}
+%The dimensional analysis also show that multiple systems of various dimensions can share a data-base for reinforcement learning. %TODO: (We also demonstrate that by leveraging this scheme when using reinforcement learning, multiple systems of various dimentions can share a data-base during the learning phase, which can be a big advantage for data efficiency.) 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Introduction}
@@ -51,31 +52,9 @@ Analytical solutions to control problems have the useful property of allowing th
 \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%
 
-In this paper, we explore the concept of dimensionless policies, a more generic form of knowledge, has a mean to generalize numerical solutions to motion control problems. First, in section \ref{sec:dimenanalysis}, we use dimensional analysis (i.e. the Buckingham $\pi$ theorem) to show that motion control problem with dimensionally similar context variables must share the same feedback law solution when expressed in a dimensionless form, and discuss the implications. Then in section \ref{sec:optimalswingup}, this is demonstrated for the classical motion control problem of swinging-up an inverted pendulum, using numerically generated optimal feedback laws with a dynamic programming algorithm. Also, in section \ref{sec:closedfrom}, we illustrate with two examples that the proposed dimensional scaling is equivalent to changing parameters in an analytical solution. 
+In this paper, we explore the concept of dimensionless policies, a more generic form of knowledge, has a mean to generalize numerical solutions to motion control problems. First, in section \ref{sec:dimenanalysis}, we use dimensional analysis (i.e. the Buckingham $\pi$ theorem \cite{buckingham_physically_1914}) to show that motion control problem with dimensionally similar context variables must share the same feedback law solution when expressed in a dimensionless form, and discuss the implications. Then in section \ref{sec:optimalswingup}, this is demonstrated for the classical motion control problem of swinging-up an inverted pendulum, using numerically generated optimal feedback laws with a dynamic programming algorithm. Also, in section \ref{sec:closedfrom}, we illustrate with two examples that the proposed dimensional scaling is equivalent to changing parameters in an analytical solution. 
 
-A very promising application of the concept of dimensionless policies, is for conducting reinforcement learning with various systems sharing a database. The idea of leveraging dimensionless numbers as recently attracted research interest \cite{bakarji_dimensionally_2022}, and here in this paper we investigate this idea in the context of learning generic policies. Data efficiency is critical for reinforcement learning and the ability to use data from slightly different system could help in this aspect \cite{helwa_multi-robot_2017}\cite{pereida_data-efficient_2018}\cite{sorocky_experience_2020}. For instance, it would be interesting to use the data of all the vehicles on the road, even if they are of various dimension and dynamic characteristics, to learn appropriate manoeuvres in situation that happen very rarely. We think the presented concept of dimensionless policy is potentially a key enabler for making this pooling of experience and skills.
-
-%Another aspect to this issue for RL, is the constraint it pose on data during a training phase. 
-
-% \section{Background}
-
-% In the field of learning, this is fall under the vast on-goin challenge of generalizing knowledge...
-
-% more specifically in robot, .. transfer learning..
-
-% ALso, representation learning...
-
-% Usage of Buckingham Pi \cite{bakarji_dimensionally_2022}
-
-
-% \section{Contribution}
-
-
-
-
-
-
-
+A very promising application of the concept of dimensionless policies, is to empower reinforcement learning scheme, for which data efficiency is critical and the ability to use data from various similar systems could be a key enabler. For instance, it would be interesting to use the data of all the vehicles on the road, even if they are of various dimensions and dynamic characteristics, to learn appropriate manoeuvres in situations that happen very rarely. This idea of re-using data or results in a different context is usually called transfer learning \cite{taylor_transfer_2009} and as receive a lot of research attention, mostly targeted at transferring a learned policy to a new task. The idea of transferring policy and data between systems/robots as also been explored, with schemes based on modular blocks \cite{devin_learning_2017}, invariant features \cite{gupta_learning_2017}, a dynamic map \cite{helwa_multi-robot_2017}, a vector representation of each robot hardware \cite{chen_hardware_2018}, of using tool from adaptive control \cite{pereida_data-efficient_2018} and robust control \cite{sorocky_experience_2020}. Dimensionless numbers and dimensional analysis is and old technique, based on the idea that some relationship should not depends on the units, \cite{bertrand_sur_1878} \cite{rayleigh_viii_1892} \cite{buckingham_physically_1914}, that can be surprisingly usefull for analyzing many physical problems. The most well-known application, in the field of fluid mechanics, is the idea of matching ratios (i.e. the Reynolds, Prandtl, Mach numbers, etc.) to allow generalizing experimental results between systems of various scale. The recent success of machine learning and data-driven schemes bring front and center the question of generalizing results, and there is a renew interest in using dimensional analysis in the context of learning \cite{bakarji_dimensionally_2022} \cite{fukami_robust_2021} \cite{xie_data-driven_2022}. This paper presents a first exploration of how dimensional analysis can be a new tool for the hard problem of transfer learning, which is a novel approach to the best of our knowledge. The contributions are formalizing the concept of a motion control context, the similarity conditions defining the sub-group where policies are directly transferable and the scheme to scale the policies between the similar contexts.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Dimensionless Policies}
@@ -1254,6 +1233,87 @@ which is the condition of having equal dimensionless context $c_a^* = c_b^*$ for
 
 
 
+
+%%%%%%%%%%%%%%%%%%%%%%
+\section{Optimal longitudinal car parking task}
+\label{sec:optimalcar}
+Here, we will use a simplified car parking task to provide another example of leveraging the Buckingham $\pi$ theorem . The motion control problem is formally defined here as finding a feedback law for controlling the dynamic system described by the differential equation:
+%%%%%%%%%%%%%%%%%%%%%%
+\begin{equation}
+ml^2 \ddot{\theta} - mgl \sin \theta = \tau
+\label{eq:pendulum_dynamics}
+\end{equation}
+%%%%%%%%%%%%%%%%%%%%%%
+that minimize the quadratic cost function given by:
+%%%%%%%%%%%%%%%%%%%%%%
+\begin{equation}
+J = \int{( q^2 \theta^2 + 0 \, \dot{\theta}^2 + 1 \, \tau^2 ) dt }
+\label{eq:pendulum_cost}
+\end{equation}
+%%%%%%%%%%%%%%%%%%%%%%
+subject to input constraints given by:
+%%%%%%%%%%%%%%%%%%%%%%
+\begin{equation}
+- \tau_{max} \leq \tau \leq \tau_{max}
+\label{eq:pendulum_constraints}
+\end{equation}
+%%%%%%%%%%%%%%%%%%%%%%
+Note that here, 1) the cost function parameter $q$ is included with a power of two to have units of torque, 2) it was chosen to set to zero the weight on velocity for simplicity, and 3) the weight multiplying the torque is set to one without loss of generality as only the relative values of weights will impact the optimal solution. 
+
+Thus, assuming there is no hidden variables and that equations \eqref{eq:pendulum_dynamics}, \eqref{eq:pendulum_cost} and \eqref{eq:pendulum_constraints} fully describe the problem. The solution, i.e. the optimal policy for all context, should be of the form given by:
+%%%%%%%%%%%%%%%%%%%%%%
+\begin{equation}
+\underbrace{\tau}_{\text{inputs}}
+=
+\pi \left(
+\underbrace{ \theta, \dot{\theta} }_{\text{states}},
+\underbrace{
+\underbrace{ m , g , l }_{\text{system parameters}},
+\underbrace{ q , \tau_{max} }_{\text{task parameters}}
+}_{\text{Context $c$}}
+\right)
+\end{equation}
+%%%%%%%%%%%%%%%%%%%%%%
+involving variables listed in table \ref{tb:optimalswingup}.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{table}[htb]
+   \centering % center the table
+   \caption{Pendulum swing-up optimal policy variables} 
+   \label{tb:optimalswingup}
+   \begin{tabular}{p{0.8cm} p{2.5cm} p{0.8cm} p{1.5cm} }
+   \hline \hline \noalign{\smallskip} \noalign{\smallskip} \noalign{\smallskip} \noalign{\smallskip}
+   %%%%%%%%%%%%%%%%%%%%%%
+   \textbf{Variable} & \textbf{Description} & \textbf{Units} & \textbf{Dimensions} \\ 
+   %%%%%%%%%%%%%%%%%%%%%%
+   \hline \hline \noalign{\smallskip} 
+   \multicolumn{4}{c}{\textbf{Control inputs}}\\ \noalign{\smallskip}  \hline \hline
+   \noalign{\smallskip} 
+   %%%%%%%%%%%%%%%%%%%%%%
+   $\tau$ & Actuator torque & $Nm$ & [$ML^2T^{-2}$]\\ 
+   %%%%%%%%%%%%%%%%%%%%%%
+   \hline \hline \noalign{\smallskip} 
+   \multicolumn{4}{c}{\textbf{State variables}}\\ \noalign{\smallskip}  \hline \hline \noalign{\smallskip} 
+   %%%%%%%%%%%%%%%%%%%%%%
+   $\theta$ & Joint angle & $rad$ & []\\ \noalign{\smallskip} \hline \noalign{\smallskip}
+   $\dot{\theta}$ & Joint angular velocity & $rad/sec$ & [$T^{-1}$] \\
+   %%%%%%%%%%%%%%%%%%%%%%
+   \hline \hline \noalign{\smallskip} 
+   \multicolumn{4}{c}{\textbf{System parameters}}\\ \noalign{\smallskip}  \hline\hline  \noalign{\smallskip} 
+   %%%%%%%%%%%%%%%%%%%%%%
+   $m$ & Pendulum mass & $kg$ & [$M$]  \\ \noalign{\smallskip} \hline \noalign{\smallskip}
+   $g$ & Gravity       & $m/s^2$ & [$LT^{-2}$]  \\ \noalign{\smallskip} \hline \noalign{\smallskip}
+   $l$ & Pendulum lenght & $m$ & [$L$]  \\ \noalign{\smallskip} \hline \noalign{\smallskip}
+%%%%%%%%%%%%%%%%%%%%%%
+   \hline \hline \noalign{\smallskip} 
+   \multicolumn{4}{c}{\textbf{Problem parameters}}\\ \noalign{\smallskip}  \hline\hline  \noalign{\smallskip} 
+   %%%%%%%%%%%%%%%%%%%%%%
+   $q$ & Weight parameter  & $Nm$ & [$ML^2T^{-2}$]   \\ \noalign{\smallskip} \hline \noalign{\smallskip}
+   $\tau_{max}$ & Maximum torque & $Nm$ & [$ML^2T^{-2}$] \\ \noalign{\smallskip} \hline \noalign{\smallskip}
+   \hline \noalign{\smallskip}
+   %\bottomrule[\heavyrulewidth] 
+   \end{tabular}
+\end{table}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Conclusion}
